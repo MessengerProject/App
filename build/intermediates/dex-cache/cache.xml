@@ -106,7 +106,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="1249edb2460452ac38fcfde9b104e71ba548ac44">
+        sha1="d37f36e7b55e2cc14d9dee838c60a78eaa0aee32">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_492eebe7782b01d80c6e9b19e72ead892a47be4e/classes.dex" />
     </item>
     <item
@@ -142,7 +142,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="d86c754cfd1f6a3d1f61dbad4056e098d6612a39">
+        sha1="7437a159af919605b72772eaa66000d3c96cac02">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f6e748e88ca46f948ce401bf208536ed3aef050b/classes.dex" />
     </item>
     <item

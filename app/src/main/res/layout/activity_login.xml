@@ -34,5 +34,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pwd"
         android:text="Login"
-        android:id="@+id/ButtonSignIn" />
+        android:id="@+id/ButtonLogin" />
 </RelativeLayout>
