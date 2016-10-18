@@ -30,6 +30,24 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_2a3cba7fb4b5e8d1007c6e128f26df2e7d8de7a0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_e5f497841f256be6e1651fb79e2ff159947f9fe3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -57,42 +75,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_a9d1f1e8c65d558d10ce09ba370c0c44d10f6930/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_76e8fb5703d2f6f5923e63ff77ebb7e99d5dd9ce/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_2a3cba7fb4b5e8d1007c6e128f26df2e7d8de7a0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_e5f497841f256be6e1651fb79e2ff159947f9fe3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -106,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="d37f36e7b55e2cc14d9dee838c60a78eaa0aee32">
+        sha1="10d9551183441e63f53449fca7b5781625c23c8f">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_492eebe7782b01d80c6e9b19e72ead892a47be4e/classes.dex" />
     </item>
     <item
@@ -142,8 +124,17 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="7437a159af919605b72772eaa66000d3c96cac02">
+        sha1="a13e359fa267ff19926598f93a642265f0c2dc5a">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f6e748e88ca46f948ce401bf208536ed3aef050b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_a9d1f1e8c65d558d10ce09ba370c0c44d10f6930/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -153,6 +144,15 @@
         revision="24.0.3"
         sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_795f8bed5ec1d2a55f587ffcc794d49cd864b7c6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_76e8fb5703d2f6f5923e63ff77ebb7e99d5dd9ce/classes.dex" />
     </item>
 
 </items>

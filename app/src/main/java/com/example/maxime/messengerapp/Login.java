@@ -1,5 +1,6 @@
 package com.example.maxime.messengerapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,15 +37,15 @@ public class Login extends AppCompatActivity {
                 Login_BG_Async.LoginListener loginListener = new Login_BG_Async.LoginListener() {
                     @Override
                     public void onLogin(boolean result) {
-                        if (result)
+                        if (!result)
                         {
                             Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
                         }
                         else
                         {
                             //TODO Go to next page with
-                            //Intent intent = new Intent(getApplication(),Login.class);
-                            //startActivity(intent);
+                            Intent intent = new Intent(getApplication(),Messenger.class);
+                            startActivity(intent);
                             Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
 
                         }
