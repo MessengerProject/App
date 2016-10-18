@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by maxime on 12/10/16.
  */
 
-public class Login_BG_Async extends AsyncTask {
+public class Login_BG_Async extends AsyncTask <String, Void, Boolean>  {
 
     private final String TAG = Login_BG_Async.class.getName();
 
@@ -20,21 +20,23 @@ public class Login_BG_Async extends AsyncTask {
     }
 
     @Override
-    protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
-        Log.i(TAG,o.toString());
-        loginListener.onLogin((Boolean)o);
+    protected void onPostExecute(Boolean result) {
+        Log.i(TAG,result.toString());
+        //loginListener.onLogin(result);
     }
 
     @Override
-    protected Boolean doInBackground(Object[] params) {
-        Log.i(TAG, "doInBackground");
-        String login = params[0].toString();
-        String pwd = params[1].toString();
+    protected Boolean doInBackground(String[] params) {
+        Log.i(TAG, "doInBackground \n params :  " + params[0].toString() );
+//        String login = params[0].toString();
+//        String pwd = params[1].toString();
+
         //TODO : Check DB for User
         return true;
     }
     public interface LoginListener{
         void onLogin(boolean result);
+
+
     }
 }
