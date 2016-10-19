@@ -3,156 +3,174 @@
 
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_8a4d17011309742511e895f9fcbcf2cb972a9675/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_dde482842ab641c59bc7ad1a9c614e257f5a5ded/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_dc6d6118f1bd6aa9065b2e5c0e5414c083c4fc9b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_2a3cba7fb4b5e8d1007c6e128f26df2e7d8de7a0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_e5f497841f256be6e1651fb79e2ff159947f9fe3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_13feb043016cb76ccdbbffd2746e639e2435f946/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/Android/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_2abfba115cd0119145daeb4babaf88bec021b250/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_2e5c04a511f7ab16bc0e3d389323ca59db65465e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_ac79dd188e552e38e44abb5a9409958a7f20da61/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4554fd6e2afeb3dba3998141d57fdd963917c5ec">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_492eebe7782b01d80c6e9b19e72ead892a47be4e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.2.1_a5abbeaa77d2302071c1563ed3b1bb19888d6057/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_d5849bf93cb69eecb2d4a4499b941c078796e874/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_394c986d5a872f38dbe295096383458ef213627e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="1ce32016de1588cad0d6fe06accde1958ceb174c">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f6e748e88ca46f948ce401bf208536ed3aef050b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_a9d1f1e8c65d558d10ce09ba370c0c44d10f6930/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_795f8bed5ec1d2a55f587ffcc794d49cd864b7c6/classes.dex" />
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_e022a949593fa49bb85b1eebecfd892d722b6e82/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_76e8fb5703d2f6f5923e63ff77ebb7e99d5dd9ce/classes.dex" />
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_58ea19d43dd8bd57b5b3c5e0a97edb0c90860d5a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_97d58a3079040bb781ecfeb70cf3ec80c137c374/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.2.1_2544ca3fd6b49193a77902f8dcb3d2aa7788641d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_88a864989482df82496fc7d53b33ceef707f7384/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_1304ab0592581634c4ce2a0bb275260844580731/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_8a4bf990c7525f486579d8f2f7a36bce49c9dcf0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_c227cd4fe890a5790307520cb891a00a54b05e72/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_2badd452a59497720c19f5d1741a5c92cb352530/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_05d274f53b3bbfe0a2debce9b896c70a941af25f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_8d456125c99ade125a8bbe615f80bc3d688ee517/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="820668af46e228b682ad8b062b2229dbf510ba9d">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2d0f2f14d0854ec29adcf6123cda407fab143dd4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.4.1_3d9f9714abbe6bffdde561ef5b71fb3b6dd31ce5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.9.0_69268e03e4e3d015f4618f8e14805de785e88f81/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_393e73dd4be7d20ada7e9510a103616d6eb68143/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_d4f137c6cc052d2b63fe9fccda0e0892be60ea55/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_5ca8c772ae0dcd5424625ac5f55dbc5e9762f08a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8bbd36afe23b4f5fb449a1a30da98e28629b4bdc">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c71deb008dd354df93495b10a9306f14bad901db/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_40817557be82be5f2647d2c38dba60495914bcfd/classes.dex" />
     </item>
 
 </items>
