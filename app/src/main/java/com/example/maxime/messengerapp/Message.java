@@ -11,6 +11,7 @@ public class Message {
     public String elementMessage;
 
     public Message(String elementMessage, String author) {
+        super();
         this.elementMessage = elementMessage;
         this.author = author;
     }

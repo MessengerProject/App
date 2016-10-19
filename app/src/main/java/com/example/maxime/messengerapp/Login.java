@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity {
-    private final String TAG = AppCompatActivity.class.getName();
+    private final String TAG = Login.class.getName();
 
 
     @Override
@@ -33,8 +33,8 @@ public class Login extends AppCompatActivity {
 
                 Log.i(TAG,login + "   " + pwd);
                 String params[] = {login, pwd};
-                Login_BG_Async login_bg_async = new Login_BG_Async();
-                Login_BG_Async.LoginListener loginListener = new Login_BG_Async.LoginListener() {
+                LoginBGAsync login_bg_async = new LoginBGAsync();
+                LoginBGAsync.LoginListener loginListener = new LoginBGAsync.LoginListener() {
                     @Override
                     public void onLogin(boolean result) {
                         if (!result)

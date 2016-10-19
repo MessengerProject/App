@@ -7,9 +7,9 @@ import android.util.Log;
  * Created by maxime on 12/10/16.
  */
 
-public class Login_BG_Async extends AsyncTask <String, Void, Boolean>  {
+public class LoginBGAsync extends AsyncTask <String, Void, Boolean>  {
 
-    private final String TAG = Login_BG_Async.class.getName();
+    private final String TAG = LoginBGAsync.class.getName();
 
 
     public LoginListener loginListener;

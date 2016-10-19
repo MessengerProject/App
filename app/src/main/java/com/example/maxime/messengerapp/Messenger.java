@@ -20,20 +20,25 @@ import java.util.List;
  */
 
 public class Messenger extends AppCompatActivity {
-    private final String TAG = AppCompatActivity.class.getName();
+    private final String TAG = Messenger.class.getName();
 
+    private ListView listViewMsg;
     //private final String TAG = AppCompatActivity.class.getName();
     //Message msg = new Message("Bob","L'eponge");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messenger);
-        //listViewMsg = (ListView)findViewById(R.id.listViewMsg);
-        final List<String> msgArray = new ArrayList<String>();
 
+        final ArrayList<Message> message_data = new ArrayList<Message>();
+        listViewMsg = (ListView)findViewById(R.id.listViewMsg);
+        View header = getLayoutInflater().inflate(R.layout.view_message, null);
+        listViewMsg.addHeaderView(header);
+        final MessageAdapter msg_array_adapter = new MessageAdapter(this, R.layout.view_message, message_data);
+        listViewMsg.setAdapter(msg_array_adapter);
         Button btnSend = (Button)findViewById(R.id.ButtonSend);
-        final ArrayAdapter<String> msg_array_adapter;
-        msg_array_adapter = new ArrayAdapter<String>(this, R.layout.view_message, msgArray);
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,9 +46,10 @@ public class Messenger extends AppCompatActivity {
                 String msg = String.valueOf(msgET.getText());
                 String author = "max";
                 Message message = new Message(msg, author);
-
-                msgArray.add(msg);
-                Log.i(TAG, msgArray.toString());
+                message_data.add(message);
+                //msgArray.add(msg);
+                Log.i(TAG, message_data.toString());
+                //msg_array_adapter.add(msg);
                 msg_array_adapter.notifyDataSetChanged();
                 //Log.i(TAG, message.elementMessage);
                 //TODO: implement message from Message class and push it to server (and add it to listViewMsg for the moment)
