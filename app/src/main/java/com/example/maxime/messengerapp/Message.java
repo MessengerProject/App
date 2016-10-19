@@ -16,7 +16,7 @@ public class Message {
     }
 
     public String getAuthor() {
-        return author;
+        return this.author;
     }
 
     public void setAuthor(String author) {
@@ -24,7 +24,7 @@ public class Message {
     }
 
     public String getElementMessage() {
-        return elementMessage;
+        return this.elementMessage;
     }
 
     public void setElementMessage(String elementMessage) {
