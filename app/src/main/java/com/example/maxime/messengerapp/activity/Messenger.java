@@ -1,5 +1,7 @@
 package com.example.maxime.messengerapp.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,11 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.maxime.messengerapp.Message;
-import com.example.maxime.messengerapp.MessageAdapter;
+import com.example.maxime.messengerapp.adapter.ItemAdapter;
+import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by maxime on 18/10/16.
@@ -20,43 +23,40 @@ import java.util.ArrayList;
 
 public class Messenger extends AppCompatActivity {
     private final String TAG = Messenger.class.getName();
-    private ListView listViewMsg;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_messenger);
-        Bundle bundle = getIntent().getExtras();
-        String login = new String("");
-        if(bundle.getString("login")!= null)
-        {
-            login = bundle.getString("login");
-            // setText() on userName
-        }
-        final ArrayList<Message> message_data = new ArrayList<Message>();
-        listViewMsg = (ListView)findViewById(R.id.listViewMsg);
-        View header = getLayoutInflater().inflate(R.layout.view_message, null);
-        listViewMsg.addHeaderView(header);
-        final MessageAdapter msg_array_adapter = new MessageAdapter(this, R.layout.view_message, message_data);
-        listViewMsg.setAdapter(msg_array_adapter);
+        final Context mContext = getApplicationContext();
+
+        SharedPreferences sharedPref = mContext.getSharedPreferences("prefs", mContext.MODE_PRIVATE);
+        final String login = sharedPref.getString("login", "error");
+
+        final List<Message> messages = new ArrayList<>();
+
+
+        //Log.i(TAG, sharedPref.getString("login","error" ));
+        ListView listView = (ListView) findViewById(R.id.listViewMsg);
+
+        final ItemAdapter adapter = new ItemAdapter(messages, mContext);
+        listView.setAdapter(adapter);
+
         Button btnSend = (Button)findViewById(R.id .ButtonSend);
 
-        final String finalLogin = login;
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText  msgET = (EditText) findViewById(R.id.message);
                 String msg = String.valueOf(msgET.getText());
-                String author = finalLogin;
-                Message message = new Message(msg, author);
-                message_data.add(message);
-                //msgArray.add(msg);
-                Log.i(TAG, message_data.toString());
-                //msg_array_adapter.add(msg);
-                msg_array_adapter.notifyDataSetChanged();
-                //Log.i(TAG, message.elementMessage);
+                Message message = new Message(msg, login);
+                Log.i(TAG, message.toString());
+                messages.add(message);
+                adapter.notifyDataSetChanged();
                 //TODO: implement message from Message class and push it to server (and add it to listViewMsg for the moment)
 
             }

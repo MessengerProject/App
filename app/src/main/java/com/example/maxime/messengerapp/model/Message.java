@@ -16,6 +16,14 @@ public class Message {
         this.author = author;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "author='" + author + '\'' +
+                ", elementMessage='" + elementMessage + '\'' +
+                '}';
+    }
+
     public String getAuthor() {
         return this.author;
     }
