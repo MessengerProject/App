@@ -1,4 +1,4 @@
-package com.example.maxime.messengerapp;
+package com.example.maxime.messengerapp.task;
 
 import android.os.AsyncTask;
 import android.util.Log;

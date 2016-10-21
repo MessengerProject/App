@@ -1,4 +1,4 @@
-package com.example.maxime.messengerapp;
+package com.example.maxime.messengerapp.model;
 
 import java.util.Date;
 
