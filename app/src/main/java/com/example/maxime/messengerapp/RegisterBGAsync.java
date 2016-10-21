@@ -2,30 +2,30 @@ package com.example.maxime.messengerapp;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
-import com.example.maxime.messengerapp.service.SignInService;
+import com.example.maxime.messengerapp.service.RegisterService;
 import com.example.maxime.messengerapp.service.User;
 
 /**
- * Created by maxime on 12/10/16.
+ * Created by victor on 21/10/16.
  */
 
-public class LoginBGAsync extends AsyncTask <User, Void, Boolean>  {
+public class RegisterBGAsync extends AsyncTask<User, Void, Boolean>{
 
     private final String TAG = LoginBGAsync.class.getName();
 
     private Activity myactivity = null;
-    public LoginListener loginListener;
+    public RegisterListener registerListener;
 
-    public LoginBGAsync(Activity myactivity) {
+    public RegisterBGAsync(Activity myactivity) {
         this.myactivity = myactivity;
     }
 
-    public void setLoginListener(LoginListener loginListener) {
-        this.loginListener = loginListener;
+    public void setRegisterListener(RegisterListener registerListener) {
+        this.registerListener = registerListener;
     }
+
 
     @Override
     protected void onPreExecute() {
@@ -34,10 +34,7 @@ public class LoginBGAsync extends AsyncTask <User, Void, Boolean>  {
 
     @Override
     protected Boolean doInBackground(User[] user) {
-        /*String login = params[0].toString();
-        String pwd = params[1].toString();
-        User user = new User(login,pwd);*/
-        return SignInService.signInResponse(user[0]);
+        return RegisterService.registerResponse(user[0]);
     }
 
     @Override
@@ -45,7 +42,7 @@ public class LoginBGAsync extends AsyncTask <User, Void, Boolean>  {
         myactivity.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
     }
 
-    public interface LoginListener{
+    public interface RegisterListener {
         void onLogin(boolean result);
     }
 }

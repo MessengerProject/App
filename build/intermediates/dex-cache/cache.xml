@@ -39,6 +39,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
+        <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.7_f07bbd84c8b36c8c55a009186817e80c6e3d109e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/victor/tpangular/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -106,7 +115,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="820668af46e228b682ad8b062b2229dbf510ba9d">
+        sha1="515dc16741abc15107eae52f7e7e1ef179869033">
         <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2d0f2f14d0854ec29adcf6123cda407fab143dd4/classes.dex" />
     </item>
     <item
@@ -160,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="8bbd36afe23b4f5fb449a1a30da98e28629b4bdc">
+        sha1="c78ae7a8c8863a5edcb89846396d18353bc8329f">
         <dex dex="/home/victor/tpangular/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c71deb008dd354df93495b10a9306f14bad901db/classes.dex" />
     </item>
     <item
