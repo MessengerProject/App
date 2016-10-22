@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="8b37f7802daf06484a3ccd3bb099d46c4c2bf558">
+        sha1="ed54e07790e75a80cfbf6235cea19b1521c55d62">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_492eebe7782b01d80c6e9b19e72ead892a47be4e/classes.dex" />
     </item>
     <item
@@ -124,8 +124,17 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="82b2e2e04d39b81553453b0fd36356a36154b6a2">
+        sha1="df107af2af0a095358ce409553f1843e7e94d1ef">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f6e748e88ca46f948ce401bf208536ed3aef050b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-24.2.1_3b25a547571c01fdca86151e4e780d38fa9c20ee/classes.dex" />
     </item>
     <item
         is-multidex="true"
