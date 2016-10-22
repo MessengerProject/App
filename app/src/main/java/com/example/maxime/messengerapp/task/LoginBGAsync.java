@@ -53,7 +53,5 @@ public class LoginBGAsync extends AsyncTask <String, Void, Boolean>  {
     }
     public interface LoginListener{
         void onLogin(boolean result);
-
-
     }
 }
