@@ -48,7 +48,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
+        // - get element from messages at this position
         // - replace the contents of the view with that element
         holder.textViewTxt.setText(messages.get(position).getElementMessage());
         holder.textViewAuthor.setText(messages.get(position).getAuthor());
