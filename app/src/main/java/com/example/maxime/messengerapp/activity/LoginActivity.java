@@ -14,11 +14,12 @@ import android.widget.Toast;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
+import com.example.maxime.messengerapp.task.RegisterBGAsync;
 
 import java.util.concurrent.ExecutionException;
 
-public class Login extends AppCompatActivity {
-    private final String TAG = Login.class.getName();
+public class LoginActivity extends AppCompatActivity {
+    private final String TAG = LoginActivity.class.getName();
 
     //User user = new User();
 
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         final Button btnLogin = (Button)findViewById(R.id.ButtonLogin);
+        final Button btnRegister = (Button)findViewById(R.id.ButtonRegister);
         final EditText loginET = (EditText)findViewById(R.id.login);
         final EditText pwdET = (EditText)findViewById(R.id.pwd);
 
@@ -43,7 +45,8 @@ public class Login extends AppCompatActivity {
                 Log.i(TAG,user.getLogin() + "   " + user.getPwd());
 
 
-                LoginBGAsync login_bg_async = new LoginBGAsync(context);
+                LoginBGAsync login_bg_async = new LoginBGAsync(context, user);
+
                 LoginBGAsync.LoginListener loginListener = new LoginBGAsync.LoginListener() {
                     @Override
                     public void onLogin(boolean result) {
@@ -87,5 +90,49 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                user.setLogin(String.valueOf(loginET.getText()));
+                user.setPwd(String.valueOf(pwdET.getText()));
+                Log.i(TAG,user.getLogin() + "   " + user.getPwd());
+
+
+                RegisterBGAsync register_bg_async = new RegisterBGAsync(context, user);
+                RegisterBGAsync.RegisterListener registerListener = new RegisterBGAsync.RegisterListener(){
+                    @Override
+                    public void onRegister(boolean result) {
+                        if (!result)
+                        {
+                            Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(getApplication(),Messenger.class);
+                            SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("login", user.getLogin());
+                            editor.putString("pwd", user.getPwd());
+                            editor.commit();
+
+                            startActivity(intent);
+                            Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                };
+                register_bg_async.setRegisterListener(registerListener);
+                register_bg_async.execute();
+                try {
+                    registerListener.onRegister(register_bg_async.get());
+                    //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

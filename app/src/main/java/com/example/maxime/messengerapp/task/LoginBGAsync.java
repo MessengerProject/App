@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.User;
+import com.example.maxime.messengerapp.service.LoginService;
 
 import static android.content.Context.MODE_PRIVATE;
 import static java.lang.Integer.getInteger;
@@ -15,16 +16,17 @@ import static java.lang.Integer.getInteger;
  * Created by maxime on 12/10/16.
  */
 
-public class LoginBGAsync extends AsyncTask <String, Void, Boolean>  {
+public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
 
     private final String TAG = LoginBGAsync.class.getName();
     private Context mContext;
+    private User user;
 
-    public LoginBGAsync (Context context){
-        mContext = context;
+
+    public LoginBGAsync (Context context, User user){
+        this.mContext = context;
+        this.user = user;
     }
-
-
     public LoginListener loginListener;
     //private boolean result;
 
@@ -39,17 +41,15 @@ public class LoginBGAsync extends AsyncTask <String, Void, Boolean>  {
     }
 
     @Override
-    protected Boolean doInBackground(String[] params) {
-        SharedPreferences sharedPref = mContext.getSharedPreferences("prefs", mContext.MODE_PRIVATE);
-        String login = sharedPref.getString("login", "error");
-        String pwd = sharedPref.getString("pwd", "error");
+    protected Boolean doInBackground(Void... params) {
 
-        Log.i(TAG, "doInBackground \n user :  " + login + pwd);
+
+        //Log.i(TAG, "doInBackground \n user :  " + login + pwd);
 //        String login = params[0].toString();
 //        String pwd = params[1].toString();
 
         //TODO : Check DB for User
-        return true;
+        return LoginService.loginResponse(user);
     }
     public interface LoginListener{
         void onLogin(boolean result);

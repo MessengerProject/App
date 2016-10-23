@@ -37,6 +37,7 @@ public class Messenger extends AppCompatActivity {
         final Context mContext = getApplicationContext();
         SharedPreferences sharedPref = mContext.getSharedPreferences("prefs", mContext.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
+
         final List<Message> messages = new ArrayList<>();
 
         final Button btnSend = (Button)findViewById(R.id .ButtonSend);

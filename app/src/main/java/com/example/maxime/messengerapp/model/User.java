@@ -15,10 +15,6 @@ public class User {
 //        return uuid;
 //    }
 
-    public User(String login, String pwd) {
-        this.login = login;
-        this.pwd = pwd;
-    }
 
     public void setLogin(String login) {
         this.login = login;
