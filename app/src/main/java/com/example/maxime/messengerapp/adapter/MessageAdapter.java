@@ -23,11 +23,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewAuthor;
         public TextView textViewTxt;
+        public TextView textViewDate;
 
         public ViewHolder(View v) {
             super(v);
             textViewAuthor = (TextView) v.findViewById(R.id.author);
             textViewTxt = (TextView) v.findViewById(R.id.text);
+            textViewDate = (TextView) v.findViewById(R.id.date);
         }
     }
 
@@ -51,7 +53,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         // - get element from messages at this position
         // - replace the contents of the view with that element
         holder.textViewTxt.setText(messages.get(position).getElementMessage());
-        holder.textViewAuthor.setText(messages.get(position).getAuthor());
+        holder.textViewDate.setText(messages.get(position).getDate());
+        holder.textViewAuthor.setText(messages.get(position).getUser().getLogin());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

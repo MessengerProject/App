@@ -5,16 +5,15 @@ package com.example.maxime.messengerapp.model;
  */
 
 public class User {
-    //String uuid;
     String login;
     String pwd;
 
     public User() {}
 
-//    public String getUuid() {
-//        return uuid;
-//    }
-
+    public User(String login, String pwd) {
+        this.login = login;
+        this.pwd = pwd;
+    }
 
     public void setLogin(String login) {
         this.login = login;
