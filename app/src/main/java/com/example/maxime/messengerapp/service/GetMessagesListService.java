@@ -14,14 +14,15 @@ import okhttp3.Response;
  * Created by maxime on 23/10/16.
  */
 
-public class LoginService {
+public class GetMessagesListService {
     private static final String TAG = LoginService.class.getName();
+    //public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public static boolean loginResponse(User user){
+    public static String GetMessageListResponse(User user){
 
         try {
             String parameters = user.getLogin()+ "/" + user.getPwd();
-            String urlStr = "https://training.loicortola.com/chat-rest/1.0/connect/";
+            String urlStr = "https://training.loicortola.com/chat-rest/1.0/messages/";
             String url = urlStr + parameters;
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -29,10 +30,13 @@ public class LoginService {
                     .build();
 
             Response response = client.newCall(request).execute();
-            return response.code() < 300;
+
+            if (response.code() < 300){
+                return response.body().string();
+            }
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
-        return false;
+        return "";
     }
 }

@@ -9,7 +9,6 @@ public class User {
     String pwd;
 
     public User() {}
-
     public User(String login, String pwd) {
         this.login = login;
         this.pwd = pwd;

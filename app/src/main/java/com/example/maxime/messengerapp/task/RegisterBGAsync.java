@@ -16,13 +16,14 @@ public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
     private final String TAG = RegisterListener.class.getName();
     private Context mContext;
     private User user;
+    public RegisterListener registerListener;
+
 
     public RegisterBGAsync(Context mContext, User user) {
         this.mContext = mContext;
         this.user = user;
     }
 
-    public RegisterListener registerListener;
     //private boolean result;
 
     public void setRegisterListener(RegisterListener registerListener) {

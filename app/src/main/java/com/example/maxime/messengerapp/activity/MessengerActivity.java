@@ -17,8 +17,8 @@ import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
+import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,13 +44,13 @@ public class MessengerActivity extends AppCompatActivity {
         SharedPreferences sharedPref = mContext.getSharedPreferences("prefs", mContext.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
         final String pwd = sharedPref.getString("pwd", "error");
-
         final List<Message> messages = new ArrayList<>();
 
-        final Button btnSend = (Button)findViewById(R.id .ButtonSend);
+        final Button btnSend = (Button)findViewById(R.id.ButtonSend);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         final EditText msgET = (EditText) findViewById(R.id.message);
         final Context context = getApplicationContext();
+        final Button btnRefresh = (Button)findViewById(R.id.ButtonRefresh);
 
         recyclerView.setHasFixedSize(true);
         final User user = new User(login, pwd);//comment mettre un user permanent sur la session
@@ -58,6 +58,7 @@ public class MessengerActivity extends AppCompatActivity {
         // use a linear layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+
 
         // specify an adapter
         final MessageAdapter adapter = new MessageAdapter(messages);
@@ -78,6 +79,7 @@ public class MessengerActivity extends AppCompatActivity {
                         String formattedDate = df.format(c.getTime());
                         Message message = new Message(msg, formattedDate, user);
                         Log.i(TAG, message.toString());
+                        //TODO Here add call to SendMsgBGAsync
                         messages.add(message);
                         adapter.notifyDataSetChanged();
                         msgET.getText().clear();
@@ -111,6 +113,22 @@ public class MessengerActivity extends AppCompatActivity {
                 }
             }
         });
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(mContext, user);
+                GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                    @Override
+                    public void onGetMessagesList(boolean result) {
+
+                    }
+                };
+                getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                getMessagesListBGAsync.execute(messages);
+
+            }
+        });
+        }
 
     }
 
@@ -119,4 +137,4 @@ public class MessengerActivity extends AppCompatActivity {
 
 
 
-}
+

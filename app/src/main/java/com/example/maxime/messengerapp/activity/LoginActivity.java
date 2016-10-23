@@ -43,10 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 user.setLogin(String.valueOf(loginET.getText()));
                 user.setPwd(String.valueOf(pwdET.getText()));
                 Log.i(TAG,user.getLogin() + "   " + user.getPwd());
-
-
                 LoginBGAsync login_bg_async = new LoginBGAsync(context, user);
-
                 LoginBGAsync.LoginListener loginListener = new LoginBGAsync.LoginListener() {
                     @Override
                     public void onLogin(boolean result) {
@@ -63,16 +60,12 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("login", user.getLogin());
                             editor.putString("pwd", user.getPwd());
                             editor.commit();
-
-
-
                             startActivity(intent);
                             Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
 
                         }
                     }
                 };
-
 
                 login_bg_async.setLoginListener(loginListener);
                 login_bg_async.execute();

@@ -14,19 +14,22 @@
         android:id="@+id/LoginPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:text="Login"
+        android:gravity="center"/>
     <EditText
         android:id="@+id/login"
         android:layout_below="@+id/LoginPage"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="20dp"
+        android:gravity="center"
         android:inputType="textPersonName"/>
     <EditText
         android:id="@+id/pwd"
         android:layout_below="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:gravity="center"
         android:textSize="20dp"
         android:inputType="textPassword"/>
     <LinearLayout
@@ -34,16 +37,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/pwd"
+        android:gravity="center"
         android:layout_alignParentBottom="true">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pwd"
+        android:gravity="center"
         android:text="Login"
         android:id="@+id/ButtonLogin" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_below="@+id/pwd"
         android:text="Register"
         android:id="@+id/ButtonRegister" />

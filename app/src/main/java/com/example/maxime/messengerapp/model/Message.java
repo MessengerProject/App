@@ -42,9 +42,6 @@ public class Message {
         return elementMessage;
     }
 
-    public void setElementMessage(String elementMessage) {
-        this.elementMessage = elementMessage;
-    }
 
     public String getDate() {
         return date;
