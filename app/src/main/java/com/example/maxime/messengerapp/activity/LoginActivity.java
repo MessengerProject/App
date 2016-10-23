@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                         else
                         {
 
-                            Intent intent = new Intent(getApplication(),Messenger.class);
+                            Intent intent = new Intent(getApplication(),MessengerActivity.class);
                             //intent.putExtra("user", user);
                             SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Intent intent = new Intent(getApplication(),Messenger.class);
+                            Intent intent = new Intent(getApplication(),MessengerActivity.class);
                             SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("login", user.getLogin());

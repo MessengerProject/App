@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.example.maxime.messengerapp.R;
-import com.example.maxime.messengerapp.adapter.ItemAdapter;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
 import com.example.maxime.messengerapp.model.Message;
 
@@ -24,8 +22,8 @@ import java.util.List;
  * Created by maxime on 18/10/16.
  */
 
-public class Messenger extends AppCompatActivity {
-    private final String TAG = Messenger.class.getName();
+public class MessengerActivity extends AppCompatActivity {
+    private final String TAG = MessengerActivity.class.getName();
 
 
 

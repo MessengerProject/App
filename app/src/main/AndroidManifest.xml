@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Messenger"
+        <activity android:name=".activity.MessengerActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
