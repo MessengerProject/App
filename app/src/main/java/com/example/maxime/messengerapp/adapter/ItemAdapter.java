@@ -48,6 +48,6 @@ public class ItemAdapter extends BaseAdapter {
         TextView txt = (TextView) convertView.findViewById(R.id.text);
         txt.setText(messages.get(position).getElementMessage());
         TextView author = (TextView) convertView.findViewById(R.id.author);
-        author.setText(messages.get(position).getAuthor());
+        author.setText(messages.get(position).getUser().getLogin());
         return convertView;    }
 }

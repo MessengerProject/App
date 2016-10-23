@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                         {
 
                             Intent intent = new Intent(getApplication(),MessengerActivity.class);
-                            //intent.putExtra("user", user);
                             SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("login", user.getLogin());
