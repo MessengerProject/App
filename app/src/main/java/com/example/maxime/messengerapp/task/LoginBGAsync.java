@@ -21,13 +21,14 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
     private final String TAG = LoginBGAsync.class.getName();
     private Context mContext;
     private User user;
+    public LoginListener loginListener;
+
 
 
     public LoginBGAsync (Context context, User user){
         this.mContext = context;
         this.user = user;
     }
-    public LoginListener loginListener;
     //private boolean result;
 
     public void setLoginListener(LoginListener loginListener) {

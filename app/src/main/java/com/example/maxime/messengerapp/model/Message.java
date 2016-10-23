@@ -28,17 +28,11 @@ public class Message {
         return this.author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
     public String getElementMessage() {
         return this.elementMessage;
     }
 
-    public void setElementMessage(String elementMessage) {
-        this.elementMessage = elementMessage;
-    }
 
 
 
