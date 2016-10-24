@@ -52,9 +52,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from messages at this position
         // - replace the contents of the view with that element
-        holder.textViewTxt.setText(messages.get(position).getElementMessage());
-        holder.textViewDate.setText(messages.get(position).getDate());
-        holder.textViewAuthor.setText(messages.get(position).getUser().getLogin());
+        holder.textViewTxt.setText(messages.get(position).getMessage());
+        holder.textViewAuthor.setText(messages.get(position).getLogin());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

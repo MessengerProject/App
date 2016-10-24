@@ -15,7 +15,7 @@ import okhttp3.Response;
  */
 
 public class GetMessagesListService {
-    private static final String TAG = LoginService.class.getName();
+    private static final String TAG = GetMessagesListService.class.getName();
     //public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static String GetMessageListResponse(User user){
@@ -32,11 +32,12 @@ public class GetMessagesListService {
             Response response = client.newCall(request).execute();
 
             if (response.code() < 300){
+                Log.i(TAG,response.body().string());
                 return response.body().string();
             }
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
-        return "";
+        return null;
     }
 }
