@@ -6,6 +6,7 @@ import com.example.maxime.messengerapp.model.User;
 
 import java.io.IOException;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,8 +16,8 @@ import okhttp3.Response;
  */
 
 public class GetMessagesListService {
-    private static final String TAG = LoginService.class.getName();
-    //public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final String TAG = GetMessagesListService.class.getName();
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static String GetMessageListResponse(User user){
 
@@ -30,13 +31,12 @@ public class GetMessagesListService {
                     .build();
 
             Response response = client.newCall(request).execute();
-
             if (response.code() < 300){
                 return response.body().string();
             }
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
-        return "";
+        return null;
     }
 }

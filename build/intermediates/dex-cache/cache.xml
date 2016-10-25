@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_b2cf17e5efcfeeb578bc42b26c40b65715f093fb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar"
         jumboMode="true"
         optimize="true"
@@ -18,78 +27,6 @@
         revision="24.0.3"
         sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_4c742843290039cd27ba236585f36948b7ba19c2/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_14f784756908d1a852ab68722ba2a34ead26f50b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-24.2.1_297f73fdef4e3b912d4b0fde2985d923298ac659/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.9.0_69268e03e4e3d015f4618f8e14805de785e88f81/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_559665bf5492aa72224a1660790161642d672784/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_e9f8ef0890a420a10aa68d7099ca3f41d3d4eb22/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="3595b77d7d3cb58d1452b9f0f47baaba97a81766">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9a650a512468c79e19fb35b55060803c8053512e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_77bd09d9c9e99579f805b5ac2601d7f1b2d70eb3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_b2cf17e5efcfeeb578bc42b26c40b65715f093fb/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -120,6 +57,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_14f784756908d1a852ab68722ba2a34ead26f50b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -142,8 +88,35 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="522a589db93072dad3ee9b6da9d56a9ef37091a5">
+        sha1="003d039a711f996251efc6327b20809cd4978e2f">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f4b72f3c41b814be0d54c8f1c08d50c19775b2a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-24.2.1_297f73fdef4e3b912d4b0fde2985d923298ac659/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.9.0_69268e03e4e3d015f4618f8e14805de785e88f81/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_559665bf5492aa72224a1660790161642d672784/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -174,6 +147,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_e9f8ef0890a420a10aa68d7099ca3f41d3d4eb22/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -189,6 +171,24 @@
         revision="24.0.3"
         sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_73b5e9e74c2e3758a4a5ea8db434fe594d3fa0b2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="c23f213bd0d8bd4219d38e808e67fa7317db3784">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9a650a512468c79e19fb35b55060803c8053512e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_77bd09d9c9e99579f805b5ac2601d7f1b2d70eb3/classes.dex" />
     </item>
 
 </items>

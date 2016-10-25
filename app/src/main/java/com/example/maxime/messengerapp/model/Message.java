@@ -1,54 +1,31 @@
 package com.example.maxime.messengerapp.model;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by maxime on 18/10/16.
+ * Created by victor on 23/10/16.
  */
 
 public class Message {
-    public User user;
-    public String elementMessage;
-    public String date;
-    String uuid;
+        public String uuid;
+        public String login;
+        public String message;
 
-    public Message(String elementMessage, String date, User user) {
-        super();
-        this.elementMessage = elementMessage;
-        this.date =date;
-        this.user = user;
+
+
+    public Message(String msg, String login) {
+        this.message = msg;
+        this.login = login;
         this.uuid = UUID.randomUUID().toString();
     }
 
     @Override
     public String toString() {
-        return "Message{" +
-                "user='" + user.toString() + '\'' +
-                ", elementMessage='" + elementMessage + '\'' +
-                ", date='" + date + '\'' +
+        return "SimpleMessage{" +
+                "uuid='" + uuid + '\'' +
+                ", login='" + login + '\'' +
+                ", message='" + message + '\'' +
                 '}';
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getElementMessage() {
-        return elementMessage;
-    }
-
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getUuid() {
@@ -57,5 +34,21 @@ public class Message {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

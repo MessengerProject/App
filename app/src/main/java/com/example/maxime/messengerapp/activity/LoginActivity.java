@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-
+                login_bg_async.cancel(true);
 
             }
         });

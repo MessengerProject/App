@@ -46,8 +46,8 @@ public class ItemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.element_message, null);
         TextView txt = (TextView) convertView.findViewById(R.id.text);
-        txt.setText(messages.get(position).getElementMessage());
+        txt.setText(messages.get(position).getMessage());
         TextView author = (TextView) convertView.findViewById(R.id.author);
-        author.setText(messages.get(position).getUser().getLogin());
+        author.setText(messages.get(position).getLogin());
         return convertView;    }
 }

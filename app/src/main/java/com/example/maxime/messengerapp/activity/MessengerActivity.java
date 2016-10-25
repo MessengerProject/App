@@ -75,14 +75,14 @@ public class MessengerActivity extends AppCompatActivity {
                         Calendar c = Calendar.getInstance();
                         System.out.println("Current time => " + c.getTime());
 
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                        String formattedDate = df.format(c.getTime());
-                        Message message = new Message(msg, formattedDate, user);
+                        //SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+                        //String formattedDate = df.format(c.getTime());
+                        Message message = new Message(msg, user.getLogin());
                         Log.i(TAG, message.toString());
                         //TODO Here add call to SendMsgBGAsync
                         messages.add(message);
                         adapter.notifyDataSetChanged();
-                        msgET.getText().clear();
+
                         SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
 
                         SendMessageBGAsync.sendMessageListener sendMessageListener= new SendMessageBGAsync.sendMessageListener() {
@@ -94,7 +94,8 @@ public class MessengerActivity extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    Toast.makeText(getApplication(), "Message sended", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplication(), "Message sent", Toast.LENGTH_LONG).show();
+                                    msgET.getText().clear();
 
                                 }
                             }
@@ -109,23 +110,29 @@ public class MessengerActivity extends AppCompatActivity {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
-
+                        sendMessage_bg_async.cancel(true);
                 }
             }
         });
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(mContext, user);
+                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(mContext, user, messages);
                 GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-                    @Override
-                    public void onGetMessagesList(boolean result) {
 
+                    @Override
+                    public void onGetMessagesList() {
+                        adapter.notifyDataSetChanged();
                     }
                 };
                 getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-                getMessagesListBGAsync.execute(messages);
-
+                getMessagesListBGAsync.execute();
+                try {
+                    getMessagesListListener.onGetMessagesList();
+                }
+                catch (Exception e){
+                    Log.i(TAG, e.toString());
+                }
             }
         });
         }

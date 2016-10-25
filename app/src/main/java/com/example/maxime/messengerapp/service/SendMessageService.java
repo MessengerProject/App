@@ -3,7 +3,6 @@ package com.example.maxime.messengerapp.service;
 import android.util.Log;
 
 import com.example.maxime.messengerapp.model.Message;
-import com.example.maxime.messengerapp.model.SimpleMessage;
 import com.example.maxime.messengerapp.model.User;
 import com.google.gson.Gson;
 
@@ -27,12 +26,12 @@ public class SendMessageService {
     public static boolean SendMessage(User user, Message message) {
 
         try {
-            SimpleMessage simpleMessage = new SimpleMessage(message.getElementMessage(), message.getUuid(), message.getUser());
+
             String param = user.getLogin()+"/"+user.getPwd();
             Gson gson = new Gson();
-            String json = gson.toJson(simpleMessage);
+            String json = gson.toJson(message);
             Log.i(TAG, "SendMessage: "+json);
-            String url = "https://training.loicortola.com/chat-rest/1.0/messages/" + param;
+            String url = "https://training.loicortola.com/chat-rest/1.0/messages/"+param;
             OkHttpClient client = new OkHttpClient();
             RequestBody body = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
