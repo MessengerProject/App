@@ -43,12 +43,6 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-
-
-        //Log.i(TAG, "doInBackground \n user :  " + login + pwd);
-//        String login = params[0].toString();
-//        String pwd = params[1].toString();
-
         //TODO : Check DB for User
         return LoginService.loginResponse(user);
     }

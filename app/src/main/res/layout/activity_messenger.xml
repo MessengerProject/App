@@ -12,17 +12,16 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/sendMsgLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_above="@+id/textLayout"
+        android:layout_alignParentTop="true" />
 
 
     <LinearLayout
-        android:id="@+id/sendMsgLayout"
+        android:id="@+id/textLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/sendMsgLayout">
         <EditText
             android:id="@+id/message"
             android:layout_width="0dp"
@@ -32,20 +31,31 @@
             android:textSize="20sp"
             android:inputType="textMultiLine"
             android:layout_weight="1"/>
+        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/sendMsgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
         <Button
             android:id="@+id/ButtonSend"
             android:layout_width="wrap_content"
             android:text="Send"
             android:padding="10dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20sp"
+            android:background="@drawable/button_selector"/>
         <Button
             android:id="@+id/ButtonRefresh"
             android:text="Refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="20sp"
+            android:background="@drawable/button_selector"/>
     </LinearLayout>
 </RelativeLayout>
 
