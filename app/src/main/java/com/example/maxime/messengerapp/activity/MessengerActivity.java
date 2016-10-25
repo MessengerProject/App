@@ -30,9 +30,17 @@ import java.util.concurrent.ExecutionException;
  * Created by maxime on 18/10/16.
  */
 
-public class MessengerActivity extends AppCompatActivity {
+public class MessengerActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = MessengerActivity.class.getName();
-
+    Context context;
+    final String SHARED_PREFS = "prefs";
+    Button btnSend, btnRefresh;
+    RecyclerView recyclerView;
+    EditText msgET;
+    User user;
+    LinearLayoutManager linearLayoutManager;
+    MessageAdapter adapter;
+    List<Message> messages = new ArrayList<>();
 
 
     @Override
@@ -40,84 +48,29 @@ public class MessengerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_messenger);
-        final Context mContext = getApplicationContext();
-        SharedPreferences sharedPref = mContext.getSharedPreferences("prefs", mContext.MODE_PRIVATE);
+
+        SharedPreferences sharedPref = context.getSharedPreferences("prefs", context.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
         final String pwd = sharedPref.getString("pwd", "error");
-        final List<Message> messages = new ArrayList<>();
-
-        final Button btnSend = (Button)findViewById(R.id.ButtonSend);
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
-        final EditText msgET = (EditText) findViewById(R.id.message);
-        final Context context = getApplicationContext();
-        final Button btnRefresh = (Button)findViewById(R.id.ButtonRefresh);
+        btnSend = (Button) findViewById(R.id.ButtonSend);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
+        msgET = (EditText) findViewById(R.id.message);
+        context = getApplicationContext();
+        btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
 
         recyclerView.setHasFixedSize(true);
-        final User user = new User(login, pwd);//comment mettre un user permanent sur la session
-
+        user = new User(login, pwd);//comment mettre un user permanent sur la session
         // use a linear layout manager
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-
         // specify an adapter
-        final MessageAdapter adapter = new MessageAdapter(messages);
+        adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {handleClick(v, "send");}
-
-            private void handleClick(View v, String button) {
-                switch (button){
-                    case "send":
-                        String msg = String.valueOf(msgET.getText());
-                        Calendar c = Calendar.getInstance();
-                        System.out.println("Current time => " + c.getTime());
-
-                        //SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                        //String formattedDate = df.format(c.getTime());
-                        Message message = new Message(msg, user.getLogin());
-                        Log.i(TAG, message.toString());
-                        //TODO Here add call to SendMsgBGAsync
-                        messages.add(message);
-                        adapter.notifyDataSetChanged();
-
-                        SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
-
-                        SendMessageBGAsync.sendMessageListener sendMessageListener= new SendMessageBGAsync.sendMessageListener() {
-                            @Override
-                            public void onSend(boolean result) {
-                                if (!result)
-                                {
-                                    Toast.makeText(getApplication(), "Error to send message to server", Toast.LENGTH_LONG).show();
-                                }
-                                else
-                                {
-                                    Toast.makeText(getApplication(), "Message sent", Toast.LENGTH_LONG).show();
-                                    msgET.getText().clear();
-
-                                }
-                            }
-                        };
-                        sendMessage_bg_async.setSendMessageListener(sendMessageListener);
-                        sendMessage_bg_async.execute();
-                        try {
-                            sendMessageListener.onSend(sendMessage_bg_async.get());
-                            //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                        sendMessage_bg_async.cancel(true);
-                }
-            }
-        });
+        btnSend.setOnClickListener(this);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(mContext, user, messages);
+                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
                 GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
 
                     @Override
@@ -129,15 +82,77 @@ public class MessengerActivity extends AppCompatActivity {
                 getMessagesListBGAsync.execute();
                 try {
                     getMessagesListListener.onGetMessagesList();
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Log.i(TAG, e.toString());
                 }
             }
         });
-        }
-
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ButtonSend: {
+                String msg = String.valueOf(msgET.getText());
+                Calendar c = Calendar.getInstance();
+                System.out.println("Current time => " + c.getTime());
+
+                //SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+                //String formattedDate = df.format(c.getTime());
+                Message message = new Message(msg, user.getLogin());
+                Log.i(TAG, message.toString());
+                //TODO Here add call to SendMsgBGAsync
+                messages.add(message);
+                adapter.notifyDataSetChanged();
+
+                SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
+
+                SendMessageBGAsync.sendMessageListener sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
+                    @Override
+                    public void onSend(boolean result) {
+                        if (!result) {
+                            Toast.makeText(getApplication(), "Error to send message to server", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplication(), "Message sent", Toast.LENGTH_LONG).show();
+                            msgET.getText().clear();
+                        }
+                    }
+                };
+                sendMessage_bg_async.setSendMessageListener(sendMessageListener);
+                sendMessage_bg_async.execute();
+                try {
+                    sendMessageListener.onSend(sendMessage_bg_async.get());
+                    //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                sendMessage_bg_async.cancel(true);
+
+
+            }
+            case R.id.ButtonRefresh: {
+                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+
+                    @Override
+                    public void onGetMessagesList() {
+                        adapter.notifyDataSetChanged();
+                    }
+                };
+                getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                getMessagesListBGAsync.execute();
+                try {
+                    getMessagesListListener.onGetMessagesList();
+                } catch (Exception e) {
+                    Log.i(TAG, e.toString());
+                }
+            }
+
+        }
+    }
+}
 
 
 

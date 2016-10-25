@@ -22,7 +22,7 @@ public class GetMessagesListService {
     public static String GetMessageListResponse(User user){
 
         try {
-            String parameters = user.getLogin()+ "/" + user.getPwd();
+            String parameters = user.getLogin()+ "/" + user.getPassword();
             String urlStr = "https://training.loicortola.com/chat-rest/1.0/messages/";
             String url = urlStr + parameters;
             OkHttpClient client = new OkHttpClient();

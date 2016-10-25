@@ -39,7 +39,7 @@ public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        Log.i(TAG, "doInBackground Register \n user :  " + user.getLogin()+ user.getPwd());
+        //Log.i(TAG, "doInBackground Register \n user :  " + user.getLogin()+ user.getPwd());
         return RegisterService.registerResponse(user);
     }
     public interface RegisterListener{
