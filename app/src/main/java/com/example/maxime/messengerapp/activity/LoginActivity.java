@@ -84,7 +84,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     e.printStackTrace();
                 }
                 login_bg_async.cancel(true);
+                break;
             }
+
             case R.id.ButtonRegister:{
                 user.setLogin(String.valueOf(loginET.getText()));
                 user.setPassword(String.valueOf(pwdET.getText()));
@@ -123,6 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                break;
 
             }
         }

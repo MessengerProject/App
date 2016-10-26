@@ -151,8 +151,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                     e.printStackTrace();
                 }
                 sendMessage_bg_async.cancel(true);
-
-
+            break;
             }
             case R.id.ButtonRefresh: {
                 GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
@@ -170,6 +169,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 } catch (Exception e) {
                     Log.i(TAG, e.toString());
                 }
+                break;
             }
 
         }
