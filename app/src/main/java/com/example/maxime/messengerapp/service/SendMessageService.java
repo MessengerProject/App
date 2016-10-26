@@ -27,7 +27,7 @@ public class SendMessageService {
 
         try {
 
-            String param = user.getLogin()+"/"+user.getPwd();
+            String param = user.getLogin()+"/"+user.getPassword();
             Gson gson = new Gson();
             String json = gson.toJson(message);
             Log.i(TAG, "SendMessage: "+json);

@@ -22,7 +22,7 @@ public class GetMessagesListService {
     public static String GetMessageListResponse(User user){
 
         try {
-            String parameters = user.getLogin()+ "/" + user.getPwd();
+            String parameters = user.getLogin()+ "/" + user.getPassword();
             String urlStr = "https://training.loicortola.com/chat-rest/1.0/messages/";
             String url = urlStr + parameters;
             OkHttpClient client = new OkHttpClient();
@@ -32,7 +32,10 @@ public class GetMessagesListService {
 
             Response response = client.newCall(request).execute();
             if (response.code() < 300){
-                return response.body().string();
+                String data = response.body().string();
+                response.body().close();
+                return data;
+
             }
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());

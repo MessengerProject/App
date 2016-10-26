@@ -26,11 +26,11 @@ public class RegisterService {
     public static boolean registerResponse(User user) {
 
         try {
-            String param = user.getLogin() + "/"  + user.getPwd();
+            String param = user.getLogin() + "/"  + user.getPassword();
             Gson gson = new Gson();
             String json = gson.toJson(user);
             String url = "https://training.loicortola.com/chat-rest/1.0/register/" + param;
-
+            Log.i(TAG, json);
             OkHttpClient client = new OkHttpClient();
             RequestBody body = RequestBody.create(JSON, json);
             Request request = new Request.Builder()

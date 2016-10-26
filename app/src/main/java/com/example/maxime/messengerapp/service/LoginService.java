@@ -20,7 +20,7 @@ public class LoginService {
     public static boolean loginResponse(User user){
 
         try {
-            String parameters = user.getLogin()+ "/" + user.getPwd();
+            String parameters = user.getLogin()+ "/" + user.getPassword();
             String urlStr = "https://training.loicortola.com/chat-rest/1.0/connect/";
             String url = urlStr + parameters;
             OkHttpClient client = new OkHttpClient();

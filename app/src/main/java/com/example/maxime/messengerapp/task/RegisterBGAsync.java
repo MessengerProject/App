@@ -1,7 +1,6 @@
 package com.example.maxime.messengerapp.task;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,7 +15,7 @@ public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
     private final String TAG = RegisterListener.class.getName();
     private Context mContext;
     private User user;
-    public RegisterListener registerListener;
+    private RegisterListener registerListener;
 
 
     public RegisterBGAsync(Context mContext, User user) {
@@ -39,7 +38,7 @@ public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        Log.i(TAG, "doInBackground Register \n user :  " + user.getLogin()+ user.getPwd());
+        //Log.i(TAG, "doInBackground Register \n user :  " + user.getLogin()+ user.getPassword());
         return RegisterService.registerResponse(user);
     }
     public interface RegisterListener{
