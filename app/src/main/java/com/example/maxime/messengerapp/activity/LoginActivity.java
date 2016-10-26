@@ -26,12 +26,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LoginBGAsync login_bg_async;
     LoginBGAsync.LoginListener loginListener;
     final String SHARED_PREFS = "prefs";
-    final Context context = getApplicationContext();
+    public Context context;
     //User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_login);
         btnLogin = (Button)findViewById(R.id.ButtonLogin);
         btnRegister = (Button)findViewById(R.id.ButtonRegister);

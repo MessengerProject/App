@@ -3,6 +3,7 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.R;
@@ -19,6 +22,10 @@ import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,13 +48,25 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     LinearLayoutManager linearLayoutManager;
     MessageAdapter adapter;
     List<Message> messages = new ArrayList<>();
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = getApplicationContext();
         setContentView(R.layout.activity_messenger);
+        /*Linearlayout graphic
+        LinearLayout layoutMessage=(LinearLayout)findViewById(R.id.messageLayout);
+        TextView textView = (TextView) findViewById(R.id.text);
+        textView.measure(0, 0);       //must call measure!
+        int heightText = textView.getMeasuredWidth();  //get width
+        layoutMessage.setLayoutParams(new LinearLayout.LayoutParams(1080, heightText));*/
+
 
         SharedPreferences sharedPref = context.getSharedPreferences("prefs", context.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
@@ -87,6 +106,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -151,6 +173,42 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             }
 
         }
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Messenger Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
 
