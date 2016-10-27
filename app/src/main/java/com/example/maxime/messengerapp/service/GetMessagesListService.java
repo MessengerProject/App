@@ -6,6 +6,7 @@ import com.example.maxime.messengerapp.model.User;
 
 import java.io.IOException;
 
+import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,17 +23,20 @@ public class GetMessagesListService {
     public static String GetMessageListResponse(User user){
 
         try {
-            String parameters = user.getLogin()+ "/" + user.getPassword();
-            String urlStr = "https://training.loicortola.com/chat-rest/1.0/messages/";
-            String url = urlStr + parameters;
+            String url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=20&offset=0";
             OkHttpClient client = new OkHttpClient();
+            String credential = Credentials.basic(user.getLogin(), user.getPassword());
+
             Request request = new Request.Builder()
+                    .header("Authorization", credential)
                     .url(url)
                     .build();
 
             Response response = client.newCall(request).execute();
             if (response.code() < 300){
-                return response.body().string();
+                String data = response.body().string();
+                response.close();
+                return data;
             }
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());

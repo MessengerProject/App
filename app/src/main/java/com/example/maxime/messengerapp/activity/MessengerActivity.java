@@ -60,9 +60,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         textView.measure(0, 0);       //must call measure!
         int heightText = textView.getMeasuredWidth();  //get width
         layoutMessage.setLayoutParams(new LinearLayout.LayoutParams(1080, heightText));*/
-
-
-        SharedPreferences sharedPref = context.getSharedPreferences("prefs", context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
         final String pwd = sharedPref.getString("pwd", "error");
         btnSend = (Button) findViewById(R.id.ButtonSend);
@@ -80,26 +78,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-                GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-
-                    @Override
-                    public void onGetMessagesList() {
-                        adapter.notifyDataSetChanged();
-                    }
-                };
-                getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-                getMessagesListBGAsync.execute();
-                try {
-                    getMessagesListListener.onGetMessagesList();
-                } catch (Exception e) {
-                    Log.i(TAG, e.toString());
-                }
-            }
-        });
+        btnRefresh.setOnClickListener(this);
 
     }
 
@@ -165,22 +144,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             }
 
         }
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Messenger Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
     }
 
 

@@ -35,7 +35,6 @@ public class RegisterService {
             String credential = Credentials.basic(user.getLogin(), user.getPassword());
             Log.i(TAG, credential);
             OkHttpClient client = new OkHttpClient();
-
             RequestBody body = RequestBody.create(JSON, json);
             //Log.i(TAG, body);
             Request request = new Request.Builder()
@@ -43,14 +42,10 @@ public class RegisterService {
                     .post(body)
                     .url(url)
                     .build();
-
             Response response = client.newCall(request).execute();
-
             Log.i(TAG, response.toString());
-
-            response.body().close();
-
             Integer code = response.code();
+            response.close();
             return code == 200;
         } catch (IOException e) {
             Log.e("HTTP POST:", e.toString());

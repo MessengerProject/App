@@ -32,7 +32,9 @@ public class LoginService {
 
             Response response = client.newCall(request).execute();
             Log.i(TAG, response.toString());
-            return response.code() < 300;
+            int code = response.code();
+            response.close();
+            return code < 300;
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }

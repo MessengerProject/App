@@ -24,9 +24,7 @@ public class SendMessageService {
         public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static boolean SendMessage(User user, Message message) {
-
         try {
-
             String param = user.getLogin()+"/"+user.getPassword();
             Gson gson = new Gson();
             String json = gson.toJson(message);
@@ -38,13 +36,10 @@ public class SendMessageService {
                     .url(url)
                     .post(body)
                     .build();
-
             Response response = client.newCall(request).execute();
-
             Log.i(TAG, response.toString());
-            response.body().close();
-
             Integer code = response.code();
+            response.close();
             return code == 200;
         } catch (IOException e) {
             Log.e("HTTP POST:", e.toString());
