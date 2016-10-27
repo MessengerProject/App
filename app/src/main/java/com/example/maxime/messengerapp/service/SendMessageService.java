@@ -20,7 +20,7 @@ import okhttp3.Response;
  */
 public class SendMessageService {
 
-        private static final String TAG = RegisterService.class.getName();
+        private static final String TAG = SendMessageService.class.getName();
         public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static boolean SendMessage(User user, Message message) {
