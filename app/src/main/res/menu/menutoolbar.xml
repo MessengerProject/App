@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_my_contacts"
+        android:icon="@mipmap/editusermale48"
+        android:title="@string/action_my_contacts"
+        android:actionViewClass="android.widget.ImageButton"
+        app:showAsAction="always" />
+</menu>

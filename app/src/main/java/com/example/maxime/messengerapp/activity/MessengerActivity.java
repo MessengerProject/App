@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,6 +86,29 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         //btnRefresh.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menutoolbar, menu);
+        MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
+        profileAccess.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplication(),ProfileConfigActivity.class);
+                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("login", user.getLogin());
+                editor.putString("pwd", user.getPassword());
+                editor.commit();
+                startActivity(intent);
+                Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -148,6 +174,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         } catch (Exception e) {
             Log.i(TAG, e.toString());
         }
+        Log.i(TAG, "onRefresh: here we are");
         getMessagesListBGAsync.cancel(true);
     return;
     }
