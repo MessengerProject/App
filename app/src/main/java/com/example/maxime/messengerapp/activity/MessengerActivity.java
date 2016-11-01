@@ -42,7 +42,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
-    private Button btnSend, btnRefresh;
+    private Button btnSend;//, btnRefresh;
     private RecyclerView recyclerView;
     private EditText msgET;
     private User user;
@@ -70,7 +70,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
         //btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
-
         recyclerView.setHasFixedSize(true);
         user = new User(login, pwd);//comment mettre un user permanent sur la session
         // use a linear layout manager
@@ -135,7 +134,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     public void onRefresh() {
         GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-
             @Override
             public void onGetMessagesList() {
                 adapter.notifyDataSetChanged();

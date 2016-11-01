@@ -21,8 +21,9 @@ public class GetMessagesListService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static String GetMessageListResponse(User user){
-
+        String data = "";
         try {
+
             String url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=20&offset=0";
             OkHttpClient client = new OkHttpClient();
             String credential = Credentials.basic(user.getLogin(), user.getPassword());
@@ -34,13 +35,12 @@ public class GetMessagesListService {
 
             Response response = client.newCall(request).execute();
             if (response.code() < 300){
-                String data = response.body().string();
+                data = response.body().string();
                 response.close();
-                return data;
             }
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
-        return null;
+        return data;
     }
 }
