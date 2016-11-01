@@ -41,6 +41,7 @@ public class GetMessagesListService {
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
+        Log.i(TAG, data);
         return data;
     }
 }

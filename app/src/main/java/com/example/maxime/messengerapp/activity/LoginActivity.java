@@ -3,12 +3,17 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.model.User;
@@ -20,14 +25,13 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private final String TAG = LoginActivity.class.getName();
-    Button btnLogin, btnRegister;
+    Button btnLogin, btnRegister, btnProfile;
     EditText loginET, pwdET;
     User user;
     LoginBGAsync login_bg_async;
     LoginBGAsync.LoginListener loginListener;
     final String SHARED_PREFS = "prefs";
     public Context context;
-    //User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +40,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         btnLogin = (Button)findViewById(R.id.ButtonLogin);
         btnRegister = (Button)findViewById(R.id.ButtonRegister);
+        btnProfile = (Button)findViewById(R.id.ButtonProfile);
         loginET = (EditText)findViewById(R.id.login);
         pwdET = (EditText)findViewById(R.id.pwd);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {

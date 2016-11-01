@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +45,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
-    private Button btnSend;//, btnRefresh;
+    private Button btnSend, btnRefresh;
     private RecyclerView recyclerView;
     private EditText msgET;
     private User user;
@@ -69,7 +72,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
-        //btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
+        btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
         recyclerView.setHasFixedSize(true);
         user = new User(login, pwd);//comment mettre un user permanent sur la session
         // use a linear layout manager
@@ -79,9 +82,32 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
-        //btnRefresh.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menutoolbar, menu);
+        MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
+        profileAccess.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplication(),ProfileConfigActivity.class);
+                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("login", user.getLogin());
+                editor.putString("pwd", user.getPassword());
+                editor.commit();
+                startActivity(intent);
+                Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -125,6 +151,25 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 sendMessage_bg_async.cancel(true);
             break;
             }
+            case R.id.ButtonRefresh : {
+                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                    @Override
+                    public void onGetMessagesList(boolean result) {
+                        if (result) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                };
+                getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                getMessagesListBGAsync.execute();
+                try {
+                    getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                } catch (Exception e) {
+                    Log.i(TAG, e.toString());
+                }
+                Log.i(TAG, "onRefresh: here we are");
+            }
 
         }
     }
@@ -135,19 +180,20 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
-            public void onGetMessagesList() {
+            public void onGetMessagesList(boolean result) {
                 adapter.notifyDataSetChanged();
             }
         };
         getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
         getMessagesListBGAsync.execute();
         try {
-            getMessagesListListener.onGetMessagesList();
+            getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
         } catch (Exception e) {
             Log.i(TAG, e.toString());
         }
+        Log.i(TAG, "onRefresh: here we are");
+        swipeRefreshLayout.setRefreshing(false);
         getMessagesListBGAsync.cancel(true);
-    return;
     }
 }
 

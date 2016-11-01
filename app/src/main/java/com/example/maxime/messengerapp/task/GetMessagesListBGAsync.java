@@ -25,7 +25,7 @@ public class GetMessagesListBGAsync extends AsyncTask<Void, Void, Boolean> {
     private Context mContext = null;
     private User user;
     public GetMessagesListListener getMessagesListListener;
-    private List<Message> messages;
+    public List<Message> messages;
 
     public GetMessagesListBGAsync(Context mContext, User user, List<Message> messages) {
         this.mContext = mContext;
@@ -48,9 +48,10 @@ public class GetMessagesListBGAsync extends AsyncTask<Void, Void, Boolean> {
         List<Message> messagesTmp = (List<Message>) messagesList.fromJson(stringMessagesList, listType);
         this.messages.clear();
         this.messages.addAll(messagesTmp);
+        Log.i(TAG, messages.toString());
         return true;
     }
     public interface GetMessagesListListener{
-        void onGetMessagesList();
+        void onGetMessagesList(boolean result);
     }
 }
