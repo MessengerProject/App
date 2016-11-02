@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,12 +60,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_messenger);
-        /*Linearlayout graphic
-        LinearLayout layoutMessage=(LinearLayout)findViewById(R.id.messageLayout);
-        TextView textView = (TextView) findViewById(R.id.text);
-        textView.measure(0, 0);       //must call measure!
-        int heightText = textView.getMeasuredWidth();  //get width
-        layoutMessage.setLayoutParams(new LinearLayout.LayoutParams(1080, heightText));*/
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
         final String pwd = sharedPref.getString("pwd", "error");
@@ -72,8 +67,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
-        //btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
-
+        btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
         recyclerView.setHasFixedSize(true);
         user = new User(login, pwd);//comment mettre un user permanent sur la session
         // use a linear layout manager
@@ -83,11 +77,14 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
-        //btnRefresh.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar);
+        ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfile);
+        //iv.setImageResource(user.getPicture().getData());
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,6 +149,25 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 sendMessage_bg_async.cancel(true);
             break;
             }
+            case R.id.ButtonRefresh : {
+                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                    @Override
+                    public void onGetMessagesList(boolean result) {
+                        if (result) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                };
+                getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                getMessagesListBGAsync.execute();
+                try {
+                    getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                } catch (Exception e) {
+                    Log.i(TAG, e.toString());
+                }
+                Log.i(TAG, "onRefresh: here we are");
+            }
 
         }
     }
@@ -161,22 +177,21 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     public void onRefresh() {
         GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-
             @Override
-            public void onGetMessagesList() {
+            public void onGetMessagesList(boolean result) {
                 adapter.notifyDataSetChanged();
             }
         };
         getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
         getMessagesListBGAsync.execute();
         try {
-            getMessagesListListener.onGetMessagesList();
+            getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
         } catch (Exception e) {
             Log.i(TAG, e.toString());
         }
         Log.i(TAG, "onRefresh: here we are");
+        swipeRefreshLayout.setRefreshing(false);
         getMessagesListBGAsync.cancel(true);
-    return;
     }
 }
 

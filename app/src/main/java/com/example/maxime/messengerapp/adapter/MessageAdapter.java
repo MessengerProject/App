@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.maxime.messengerapp.R;
@@ -23,13 +24,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewAuthor;
         public TextView textViewTxt;
-        public TextView textViewDate;
+        public LinearLayout linear;
 
         public ViewHolder(View v) {
             super(v);
             textViewAuthor = (TextView) v.findViewById(R.id.author);
             textViewTxt = (TextView) v.findViewById(R.id.text);
-            textViewDate = (TextView) v.findViewById(R.id.date);
+            linear = (LinearLayout) v.findViewById(R.id.messageLayout);
         }
     }
 
@@ -54,6 +55,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         // - replace the contents of the view with that element
         holder.textViewTxt.setText(messages.get(position).getMessage());
         holder.textViewAuthor.setText(messages.get(position).getLogin());
+        holder.textViewTxt.measure(0,0);
+        int width = holder.textViewTxt.getMeasuredWidth();
+        LinearLayout layout = holder.linear;
+        layout.getLayoutParams().width = width + 10;
+        layout.requestLayout();
     }
 
     // Return the size of your dataset (invoked by the layout manager)

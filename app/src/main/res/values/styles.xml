@@ -4,11 +4,6 @@
 
     <!-- Define your colors in `res/values/colors.xml` -->
 
-    <color name="simple_yellow">#ECD078</color>
-
-    <color name="primary_blue">#53777A</color>
-
-
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
