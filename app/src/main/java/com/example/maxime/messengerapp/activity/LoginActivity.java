@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         btnLogin = (Button)findViewById(R.id.ButtonLogin);
         btnRegister = (Button)findViewById(R.id.ButtonRegister);
-        btnProfile = (Button)findViewById(R.id.ButtonProfile);
         loginET = (EditText)findViewById(R.id.login);
         pwdET = (EditText)findViewById(R.id.pwd);
         btnLogin.setOnClickListener(this);
