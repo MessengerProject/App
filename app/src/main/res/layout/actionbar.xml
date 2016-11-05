@@ -12,14 +12,14 @@
         android:id="@+id/text_id"
         android:layout_width="300sp"
         android:layout_height="200sp"
-        android:textSize="50sp"
+        android:textSize="20sp"
         android:text="BBC.io"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:id="@+id/imageProfile"
+        android:id="@+id/imageProfileTop"
         android:src="@mipmap/android3"/>
 
 </LinearLayout>

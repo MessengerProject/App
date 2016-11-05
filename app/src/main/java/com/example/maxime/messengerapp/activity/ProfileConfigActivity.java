@@ -1,14 +1,19 @@
 package com.example.maxime.messengerapp.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -24,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.User;
@@ -32,8 +38,12 @@ import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -44,13 +54,12 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     private final String TAG = ProfileConfigActivity.class.getName();
     private Button btnImage, btnSave;
     private EditText emailET, pwdET,pwdETConf;
-    private ImageView imageView;
+    private ImageView imageView, imageViewTop;
     private final String SHARED_PREFS = "prefs";
     private Context context;
     private User user;
     private Image imageProfile;
     private static final int GET_FROM_GALLERY = 3;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +70,8 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         emailET = (EditText) findViewById(R.id.email);
         pwdET = (EditText) findViewById(R.id.pwd);
         pwdETConf = (EditText) findViewById(R.id.pwdConf);
+        imageView = (ImageView) findViewById(R.id.imageProfile);
+        imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
         btnImage.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,7 +97,6 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.ButtonSave: {
                 Log.i(TAG, "onClick: here we are");
                 SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
@@ -122,9 +132,9 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 profileUploadBGAsync.cancel(true);
                 break;
             }
-
             case R.id.ButtonImage: {
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),GET_FROM_GALLERY);
+                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,GET_FROM_GALLERY);
             }
         }
     }
@@ -132,31 +142,27 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
-            Log.i(TAG, "onActivityResult: "+data.getData().getPath());
-            imageView = (ImageView) findViewById(R.id.imageProfile);
-            Glide.with(context).load(selectedImage).into(imageView);
+        if (resultCode == RESULT_OK) {
+            Log.i(TAG, "onActivityResult: "+requestCode);
+            if (requestCode == GET_FROM_GALLERY) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                Glide.with(this).load(picturePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageView);
+                //Glide.with(this).load(picturePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageViewTop);
+                //Encode for user
+                Bitmap bm = BitmapFactory.decodeFile(picturePath);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                imageProfile = new Image("image/png", encodedImage);
+            }
 
-            /*String photoPath = Environment.getExternalStorageDirectory()+"/17.jpg";
-            Log.i(TAG, "onActivityResult: "+ photoPath);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bm = BitmapFactory.decodeFile(photoPath, options);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
-            byte[] b = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-
-            imageProfile = new Image("image/png", encodedImage);*/
         }
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView = (ImageView) findViewById(R.id.imageProfile);
-            imageView.setImageBitmap(imageBitmap);
-        }
-
     }
 }

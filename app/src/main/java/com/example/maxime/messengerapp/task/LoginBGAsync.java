@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.service.LoginService;
+import com.example.maxime.messengerapp.service.SetProfilPictureService;
 
 import static android.content.Context.MODE_PRIVATE;
 import static java.lang.Integer.getInteger;
@@ -38,17 +39,10 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
     @Override
     protected void onPostExecute(Boolean result) {
         Log.i(TAG,result.toString());
-        //loginListener.onLogin(result);
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
-
-
-        //Log.i(TAG, "doInBackground \n user :  " + login + pwd);
-//        String login = params[0].toString();
-//        String pwd = params[1].toString();
-
         //TODO : Check DB for User
         return LoginService.loginResponse(user);
     }

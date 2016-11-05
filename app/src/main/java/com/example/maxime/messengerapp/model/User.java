@@ -29,12 +29,7 @@ public class User {
         this.login = login;
         this.password = password;
         this.email = email;
-        Bitmap bm = BitmapFactory.decodeFile("/home/victor/Images/limite_route.png");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-        this.picture = new Image("image/jpg",encodedImage);
+        //this.picture = new Image("image/jpg","");
     }
 
     public User(String login, String password, String email, Image picture) {

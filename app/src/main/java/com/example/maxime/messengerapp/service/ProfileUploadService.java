@@ -29,8 +29,7 @@ public class ProfileUploadService {
             String json = gson.toJson(user);
             Log.i(TAG, json);
             String url = "https://training.loicortola.com/chat-rest/2.0/profile" ;//;+ param;
-            String credential = Credentials.basic(user.getLogin(), "didider");
-            Log.i(TAG, credential);
+            String credential = Credentials.basic(user.getLogin(), lastPassword);
             OkHttpClient client = new OkHttpClient();
             RequestBody body = RequestBody.create(JSON, json);
             Request request = new Request.Builder()

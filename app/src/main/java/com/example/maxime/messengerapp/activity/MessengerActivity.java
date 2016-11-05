@@ -3,6 +3,7 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,8 +24,11 @@ import android.widget.Toast;
 
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
+import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
+import com.example.maxime.messengerapp.service.SetProfilPictureService;
+import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
 import com.google.android.gms.appindexing.Action;
@@ -83,8 +87,29 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar);
-        ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfile);
-        //iv.setImageResource(user.getPicture().getData());
+        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
+
+        //ASYNC TASK GET IMAGE FOR PROFILE
+        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user);
+        GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
+            @Override
+            public void onGetImageProfile(Bitmap result) {
+                if (result != null) {
+                    adapter.notifyDataSetChanged();
+                    iv.setImageBitmap(result);
+                }
+            }
+        };
+        getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
+        getImageProfileAsync.execute();
+        try {
+            getImageProfileListener.onGetImageProfile(getImageProfileAsync.get());
+        } catch (Exception e) {
+            Log.i(TAG, e.toString());
+        }
+        Log.i(TAG, "onRefresh: here we are");
+        getImageProfileAsync.cancel(true);
+        //End asynctask
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

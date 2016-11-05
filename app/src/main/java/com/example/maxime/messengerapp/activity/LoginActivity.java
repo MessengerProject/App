@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.model.User;
+import com.example.maxime.messengerapp.service.SetProfilPictureService;
 import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.task.RegisterBGAsync;

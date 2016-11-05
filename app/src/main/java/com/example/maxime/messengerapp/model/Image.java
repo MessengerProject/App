@@ -29,4 +29,12 @@ public class Image {
         this.mimeType = mimeType;
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "mimeType='" + mimeType + '\'' +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }
