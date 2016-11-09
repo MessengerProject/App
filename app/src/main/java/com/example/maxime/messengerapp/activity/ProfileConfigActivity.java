@@ -18,11 +18,14 @@ import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -74,9 +77,10 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
         btnImage.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -113,7 +117,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onSend(boolean result) {
                         if (!result) {
-                            Toast.makeText(getApplication(), "Error to send message to server", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplication(), "Can't connect server or image too big", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplication(), "Profile changed", Toast.LENGTH_LONG).show();
                         }

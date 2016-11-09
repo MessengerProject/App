@@ -4,39 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
-import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.SetProfilPictureService;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -84,36 +76,19 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         btnRefresh.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.actionbar);
-        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
-
-        //ASYNC TASK GET IMAGE FOR PROFILE
-        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user);
-        GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
-            @Override
-            public void onGetImageProfile(Bitmap result) {
-                if (result != null) {
-                    adapter.notifyDataSetChanged();
-                    iv.setImageBitmap(result);
-                }
-            }
-        };
-        getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
-        getImageProfileAsync.execute();
-        try {
-            getImageProfileListener.onGetImageProfile(getImageProfileAsync.get());
-        } catch (Exception e) {
-            Log.i(TAG, e.toString());
-        }
-        Log.i(TAG, "onRefresh: here we are");
-        getImageProfileAsync.cancel(true);
         //End asynctask
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.actionbar, null);
+        actionBar.setCustomView(v);
         getMenuInflater().inflate(R.menu.menutoolbar, menu);
         MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
         profileAccess.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -130,6 +105,29 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 return true;
             }
         });
+
+        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
+        //ASYNC TASK GET IMAGE FOR PROFILE
+        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user);
+        GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
+            @Override
+            public void onGetImageProfile(Bitmap result) {
+                if (result != null) {
+                    adapter.notifyDataSetChanged();
+                    iv.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+                    //iv.setImageBitmap(result);
+                }
+            }
+        };
+        getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
+        getImageProfileAsync.execute();
+        try {
+            getImageProfileListener.onGetImageProfile(getImageProfileAsync.get());
+        } catch (Exception e) {
+            Log.i(TAG, e.toString());
+        }
+        Log.i(TAG, "onRefresh: here we are");
+        getImageProfileAsync.cancel(true);
         return true;
     }
 

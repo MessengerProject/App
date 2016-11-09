@@ -3,21 +3,16 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.SetProfilPictureService;
 import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.task.RegisterBGAsync;
@@ -45,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pwdET = (EditText)findViewById(R.id.pwd);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -52,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.ButtonLogin:{
                 user = new User(String.valueOf(loginET.getText()), String.valueOf(pwdET.getText()));
-                Log.i(TAG,user.getLogin() + "   " + user.getPassword());
+                Log.i(TAG,user.getLogin() + " " + user.getPassword());
                 login_bg_async = new LoginBGAsync(context, user);
                 loginListener = new LoginBGAsync.LoginListener() {
                     @Override

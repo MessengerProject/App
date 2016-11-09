@@ -1,59 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/simple_yellow"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="MessengerApp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="@dimen/name_app" />
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/textLayout">
+        android:layout_below="@+id/toolbar">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewMsg"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <LinearLayout
-        android:id="@+id/textLayout"
+
+    <RelativeLayout
+        android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:padding="10dp"
-            android:textSize="20sp"
-            android:inputType="textMultiLine"
-            android:layout_weight="1"/>
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <Button
             android:id="@+id/ButtonSend"
             android:layout_width="wrap_content"
-            android:text="Send"
-            android:padding="10dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/button_selector"/>
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_selector"
+            android:padding="10dp"
+            android:text="Send" />
+
         <Button
             android:id="@+id/ButtonRefresh"
             android:layout_width="wrap_content"
-            android:text="Refresh"
-            android:padding="10dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/button_selector"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_selector"
+            android:padding="10dp"
+            android:text="Refresh" />
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ButtonSend"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textSize="20sp" />
+    </RelativeLayout>
 </RelativeLayout>
 

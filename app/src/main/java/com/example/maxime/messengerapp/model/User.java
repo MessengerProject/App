@@ -38,6 +38,11 @@ public class User {
         this.email = email;
         this.picture = picture;
     }
+    public User(String login, String email, Image picture) {
+        this.login = login;
+        this.email = email;
+        this.picture = picture;
+    }
 
     public void setLogin(String login) {
         this.login = login;

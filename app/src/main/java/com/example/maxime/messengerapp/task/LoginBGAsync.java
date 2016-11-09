@@ -1,16 +1,12 @@
 package com.example.maxime.messengerapp.task;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.service.LoginService;
-import com.example.maxime.messengerapp.service.SetProfilPictureService;
 
-import static android.content.Context.MODE_PRIVATE;
 import static java.lang.Integer.getInteger;
 
 /**

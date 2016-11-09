@@ -7,4 +7,5 @@
         android:title="@string/action_my_contacts"
         android:actionViewClass="android.widget.ImageButton"
         app:showAsAction="always" />
+
 </menu>

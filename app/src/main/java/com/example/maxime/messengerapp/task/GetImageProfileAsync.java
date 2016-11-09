@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 import com.example.maxime.messengerapp.model.User;
 
-import com.example.maxime.messengerapp.service.SetProfilPictureService;
+import com.example.maxime.messengerapp.service.SetProfilePictureService;
 
 /**
  * Created by victor on 05/11/16.
@@ -29,7 +29,7 @@ public class GetImageProfileAsync extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        Bitmap response = SetProfilPictureService.SetProfilPicture(user);
+        Bitmap response = SetProfilePictureService.SetProfilPicture(user);
         return response;
     }
     public interface GetImageProfileListener{
