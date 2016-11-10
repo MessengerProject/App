@@ -42,7 +42,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
-    private Button btnSend, btnRefresh;
+    private Button btnSend;
     private RecyclerView recyclerView;
     private EditText msgET;
     private User user;
@@ -63,7 +63,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
-        btnRefresh = (Button) findViewById(R.id.ButtonRefresh);
         recyclerView.setHasFixedSize(true);
         user = new User(login, pwd);//comment mettre un user permanent sur la session
         // use a linear layout manager
@@ -73,7 +72,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
-        btnRefresh.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         //End asynctask
@@ -172,26 +170,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 sendMessage_bg_async.cancel(true);
             break;
             }
-            case R.id.ButtonRefresh : {
-                GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-                GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-                    @Override
-                    public void onGetMessagesList(boolean result) {
-                        if (result) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                };
-                getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-                getMessagesListBGAsync.execute();
-                try {
-                    getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
-                } catch (Exception e) {
-                    Log.i(TAG, e.toString());
-                }
-                Log.i(TAG, "onRefresh: here we are");
-            }
-
         }
     }
 

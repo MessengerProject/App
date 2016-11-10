@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="MessengerApp"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/colorBlack"
             android:textSize="@dimen/name_app" />
     </android.support.v7.widget.Toolbar>
 

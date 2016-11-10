@@ -22,94 +22,86 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="MessengerApp"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/colorBlack"
             android:textSize="@dimen/name_app" />
     </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ButtonLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_selector"
+            android:text="Login"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/ButtonRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ButtonLogin"
+            android:layout_alignBottom="@+id/ButtonLogin"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_selector"
+            android:text="Register"
+            android:textColor="@color/colorWhite" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/RelativeLayoutLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_margin="50dp"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@drawable/rectangle"
-        android:elevation="50dp">
+        android:elevation="50dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
-        <RelativeLayout
-            android:id="@+id/RelativeLayoutProfile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/RelativeLayoutButtons"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_vertical_margin"
-            android:layout_centerVertical="true">
-
-            <EditText
-                android:id="@+id/login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_bottom_text"
-                android:layout_marginTop="10dp"
-                android:hint="Login"
-                android:inputType="textPersonName"
-                android:padding="15dp"
-                android:textSize="@dimen/textsize" />
-
-            <EditText
-                android:id="@+id/pwd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login"
-                android:layout_marginBottom="@dimen/margin_bottom_text"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="15dp"
-                android:textSize="@dimen/textsize" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayoutButtons"
+        <EditText
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/margin_bottom_text"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:hint="Login"
+            android:inputType="textPersonName"
+            android:padding="15dp"
+            android:textSize="@dimen/textsize" />
 
-            <Button
-                android:id="@+id/ButtonLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/button_selector"
-                android:text="Login"
-                android:textColor="@color/colorWhite" />
-
-            <Button
-                android:id="@+id/ButtonRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/ButtonLogin"
-                android:layout_alignBottom="@+id/ButtonLogin"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/button_selector"
-                android:text="Register"
-                android:textColor="@color/colorWhite" />
-        </RelativeLayout>
+        <EditText
+            android:id="@+id/pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login"
+            android:layout_marginBottom="@dimen/margin_bottom_text"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:textSize="@dimen/textsize" />
     </RelativeLayout>
 </RelativeLayout>
