@@ -11,17 +11,27 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.task.RegisterBGAsync;
-
+import com.example.maxime.messengerapp.model.TextValidator;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private final String TAG = LoginActivity.class.getName();
+    private final String pwdValidationString =  "\n" +
+            "A digit must occur at least once\n" +
+            "A lower case letter must occur at least once\n" +
+            "An upper case letter must occur at least once\n" +
+            "A special character must occur at least once\n" +
+            "No whitespace allowed in the entire string\n" +
+            "At least 8 characters\n";
+    private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+    private final String loginValidationString= "Must be longer than 5";
     Button btnLogin, btnRegister, btnProfile;
     EditText loginET, pwdET;
     User user;
@@ -35,10 +45,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_login);
-        btnLogin = (Button)findViewById(R.id.ButtonLogin);
+        btnLogin = (Button) findViewById(R.id.ButtonLogin);
         btnRegister = (Button)findViewById(R.id.ButtonRegister);
         loginET = (EditText)findViewById(R.id.login);
+        loginET.addTextChangedListener(new TextValidator(loginET) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if (text.length() < 5){
+                    loginET.setError(loginValidationString);
+                }
+            }
+        });
         pwdET = (EditText)findViewById(R.id.pwd);
+        pwdET.addTextChangedListener(new TextValidator(pwdET) {
+            @Override
+            public void validate(TextView textView, String text) {
+
+                if (!text.matches(patternPwd)) {
+                    pwdET.setError(pwdValidationString);
+                }
+
+            }
+        });
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
