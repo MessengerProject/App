@@ -16,11 +16,13 @@ public class GetImageProfileAsync extends AsyncTask<Void, Void, Bitmap> {
     private final String TAG = GetImageProfileAsync.class.getName();
     private Context mContext = null;
     private User user;
+    private String lastPassword;
     public GetImageProfileAsync.GetImageProfileListener getImageProfileListener;
 
-    public GetImageProfileAsync(Context mContext, User user) {
+    public GetImageProfileAsync(Context mContext, User user, String lastPassword) {
         this.mContext = mContext;
         this.user = user;
+        this.lastPassword = lastPassword;
     }
 
     public void setGetImageProfileListener(GetImageProfileAsync.GetImageProfileListener getImageProfileListener){
@@ -29,7 +31,7 @@ public class GetImageProfileAsync extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        Bitmap response = SetProfilePictureService.SetProfilPicture(user);
+        Bitmap response = SetProfilePictureService.SetProfilPicture(user, lastPassword);
         return response;
     }
     public interface GetImageProfileListener{

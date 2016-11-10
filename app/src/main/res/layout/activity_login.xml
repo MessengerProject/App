@@ -33,9 +33,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="horizontal">
 
         <Button
@@ -49,37 +49,35 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_selector"
             android:text="Login"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorBlack" />
 
         <Button
             android:id="@+id/ButtonRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/ButtonLogin"
-            android:layout_alignBottom="@+id/ButtonLogin"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/button_selector"
             android:text="Register"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorBlack" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/RelativeLayoutLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@drawable/rectangle"
         android:elevation="50dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:padding="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_vertical_margin">
 
         <EditText
             android:id="@+id/login"

@@ -7,10 +7,8 @@
     android:id="@+id/layout">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5sp"
-        android:layout_gravity="right"
+        android:layout_width="@dimen/name_app"
+        android:layout_height="@dimen/name_app"
         android:id="@+id/imageProfileTop"
         android:src="@mipmap/android3"
         android:layout_alignParentRight="true"/>

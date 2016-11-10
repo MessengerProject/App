@@ -37,15 +37,15 @@ public class SetProfilePictureService {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static String imageURL;
 
-    public static Bitmap SetProfilPicture(User user) {
+    public static Bitmap SetProfilPicture(User user, String lastPassword) {
         try {
             //Get Profile informations
-            String url = "https://training.loicortola.com/chat-rest/2.0/profile/"+user.getLogin() ;//;+ param;
+            String url = "https://training.loicortola.com/chat-rest/2.0/profile/" + user.getLogin();//;+ param;
             String credential = Credentials.basic(user.getLogin(), user.getPassword());
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .header("Authorization",credential)
+                    .header("Authorization", credential)
                     .url(url)
                     .build();
 
@@ -53,14 +53,14 @@ public class SetProfilePictureService {
             String data = "";
             data = response.body().string();
             JSONObject jsonObj = new JSONObject(data);
-            Map<String,String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>();
             Iterator iter = jsonObj.keys();
-            while(iter.hasNext()){
-                String key = (String)iter.next();
+            while (iter.hasNext()) {
+                String key = (String) iter.next();
                 String value = jsonObj.getString(key);
-                map.put(key,value);
+                map.put(key, value);
             }
-            Log.i(TAG, "SetProfilPicture: "+map.toString());
+            Log.i(TAG, "SetProfilPicture: " + map.toString());
             imageURL = map.get("picture");
 
             response.close();
@@ -69,33 +69,34 @@ public class SetProfilePictureService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (imageURL != null) {
+            try {
 
-        try {
+                //Get Profile informations
+                String url = imageURL;
+                String credential = Credentials.basic(user.getLogin(), user.getPassword());
+                Log.i(TAG, credential);
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .header("Authorization", credential)
+                        .url(url)
+                        .build();
 
-            //Get Profile informations
-            String url = imageURL;
-            String credential = Credentials.basic(user.getLogin(), user.getPassword());
-            Log.i(TAG, credential);
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .header("Authorization",credential)
-                    .url(url)
-                    .build();
+                Response response = client.newCall(request).execute();
+                InputStream inputStream = response.body().byteStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                Image imageProfile = new Image("image/png", encodedImage);
+                user.setPicture(imageProfile);
+                response.close();
+                return bitmap;
 
-            Response response = client.newCall(request).execute();
-            InputStream inputStream = response.body().byteStream();
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            byte[] b = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-            Image imageProfile = new Image("image/png", encodedImage);
-            user.setPicture(imageProfile);
-            response.close();
-            return bitmap;
-
-        } catch (IOException e) {
-            Log.e("HTTP POST:", e.toString());
+            } catch (IOException e) {
+                Log.e("HTTP POST:", e.toString());
+            }
         }
         return null;
     }

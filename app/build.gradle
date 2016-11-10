@@ -33,4 +33,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:24.1.0'
     compile 'com.google.code.gson:gson:2.8.0'
+    //SwipyRefreshLayout
+    compile 'com.github.orangegangsters:swipy:1.2.3@aar'
 }

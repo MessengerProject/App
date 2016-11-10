@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onRegister(boolean result) {
                         if (!result)
                         {
-                            Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplication(), "Can't register", Toast.LENGTH_LONG).show();
                         }
                         else
                         {

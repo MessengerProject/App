@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,7 +44,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
-    private Button btnSend;
+    private Button btnSend, btnImage;
     private RecyclerView recyclerView;
     private EditText msgET;
     private User user;
@@ -50,6 +52,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         final String login = sharedPref.getString("login", "error");
         final String pwd = sharedPref.getString("pwd", "error");
         btnSend = (Button) findViewById(R.id.ButtonSend);
+        btnImage = (Button) findViewById(R.id.ButtonCamera);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
@@ -72,11 +77,13 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
+        btnImage.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         //End asynctask
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,7 +99,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         profileAccess.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplication(),ProfileConfigActivity.class);
+                Intent intent = new Intent(getApplication(), ProfileConfigActivity.class);
                 SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("login", user.getLogin());
@@ -106,7 +113,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
         final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
         //ASYNC TASK GET IMAGE FOR PROFILE
-        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user);
+        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
             public void onGetImageProfile(Bitmap result) {
@@ -167,8 +174,15 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                recyclerView.smoothScrollToPosition(messages.size() - 1);
                 sendMessage_bg_async.cancel(true);
-            break;
+                break;
+            }
+            case R.id.ButtonCamera: {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
             }
         }
     }
@@ -192,6 +206,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         }
         Log.i(TAG, "onRefresh: here we are");
         swipeRefreshLayout.setRefreshing(false);
+        recyclerView.smoothScrollToPosition(messages.size() - 1);
         getMessagesListBGAsync.cancel(true);
     }
 }

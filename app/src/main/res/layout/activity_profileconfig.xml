@@ -25,98 +25,87 @@
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
-        android:id="@+id/RelativeLayoutProfile"
+        android:id="@+id/RelativeLayoutEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:hint="e-mail"
+            android:inputType="textEmailAddress"
+            android:padding="15dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email"
+            android:layout_marginBottom="30dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/pwdConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pwd"
+            android:layout_marginBottom="30dp"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayoutImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
+        android:layout_above="@+id/ButtonSave"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayoutEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">>
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:hint="e-mail"
-                android:inputType="textEmailAddress"
-                android:padding="15dp"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/pwd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/email"
-                android:layout_marginBottom="30dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="15dp"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/pwdConf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pwd"
-                android:layout_marginBottom="30dp"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:padding="15dp"
-                android:textSize="20dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayoutImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/ButtonSave"
-            android:layout_below="@+id/RelativeLayoutEditText"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <Button
-                android:id="@+id/ButtonImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/button_selector"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="Profile Image Upload"
-                android:textColor="@color/colorWhite" />
-
-            <ImageView
-                android:id="@+id/imageProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:scaleType="fitXY"/>
-        </RelativeLayout>
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/RelativeLayoutEditText">
 
         <Button
-            android:id="@+id/ButtonSave"
+            android:id="@+id/ButtonImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/button_selector"
+            android:gravity="center_vertical"
             android:padding="10dp"
-            android:text="Save profile modifications"
-            android:textColor="@color/colorWhite"
-            android:layout_marginBottom="10dp"/>/>
+            android:text="Profile Image Upload"
+            android:textColor="@color/colorBlack" />
+
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/ButtonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_selector"
+        android:padding="10dp"
+        android:text="Save profile modifications"
+        android:textColor="@color/colorBlack" />
 </RelativeLayout>

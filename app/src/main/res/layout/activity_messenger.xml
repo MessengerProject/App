@@ -27,14 +27,18 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/toolbar"
+        android:paddingBottom="@dimen/paddingBotRecycler">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewMsg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_alignParentTop="true"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -44,9 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/ButtonSend"
@@ -63,8 +65,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:inputType="textMultiLine"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="65dp"
             android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/ButtonCamera"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_camera"
+            android:layout_toLeftOf="@+id/ButtonSend"
+            android:gravity="center_horizontal"
+            android:layout_alignParentTop="true" />
     </RelativeLayout>
 </RelativeLayout>
 
