@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.bumptech.glide.util.Util;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.User;
+import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 
@@ -82,11 +84,41 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        //Image profile
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.actionbar, null);
+        actionBar.setCustomView(v);
+        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
+        //ASYNC TASK GET IMAGE FOR PROFILE
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+        final String login = sharedPref.getString("login", "error");
+        final String pwd = sharedPref.getString("pwd", "error");
+        user = new User(String.valueOf(login), String.valueOf(pwd));
+        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
+        GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
+            @Override
+            public void onGetImageProfile(Bitmap result) {
+                if (result != null) {
+                    iv.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+                    //iv.setImageBitmap(result);
+                }
+            }
+        };
+        getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
+        getImageProfileAsync.execute();
+        try {
+            getImageProfileListener.onGetImageProfile(getImageProfileAsync.get());
+        } catch (Exception e) {
+            Log.i(TAG, e.toString());
+        }
+        Log.i(TAG, "onRefresh: here we are");
+        getImageProfileAsync.cancel(true);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menutoolbar, menu);
-        MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
         return true;
     }
     @Override
@@ -139,6 +171,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
             }
             case R.id.ButtonImage: {
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
                 startActivityForResult(intent,GET_FROM_GALLERY);
             }
         }
@@ -158,7 +191,6 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
                 Glide.with(this).load(picturePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageView);
-                //Glide.with(this).load(picturePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageViewTop);
                 //Encode for user
                 Bitmap bm = BitmapFactory.decodeFile(picturePath);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
