@@ -1,19 +1,13 @@
 package com.example.maxime.messengerapp.activity;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -25,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,23 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
 import com.example.maxime.messengerapp.R;
-import com.example.maxime.messengerapp.model.Image;
+import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.TextValidator;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
-import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -76,7 +60,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     private final String SHARED_PREFS = "prefs";
     private Context context;
     private User user;
-    private Image imageProfile;
+    private Attachment attachmentProfile;
     private static final int GET_FROM_GALLERY = 3;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +109,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        //Image profile
+        //Attachment profile
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -182,7 +166,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 final String pwd = pwdET.getText().toString();
                 final String email = emailET.getText().toString();
                 user = new User(String.valueOf(login), String.valueOf(pwd), String.valueOf(email));
-                user.setPicture(imageProfile);
+                user.setPicture(attachmentProfile);
 
                 ProfileUploadBGAsync profileUploadBGAsync = new ProfileUploadBGAsync(context, user, lastPassword);
 
@@ -190,7 +174,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onSend(boolean result) {
                         if (!result) {
-                            Toast.makeText(getApplication(), "Can't connect server or image too big", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplication(), "Can't connect server or attachments too big", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplication(), "Profile changed", Toast.LENGTH_LONG).show();
                         }
@@ -211,7 +195,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
             }
             case R.id.ButtonImage: {
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
+                intent.setType("attachments/*");
                 startActivityForResult(intent,GET_FROM_GALLERY);
             }
         }
@@ -237,7 +221,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
                 byte[] b = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                imageProfile = new Image("image/png", encodedImage);
+                attachmentProfile = new Attachment("attachments/png", encodedImage);
             }
 
         }

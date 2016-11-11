@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
-import com.example.maxime.messengerapp.model.Image;
+import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.User;
 
 import org.json.JSONException;
@@ -35,7 +35,7 @@ public class SetProfilePictureService {
     private static Bitmap imageBitmap;
     private static String encodedImage;
     private static ByteArrayOutputStream baos;
-    private static Image imageProfile;
+    private static Attachment attachmentProfile;
     private static byte[] b;
 
     public static Bitmap SetProfilPicture(User user, String lastPassword) {
@@ -90,8 +90,8 @@ public class SetProfilePictureService {
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
                 b = baos.toByteArray();
                 encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                imageProfile = new Image("image/png", encodedImage);
-                user.setPicture(imageProfile);
+                attachmentProfile = new Attachment("attachments/png", encodedImage);
+                user.setPicture(attachmentProfile);
                 response.close();
                 return imageBitmap;
 

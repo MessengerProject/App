@@ -1,7 +1,5 @@
 package com.example.maxime.messengerapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -12,25 +10,26 @@ public class Message {
     public String uuid;
     public String login;
     public String message;
-    public ArrayList<Image> images;
+    public String[] images = new String[1];
+    public Attachment[] attachments = new Attachment[1];
 
 
-    public Message(String msg, String login, Image image) {
+    public Message(String msg, String login, Attachment attachment, String images) {
         this.message = msg;
         this.login = login;
-
         this.uuid = UUID.randomUUID().toString();
-        this.images = new ArrayList<>(10);
-        this.images.add(0,image);
+        //this.images[0] = attachment;
+        attachment.setData(images);
+        this.attachments[0] = attachment;
+        this.images[0] = images;
     }
 
     public Message(String msg, String login) {
         this.message = msg;
         this.login = login;
         this.uuid = UUID.randomUUID().toString();
-        Image image = new Image();
-        this.images = new ArrayList<>(10);
-        this.images.add(image);
+        Attachment attachment = new Attachment();
+        this.attachments[0] = attachment;
     }
 
 
@@ -50,12 +49,12 @@ public class Message {
         this.message = message;
     }
 
-    public ArrayList<Image> getAttachments() {
-        return images;
+    public Attachment[] getAttachments() {
+        return attachments;
     }
 
-    public void setAttachments(ArrayList<Image> attachments) {
-        this.images = attachments;
+    public void setAttachments(Attachment[] attachments) {
+        this.attachments = attachments;
     }
 
     @Override
@@ -64,7 +63,7 @@ public class Message {
                 "uuid='" + uuid + '\'' +
                 ", login='" + login + '\'' +
                 ", message='" + message + '\'' +
-                ", attachments=" + images +
+                ", attachments=" + attachments +
                 '}';
     }
 }

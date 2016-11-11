@@ -4,7 +4,7 @@ package com.example.maxime.messengerapp.model;
  * Created by victor on 02/11/16.
  */
 
-public class Image {
+public class Attachment {
 
     String mimeType;
     String data;
@@ -18,19 +18,19 @@ public class Image {
         this.data = data;
     }
 
-    public Image(String mimeType, String data) {
+    public Attachment(String mimeType, String data) {
         this.mimeType = mimeType;
         this.data = data;
     }
 
-    public Image() {
+    public Attachment() {
         this.mimeType = "image/png";
-        this.data = " ";
+        this.data = " d";
     }
 
     @Override
     public String toString() {
-        return "Image{" +
+        return "Attachment{" +
                 "mimeType='" + mimeType + '\'' +
                 ", data='" + data + '\'' +
                 '}';

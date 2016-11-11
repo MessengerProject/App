@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
-import com.example.maxime.messengerapp.model.Image;
+import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
@@ -39,7 +39,6 @@ import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -62,7 +61,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private Bitmap imageBitmap;
     private String encodedImage;
     private ByteArrayOutputStream baos;
-    private Image imageMessage;
+    private Attachment attachmentMessage;
     private byte[] b;
 
 
@@ -209,9 +208,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
             b = baos.toByteArray();
             encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-            imageMessage = new Image("image/png", encodedImage);
-            String textMessage = msgET.getText().toString();
-            Message message = new Message(textMessage, user.getLogin(), imageMessage);
+            attachmentMessage = new Attachment("image/png", encodedImage);
+            String textMessage = msgET.getText().toString()+" ";
+            Message message = new Message(textMessage, user.getLogin(), attachmentMessage, encodedImage);
             Log.i(TAG, message.toString());
 
             SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);

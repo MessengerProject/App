@@ -1,14 +1,6 @@
 package com.example.maxime.messengerapp.model;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
-import android.util.Base64;
-import android.util.Log;
-
-import java.io.ByteArrayOutputStream;
-
 /**
  * Created by maxime on 19/10/16.
  */
@@ -17,7 +9,7 @@ public class User {
     String login;
     String password;
     String email;
-    Image picture;
+    Attachment picture;
 
     public User() {}
     public User(String login, String password) {
@@ -29,16 +21,16 @@ public class User {
         this.login = login;
         this.password = password;
         this.email = email;
-        //this.picture = new Image("image/jpg","");
+        //this.picture = new Attachment("attachments/jpg","");
     }
 
-    public User(String login, String password, String email, Image picture) {
+    public User(String login, String password, String email, Attachment picture) {
         this.login = login;
         this.password = password;
         this.email = email;
         this.picture = picture;
     }
-    public User(String login, String email, Image picture) {
+    public User(String login, String email, Attachment picture) {
         this.login = login;
         this.email = email;
         this.picture = picture;
@@ -68,11 +60,11 @@ public class User {
         this.email = email;
     }
 
-    public Image getPicture() {
+    public Attachment getPicture() {
         return picture;
     }
 
-    public void setPicture(Image picture) {
+    public void setPicture(Attachment picture) {
         this.picture = picture;
     }
 }

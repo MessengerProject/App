@@ -9,12 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.maxime.messengerapp.R;
-import com.example.maxime.messengerapp.model.Image;
+import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.Message;
 
 import java.util.List;
@@ -71,9 +70,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         Log.i(TAG, "ADAPTER"+messages.get(position).toString());
         Bitmap bitmap = null;
         if (messages.get(position).getAttachments() != null) {
-            Image imageMessage = messages.get(position).getAttachments().get(0);
-            if (imageMessage != null) {
-                String imageString = imageMessage.getData();
+            Attachment attachmentMessage = messages.get(position).getAttachments()[0];
+            if (attachmentMessage != null) {
+                String imageString = attachmentMessage.getData();
                 try {
                     byte[] decodedString = Base64.decode(imageString, Base64.DEFAULT);
                     bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

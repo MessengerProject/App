@@ -97,7 +97,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="2859a287720327d38cd14db540a5354e0130f639">
+        sha1="5cfc20fec1b04e98fd2b9bb3144e81d1dc04978f">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9a650a512468c79e19fb35b55060803c8053512e/classes.dex" />
     </item>
     <item
@@ -187,7 +187,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="1adcdeebea609329478b3b8d1288495a5137df1b">
+        sha1="da48339f0534544407355fb18521cf26fedb281d">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f4b72f3c41b814be0d54c8f1c08d50c19775b2a6/classes.dex" />
     </item>
     <item

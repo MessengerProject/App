@@ -2,13 +2,10 @@ package com.example.maxime.messengerapp.service;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
 
-import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.User;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -42,6 +39,7 @@ public class GetImageMessageService {
             InputStream inputStream = response.body().byteStream();
             imageBitmap = BitmapFactory.decodeStream(inputStream);
             return imageBitmap;
+
 
         } catch (IOException e) {
             Log.e("HTTP Get:", e.toString());
