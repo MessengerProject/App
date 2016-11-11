@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_profileconfig"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -78,34 +79,51 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_below="@+id/RelativeLayoutEditText">
 
-        <Button
+        <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/ButtonImage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/button_selector"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="Profile Image Upload"
-            android:textColor="@color/colorBlack" />
+            android:layout_marginBottom="16dp"
+            android:layout_alignParentBottom="true"
+            android:text="Upload Profile Picture"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            custom:pb_colorComplete="@color/green_complete"
+            custom:pb_colorNormal="@color/blue_normal"
+            custom:pb_colorPressed="@color/blue_pressed"
+            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_textComplete="Success"
+            custom:pb_textProgress="Loading"
+            custom:pb_textError="Error"
+            custom:pb_colorError="@color/red_error" />
 
         <ImageView
             android:id="@+id/imageProfile"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/ButtonImage"
             android:layout_alignParentRight="true"
             android:scaleType="fitXY" />
+
+
     </RelativeLayout>
 
-    <Button
+    <com.dd.processbutton.iml.ActionProcessButton
         android:id="@+id/ButtonSave"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button_selector"
-        android:padding="10dp"
-        android:text="Save profile modifications"
-        android:textColor="@color/colorBlack" />
+        android:text="Submit"
+        android:padding="20sp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        custom:pb_colorComplete="@color/green_complete"
+        custom:pb_colorNormal="@color/blue_normal"
+        custom:pb_colorPressed="@color/blue_pressed"
+        custom:pb_colorProgress="@color/purple_progress"
+        custom:pb_textComplete="Success"
+        custom:pb_textProgress="Loading"
+        custom:pb_textError="Error"
+        custom:pb_colorError="@color/red_error" />
 </RelativeLayout>

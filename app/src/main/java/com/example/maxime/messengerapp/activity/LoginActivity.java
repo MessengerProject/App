@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
@@ -23,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     private final String TAG = LoginActivity.class.getName();
-    private final String pwdValidationString =  "\n" +
+    private final String pwdValidationString =
             "A digit must occur at least once\n" +
             "A lower case letter must occur at least once\n" +
             "An upper case letter must occur at least once\n" +
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             "At least 8 characters\n";
     private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
     private final String loginValidationString= "Must be longer than 5";
-    Button btnLogin, btnRegister, btnProfile;
+    ActionProcessButton btnLogin, btnRegister;
     EditText loginET, pwdET;
     User user;
     LoginBGAsync login_bg_async;
@@ -45,14 +46,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_login);
-        btnLogin = (Button) findViewById(R.id.ButtonLogin);
-        btnRegister = (Button)findViewById(R.id.ButtonRegister);
+        btnLogin = (ActionProcessButton) findViewById(R.id.ButtonLogin);
+        btnRegister = (ActionProcessButton)findViewById(R.id.ButtonRegister);
+        btnRegister.setVisibility(View.GONE);
         loginET = (EditText)findViewById(R.id.login);
         loginET.addTextChangedListener(new TextValidator(loginET) {
             @Override
             public void validate(TextView textView, String text) {
                 if (text.length() < 5){
                     loginET.setError(loginValidationString);
+                    btnLogin.setProgress(-1);
+                    btnRegister.setProgress(-1);
+                }
+                else {
+                    btnLogin.setProgress(0);
+                    btnRegister.setProgress(0);
                 }
             }
         });
@@ -63,11 +71,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (!text.matches(patternPwd)) {
                     pwdET.setError(pwdValidationString);
+                    btnRegister.setProgress(-1);
+                    btnLogin.setProgress(-1);
+                }
+                else{
+                    btnLogin.setProgress(0);
+                    btnRegister.setProgress(0);
+
                 }
 
             }
         });
         btnLogin.setOnClickListener(this);
+        btnLogin.setMode(ActionProcessButton.Mode.ENDLESS);
         btnRegister.setOnClickListener(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,6 +94,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ButtonLogin:{
+                btnLogin.setProgress(0);
+                btnLogin.setEnabled(false);
+                loginET.setEnabled(false);
+                pwdET.setEnabled(false);
                 user = new User(String.valueOf(loginET.getText()), String.valueOf(pwdET.getText()));
                 Log.i(TAG,user.getLogin() + " " + user.getPassword());
                 login_bg_async = new LoginBGAsync(context, user);
@@ -86,6 +106,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onLogin(boolean result) {
                         if (!result)
                         {
+                            btnLogin.setProgress(-1);
+                            btnLogin.setEnabled(true);
+                            loginET.setEnabled(true);
+                            pwdET.setEnabled(true);
+                            btnRegister.setVisibility(View.VISIBLE);
+
+                            //btnLogin.setError("error");
                             Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
                         }
                         else
@@ -99,13 +126,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             editor.putString("pwd", user.getPassword());
                             editor.commit();
                             startActivity(intent);
-                            Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
+                            btnLogin.setText("Connected !");
+                            //Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
 
                         }
                     }
                 };
 
                 login_bg_async.setLoginListener(loginListener);
+                login_bg_async.setBtn(btnLogin);
                 login_bg_async.execute();
                 try {
                     loginListener.onLogin(login_bg_async.get());
@@ -163,4 +192,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
+
 }
