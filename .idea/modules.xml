@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MessengerApp.iml" filepath="$PROJECT_DIR$/MessengerApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tpandroid.iml" filepath="$PROJECT_DIR$/tpandroid.iml" />
     </modules>
   </component>
 </project>

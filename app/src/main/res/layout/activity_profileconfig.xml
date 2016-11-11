@@ -65,7 +65,7 @@
             android:hint="Confirm Password"
             android:inputType="textPassword"
             android:padding="15dp"
-            android:textSize="20dp" />
+            android:textSize="20dp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -78,11 +78,22 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_below="@+id/RelativeLayoutEditText">
 
+
+
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ButtonImage"
+            android:layout_centerInParent="true"
+            android:paddingBottom="20sp"
+            android:scaleType="fitXY" />
         <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/ButtonImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:layout_above="@+id/ButtonSave"
             android:text="Upload Profile Picture"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -94,17 +105,6 @@
             custom:pb_textProgress="Loading"
             custom:pb_textError="Error"
             custom:pb_colorError="@color/red_error" />
-
-        <ImageView
-            android:id="@+id/imageProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/ButtonImage"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/ButtonImage"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:scaleType="fitXY" />
-
         <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/ButtonSave"
             android:layout_width="match_parent"

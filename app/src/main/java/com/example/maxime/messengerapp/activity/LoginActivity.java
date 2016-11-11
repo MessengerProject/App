@@ -93,9 +93,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         btnLogin.setProgress(0);
+        btnLogin.setVisibility(View.VISIBLE);
         btnRegister.setProgress(0);
+        btnRegister.setVisibility(View.GONE);
         loginET.setEnabled(true);
         pwdET.setEnabled(true);
+        btnLogin.setEnabled(true);
+        loginET.setText("");
+        pwdET.setText("");
         super.onStart();
     }
 
@@ -120,22 +125,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             loginET.setEnabled(true);
                             pwdET.setEnabled(true);
                             btnRegister.setVisibility(View.VISIBLE);
-
-                            //btnLogin.setError("error");
                             Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
                         }
                         else
                         {
-
+                            btnLogin.setProgress(100);
                             Intent intent = new Intent(getApplication(),MessengerActivity.class);
-
                             SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("login", user.getLogin());
                             editor.putString("pwd", user.getPassword());
                             editor.commit();
                             startActivity(intent);
-                            btnLogin.setText("Connected !");
                             //Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
 
                         }
@@ -169,10 +170,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onRegister(boolean result) {
                         if (!result)
                         {
-                            Toast.makeText(getApplication(), "Can't register", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplication(), "Can't register", Toast.LENGTH_SHORT).show();
+                            btnLogin.setVisibility(View.VISIBLE);
+                            btnRegister.setVisibility(View.GONE);
                         }
                         else
                         {
+                            btnRegister.setProgress(100);
                             Intent intent = new Intent(getApplication(),MessengerActivity.class);
                             SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
