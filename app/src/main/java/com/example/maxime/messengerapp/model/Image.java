@@ -9,13 +9,6 @@ public class Image {
     String mimeType;
     String data;
 
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
 
     public String getData() {
         return data;
@@ -28,6 +21,11 @@ public class Image {
     public Image(String mimeType, String data) {
         this.mimeType = mimeType;
         this.data = data;
+    }
+
+    public Image() {
+        this.mimeType = "image/png";
+        this.data = "";
     }
 
     @Override

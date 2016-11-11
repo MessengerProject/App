@@ -1,5 +1,6 @@
 package com.example.maxime.messengerapp.model;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -7,34 +8,29 @@ import java.util.UUID;
  */
 
 public class Message {
-        public String uuid;
-        public String login;
-        public String message;
+    public String uuid;
+    public String login;
+    public String message;
+    public ArrayList<Image> images;
 
 
+    public Message(String msg, String login, Image image) {
+        this.message = msg;
+        this.login = login;
+        this.uuid = UUID.randomUUID().toString();
+        this.images = new ArrayList<>(10);
+        this.images.add(0,image);
+    }
 
     public Message(String msg, String login) {
         this.message = msg;
         this.login = login;
         this.uuid = UUID.randomUUID().toString();
+        Image image = new Image();
+        this.images = new ArrayList<>(10);
+        this.images.add(0,image);
     }
 
-    @Override
-    public String toString() {
-        return "SimpleMessage{" +
-                "uuid='" + uuid + '\'' +
-                ", login='" + login + '\'' +
-                ", message='" + message + '\'' +
-                '}';
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public String getLogin() {
         return login;
@@ -50,5 +46,23 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public ArrayList<Image> getAttachments() {
+        return images;
+    }
+
+    public void setAttachments(ArrayList<Image> attachments) {
+        this.images = attachments;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "uuid='" + uuid + '\'' +
+                ", login='" + login + '\'' +
+                ", message='" + message + '\'' +
+                ", attachments=" + images +
+                '}';
     }
 }

@@ -3,7 +3,10 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,28 +15,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
+import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.ListResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -52,7 +54,17 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    static final int GET_FROM_GALLERY = 3;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int CAMERA_REQUEST = 1888;
+    private Bundle extras;
+    private Bitmap imageBitmap;
+    private String encodedImage;
+    private ByteArrayOutputStream baos;
+    private Image imageMessage;
+    private Message message;
+    private Intent takePictureIntent;
+    private byte[] b;
 
 
     @Override
@@ -91,7 +103,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
 
-        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        /*LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.actionbar, null);
         actionBar.setCustomView(v);
         getMenuInflater().inflate(R.menu.menutoolbar, menu);
@@ -131,8 +143,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         } catch (Exception e) {
             Log.i(TAG, e.toString());
         }
-        Log.i(TAG, "onRefresh: here we are");
-        getImageProfileAsync.cancel(true);
+        getImageProfileAsync.cancel(true);*/
         return true;
     }
 
@@ -141,11 +152,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ButtonSend: {
                 String msg = String.valueOf(msgET.getText());
-                Calendar c = Calendar.getInstance();
-                System.out.println("Current time => " + c.getTime());
 
-                //SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                //String formattedDate = df.format(c.getTime());
                 Message message = new Message(msg, user.getLogin());
                 Log.i(TAG, message.toString());
                 messages.add(message);
@@ -179,14 +186,64 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
             case R.id.ButtonCamera: {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent takePictureIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent,GET_FROM_GALLERY);
                 }
             }
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            //Encode for user
+            imageBitmap = BitmapFactory.decodeFile(picturePath);
+            baos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            b = baos.toByteArray();
+            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            imageMessage = new Image("image/png", encodedImage);
+            Log.i(TAG, "onActivityResult: "+encodedImage.toString());
+            Message message = new Message(" ", user.getLogin(), imageMessage);
+            Log.i(TAG, message.toString());
+
+            SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
+
+            SendMessageBGAsync.sendMessageListener sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
+                @Override
+                public void onSend(boolean result) {
+                    if (!result) {
+                        Toast.makeText(getApplication(), "Error to send message to server", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplication(), "Message sent", Toast.LENGTH_LONG).show();
+                        msgET.getText().clear();
+                    }
+                }
+            };
+            sendMessage_bg_async.setSendMessageListener(sendMessageListener);
+            sendMessage_bg_async.execute();
+            try {
+                sendMessageListener.onSend(sendMessage_bg_async.get());
+                //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            sendMessage_bg_async.cancel(true);
+            messages.add(message);
+            adapter.notifyDataSetChanged();
+            recyclerView.smoothScrollToPosition(messages.size() - 1);
+        }
+    }
 
     @Override
     public void onRefresh() {
@@ -194,6 +251,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
             public void onGetMessagesList(boolean result) {
+                //messages = result;
+                //adapter = new MessageAdapter(messages);
                 adapter.notifyDataSetChanged();
             }
         };
@@ -206,7 +265,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         }
         Log.i(TAG, "onRefresh: here we are");
         swipeRefreshLayout.setRefreshing(false);
-        recyclerView.smoothScrollToPosition(messages.size() - 1);
+        recyclerView.smoothScrollToPosition(messages.size() - 2);
         getMessagesListBGAsync.cancel(true);
     }
 }

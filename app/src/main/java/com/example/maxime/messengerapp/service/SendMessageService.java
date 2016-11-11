@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import okhttp3.Credentials;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,19 +21,20 @@ import okhttp3.Response;
  */
 public class SendMessageService {
 
-        private static final String TAG = SendMessageService.class.getName();
-        public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final String TAG = SendMessageService.class.getName();
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static boolean SendMessage(User user, Message message) {
         try {
-            String param = user.getLogin()+"/"+user.getPassword();
             Gson gson = new Gson();
             String json = gson.toJson(message);
-            Log.i(TAG, "SendMessage: "+json);
-            String url = "https://training.loicortola.com/chat-rest/1.0/messages/"+param;
+            Log.i(TAG, "SendMessage:" + json);
+            String url = "https://training.loicortola.com/chat-rest/2.0/messages/";
             OkHttpClient client = new OkHttpClient();
+            String credential = Credentials.basic(user.getLogin(), user.getPassword());
             RequestBody body = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
+                    .header("Authorization", credential)
                     .url(url)
                     .post(body)
                     .build();

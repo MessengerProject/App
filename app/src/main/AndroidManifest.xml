@@ -8,7 +8,7 @@
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:label="">
+        android:label="dada">
 
         <activity android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustResize"
@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MessengerActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
         </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <activity android:name=".activity.ProfileConfigActivity"

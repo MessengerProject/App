@@ -7,10 +7,6 @@ import android.util.Log;
 
 import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.User;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import com.google.gson.internal.bind.JsonTreeWriter;
-import com.google.gson.stream.JsonWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +32,11 @@ public class SetProfilePictureService {
     private static final String TAG = SetProfilePictureService.class.getName();
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static String imageURL;
+    private static Bitmap imageBitmap;
+    private static String encodedImage;
+    private static ByteArrayOutputStream baos;
+    private static Image imageProfile;
+    private static byte[] b;
 
     public static Bitmap SetProfilPicture(User user, String lastPassword) {
         try {
@@ -84,15 +85,15 @@ public class SetProfilePictureService {
 
                 Response response = client.newCall(request).execute();
                 InputStream inputStream = response.body().byteStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-                byte[] b = baos.toByteArray();
-                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                Image imageProfile = new Image("image/png", encodedImage);
+                imageBitmap = BitmapFactory.decodeStream(inputStream);
+                baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                b = baos.toByteArray();
+                encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                imageProfile = new Image("image/png", encodedImage);
                 user.setPicture(imageProfile);
                 response.close();
-                return bitmap;
+                return imageBitmap;
 
             } catch (IOException e) {
                 Log.e("HTTP POST:", e.toString());
