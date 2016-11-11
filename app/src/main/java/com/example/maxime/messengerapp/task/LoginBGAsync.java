@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.service.LoginService;
 
@@ -19,8 +20,11 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
     private Context mContext;
     private User user;
     public LoginListener loginListener;
+    public ActionProcessButton btn;
 
-
+    public void setBtn(ActionProcessButton btn) {
+        this.btn = btn;
+    }
 
     public LoginBGAsync (Context context, User user){
         this.mContext = context;
@@ -33,7 +37,15 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
     }
 
     @Override
-    protected void onPostExecute(Boolean result) {
+    protected void onPreExecute() {
+        btn.setProgress(1);
+    }
+
+    @Override
+    public void onPostExecute(Boolean result) {
+        if (result){
+            btn.setProgress(-1);
+        }
         Log.i(TAG,result.toString());
     }
 

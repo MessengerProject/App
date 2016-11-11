@@ -97,7 +97,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="ad837526e947f6c170cf6f95b770deda8da11436">
+        sha1="2859a287720327d38cd14db540a5354e0130f639">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9a650a512468c79e19fb35b55060803c8053512e/classes.dex" />
     </item>
     <item
@@ -126,6 +126,15 @@
         revision="24.0.3"
         sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.4.0_34ee0ce9951283f29284e5403315e75ec2aab057/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/tpandroid/app/build/intermediates/exploded-aar/com.github.dmytrodanylyk.android-process-button/library/1.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="345a03c0e95969cbbf1e2900e29871b98d71f4cb">
+        <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.github.dmytrodanylyk.android-process-button-library-1.0.0_0b638f50086e516afecc26ec4ab43b8a019de353/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -178,7 +187,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="f58bb7146edc29ac8448e6dc28c569c7ffb8f268">
+        sha1="1adcdeebea609329478b3b8d1288495a5137df1b">
         <dex dex="/home/victor/tpandroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f4b72f3c41b814be0d54c8f1c08d50c19775b2a6/classes.dex" />
     </item>
     <item

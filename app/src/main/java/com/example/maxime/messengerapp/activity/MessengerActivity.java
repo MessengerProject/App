@@ -17,11 +17,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.maxime.messengerapp.R;
@@ -29,6 +32,7 @@ import com.example.maxime.messengerapp.adapter.MessageAdapter;
 import com.example.maxime.messengerapp.model.Image;
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
+import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
 
@@ -98,7 +102,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
 
-        /*LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.actionbar, null);
         actionBar.setCustomView(v);
         getMenuInflater().inflate(R.menu.menutoolbar, menu);
@@ -138,7 +142,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         } catch (Exception e) {
             Log.i(TAG, e.toString());
         }
-        getImageProfileAsync.cancel(true);*/
+        getImageProfileAsync.cancel(true);
         return true;
     }
 

@@ -30,12 +30,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.Image;
+import com.example.maxime.messengerapp.model.TextValidator;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
@@ -57,6 +59,17 @@ import java.util.concurrent.ExecutionException;
 
 public class ProfileConfigActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = ProfileConfigActivity.class.getName();
+    private final String pwdValidationString =  "\n" +
+            "A digit must occur at least once\n" +
+            "A lower case letter must occur at least once\n" +
+            "An upper case letter must occur at least once\n" +
+            "A special character must occur at least once\n" +
+            "No whitespace allowed in the entire string\n" +
+            "At least 8 characters\n";
+    private final String PwdConfValidationString ="Error: Not the same password";
+    private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+    private final String emailValidationString = "exemple@exemple.com";
+
     private Button btnImage, btnSave;
     private EditText emailET, pwdET,pwdETConf;
     private ImageView imageView, imageViewTop;
@@ -73,8 +86,35 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         btnImage = (Button) findViewById(R.id.ButtonImage);
         btnSave =(Button) findViewById(R.id.ButtonSave);
         emailET = (EditText) findViewById(R.id.email);
+        emailET.addTextChangedListener(new TextValidator(emailET) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if (!text.matches(String.valueOf(android.util.Patterns.EMAIL_ADDRESS))) {
+                    emailET.setError(emailValidationString);
+                }
+            }
+        });
         pwdET = (EditText) findViewById(R.id.pwd);
+        pwdET.addTextChangedListener(new TextValidator(pwdET) {
+            @Override
+            public void validate(TextView textView, String text) {
+
+                if (!text.matches(patternPwd)) {
+                    pwdET.setError(pwdValidationString);
+                }
+
+            }
+        });
         pwdETConf = (EditText) findViewById(R.id.pwdConf);
+        pwdETConf.addTextChangedListener(new TextValidator(pwdET) {
+            @Override
+            public void validate(TextView textView, String text) {
+                if (!text.matches(pwdET.getText().toString()))
+                {
+                    pwdETConf.setError(PwdConfValidationString);
+                }
+            }
+        });
         imageView = (ImageView) findViewById(R.id.imageProfile);
         imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
         btnImage.setOnClickListener(this);
@@ -88,8 +128,8 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         //Image profile
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
-        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.actionbar, null);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.actionbar, null);
         actionBar.setCustomView(v);
         final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
         //ASYNC TASK GET IMAGE FOR PROFILE
