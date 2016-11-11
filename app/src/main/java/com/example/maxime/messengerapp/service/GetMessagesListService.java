@@ -27,7 +27,7 @@ public class GetMessagesListService {
     public static String GetMessageListResponse(User user){
         try {
 
-            url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=5&offset=0";
+            url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=4&offset=0";
             client= new OkHttpClient();
             credential = Credentials.basic(user.getLogin(), user.getPassword());
 

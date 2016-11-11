@@ -55,15 +55,10 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private List<Message> messages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
     static final int GET_FROM_GALLERY = 3;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int CAMERA_REQUEST = 1888;
-    private Bundle extras;
     private Bitmap imageBitmap;
     private String encodedImage;
     private ByteArrayOutputStream baos;
     private Image imageMessage;
-    private Message message;
-    private Intent takePictureIntent;
     private byte[] b;
 
 
@@ -211,8 +206,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             b = baos.toByteArray();
             encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             imageMessage = new Image("image/png", encodedImage);
-            Log.i(TAG, "onActivityResult: "+encodedImage.toString());
-            Message message = new Message(" ", user.getLogin(), imageMessage);
+            String textMessage = msgET.getText().toString();
+            Message message = new Message(textMessage, user.getLogin(), imageMessage);
             Log.i(TAG, message.toString());
 
             SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
@@ -251,8 +246,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
             public void onGetMessagesList(boolean result) {
-                //messages = result;
-                //adapter = new MessageAdapter(messages);
                 adapter.notifyDataSetChanged();
             }
         };

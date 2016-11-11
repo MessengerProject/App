@@ -71,12 +71,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         Log.i(TAG, "ADAPTER"+messages.get(position).toString());
         Bitmap bitmap = null;
         if (messages.get(position).getAttachments() != null) {
-            Log.i(TAG, "onBindViewHolder: HERE WE ARE");
             Image imageMessage = messages.get(position).getAttachments().get(0);
             if (imageMessage != null) {
-                Log.i(TAG, "onBindViewHolder: HERE WE ARE");
                 String imageString = imageMessage.getData();
-                Log.i(TAG, "onBindViewHolder: " + imageString);
                 try {
                     byte[] decodedString = Base64.decode(imageString, Base64.DEFAULT);
                     bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

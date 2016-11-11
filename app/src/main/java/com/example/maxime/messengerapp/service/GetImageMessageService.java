@@ -25,10 +25,6 @@ public class GetImageMessageService {
 
     private static final String TAG = GetImageMessageService.class.getName();
     private static Bitmap imageBitmap;
-    private static String encodedImage;
-    private static ByteArrayOutputStream baos;
-    public static Image imageMessage;
-    private static byte[] b;
 
     public static Bitmap getImageMessageService(User user, String imageURL) {
         try {
@@ -45,12 +41,6 @@ public class GetImageMessageService {
             Log.i(TAG, response.toString());
             InputStream inputStream = response.body().byteStream();
             imageBitmap = BitmapFactory.decodeStream(inputStream);
-            /*baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            b = baos.toByteArray();
-            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-            imageMessage = new Image("image/png", encodedImage);
-            response.close();*/
             return imageBitmap;
 
         } catch (IOException e) {

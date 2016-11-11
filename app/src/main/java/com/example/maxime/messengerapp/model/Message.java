@@ -1,6 +1,7 @@
 package com.example.maxime.messengerapp.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,6 +18,7 @@ public class Message {
     public Message(String msg, String login, Image image) {
         this.message = msg;
         this.login = login;
+
         this.uuid = UUID.randomUUID().toString();
         this.images = new ArrayList<>(10);
         this.images.add(0,image);
@@ -28,7 +30,7 @@ public class Message {
         this.uuid = UUID.randomUUID().toString();
         Image image = new Image();
         this.images = new ArrayList<>(10);
-        this.images.add(0,image);
+        this.images.add(image);
     }
 
 

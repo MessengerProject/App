@@ -42,38 +42,44 @@ public class GetMessagesListBGAsync extends AsyncTask<Void, Void, Boolean> {
         this.messages = messages;
     }
 
-    public void setGetMessagesListListener(GetMessagesListListener getMessagesListListener){
+    public void setGetMessagesListListener(GetMessagesListListener getMessagesListListener) {
         this.getMessagesListListener = getMessagesListListener;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         String stringMessagesList = GetMessagesListService.GetMessageListResponse(user);
-        Log.i(TAG, stringMessagesList);
+        Log.i(TAG, "MessagesList: "+stringMessagesList);
         //Service
-        Bitmap image = GetImageMessageService.getImageMessageService(user, "https://training.loicortola.com/chat-rest/2.0/files/msg-a545901e-814a-44cf-b96a-7675d711755c/0.png");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-        byte[] b = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-        Image imageMessage = new Image("image/png", encodedImage);
         Gson messagesList = new Gson();
         messagesList.toJson(stringMessagesList);
-        Type listType = new TypeToken<List<Message>>(){}.getType();
-        Log.i(TAG, "MessageList: "+messagesList);
+        Type listType = new TypeToken<List<MessageImage>>() {}.getType();
         List<MessageImage> messagesTmp = messagesList.fromJson(stringMessagesList, listType);
-        List<Message> messages = new ArrayList<>(20);
-        for (int i = 0; i< messagesTmp.size(); i++){
-            Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), imageMessage);
-            messages.add(message);
+        messages.clear();
+        for (int i = 0; i < messagesTmp.size(); i++) {
+            if (messagesTmp.get(i).getAttachments() != null) {
+                Log.i(TAG, "doInBackground: "+messagesTmp.get(i).getAttachments()[0]);
+                Bitmap image = GetImageMessageService.getImageMessageService(user, messagesTmp.get(i).getAttachments()[0]);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                Image imageMessage = new Image("image/png", encodedImage);
+                Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), imageMessage);
+                messages.add(message);
+            } else {
+                Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString());
+                messages.add(message);
+            }
         }
         //messagesTmp.get(0).getAttachments().add(imageMessage);
-        this.messages.clear();
-        this.messages.addAll(messages);
+        //this.messages.clear();
+        //messages.addAll(messages);
         Log.i(TAG, messages.toString());
         return true;
     }
-    public interface GetMessagesListListener{
+
+    public interface GetMessagesListListener {
         void onGetMessagesList(boolean result);
     }
 }

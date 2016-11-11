@@ -25,7 +25,7 @@ public class Image {
 
     public Image() {
         this.mimeType = "image/png";
-        this.data = "";
+        this.data = " ";
     }
 
     @Override

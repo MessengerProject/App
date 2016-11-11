@@ -64,7 +64,7 @@ public class MessageImage {
                 "uuid='" + uuid + '\'' +
                 ", login='" + login + '\'' +
                 ", message='" + message + '\'' +
-                ", images=" + Arrays.toString(images) +
+                ", images=" + images +
                 '}';
     }
 }
