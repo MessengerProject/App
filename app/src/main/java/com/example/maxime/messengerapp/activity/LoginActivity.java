@@ -91,6 +91,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onStart() {
+        btnLogin.setProgress(0);
+        btnRegister.setProgress(0);
+        loginET.setEnabled(true);
+        pwdET.setEnabled(true);
+        super.onStart();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ButtonLogin:{

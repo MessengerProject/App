@@ -84,7 +84,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_alignParentBottom="true"
             android:text="Upload Profile Picture"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -105,25 +104,24 @@
             android:layout_alignParentRight="true"
             android:scaleType="fitXY" />
 
-
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/ButtonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_alignParentBottom="true"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            custom:pb_colorComplete="@color/green_complete"
+            custom:pb_colorNormal="@color/blue_normal"
+            custom:pb_colorPressed="@color/blue_pressed"
+            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_textComplete="Success"
+            custom:pb_textProgress="Loading"
+            custom:pb_textError="Error"
+            custom:pb_colorError="@color/red_error" />
     </RelativeLayout>
 
-    <com.dd.processbutton.iml.ActionProcessButton
-        android:id="@+id/ButtonSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentBottom="true"
-        android:text="Submit"
-        android:padding="20sp"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        custom:pb_colorComplete="@color/green_complete"
-        custom:pb_colorNormal="@color/blue_normal"
-        custom:pb_colorPressed="@color/blue_pressed"
-        custom:pb_colorProgress="@color/purple_progress"
-        custom:pb_textComplete="Success"
-        custom:pb_textProgress="Loading"
-        custom:pb_textError="Error"
-        custom:pb_colorError="@color/red_error" />
+
 </RelativeLayout>
