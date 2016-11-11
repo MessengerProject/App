@@ -20,13 +20,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.TextValidator;
@@ -54,7 +55,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
     private final String emailValidationString = "exemple@exemple.com";
 
-    private Button btnImage, btnSave;
+    private ActionProcessButton btnImage, btnSave;
     private EditText emailET, pwdET,pwdETConf;
     private ImageView imageView, imageViewTop;
     private final String SHARED_PREFS = "prefs";
@@ -67,14 +68,24 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_profileconfig);
-        btnImage = (Button) findViewById(R.id.ButtonImage);
-        btnSave =(Button) findViewById(R.id.ButtonSave);
+        btnImage = (ActionProcessButton) findViewById(R.id.ButtonImage);
+        btnImage.setVisibility(View.VISIBLE);
+        btnSave =(ActionProcessButton) findViewById(R.id.ButtonSave);
+        btnSave.setVisibility(View.VISIBLE);
         emailET = (EditText) findViewById(R.id.email);
         emailET.addTextChangedListener(new TextValidator(emailET) {
             @Override
             public void validate(TextView textView, String text) {
                 if (!text.matches(String.valueOf(android.util.Patterns.EMAIL_ADDRESS))) {
                     emailET.setError(emailValidationString);
+                    btnSave.setProgress(-1);
+                    btnSave.setEnabled(false);
+                }
+                else
+                {
+                    btnSave.setProgress(0);
+                    btnSave.setEnabled(true);
+
                 }
             }
         });
@@ -174,7 +185,8 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onSend(boolean result) {
                         if (!result) {
-                            Toast.makeText(getApplication(), "Can't connect server or attachments too big", Toast.LENGTH_LONG).show();
+                            btnImage.setProgress(-1);
+                            Toast.makeText(getApplication(), "Can't connect server or image too big", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplication(), "Profile changed", Toast.LENGTH_LONG).show();
                         }
