@@ -32,6 +32,7 @@ import com.example.maxime.messengerapp.utils.TextValidator;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
+import com.example.maxime.messengerapp.utils.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
@@ -41,37 +42,69 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class ProfileConfigActivity extends AppCompatActivity implements View.OnClickListener {
-    private final String TAG = ProfileConfigActivity.class.getName();
-    private final String pwdValidationString =  "\n" +
+    private static final String TAG = ProfileConfigActivity.class.getName();
+    private static final String pwdValidationString =  "\n" +
             "A digit must occur at least once\n" +
             "A lower case letter must occur at least once\n" +
             "An upper case letter must occur at least once\n" +
             "A special character must occur at least once\n" +
             "No whitespace allowed in the entire string\n" +
             "At least 8 characters\n";
-    private final String PwdConfValidationString ="Error: Not the same password";
-    private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-    private final String emailValidationString = "exemple@exemple.com";
+
+    private static final String PwdConfValidationString ="Error: Not the same password";
+    private static final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+    private static final String emailValidationString = "exemple@exemple.com";
+    private static final String SHARED_PREFS = "prefs";
+    private static final int GET_FROM_GALLERY = 3;
 
     private ActionProcessButton btnImage, btnSave;
     private EditText emailET, pwdET,pwdETConf;
     private ImageView imageView, imageViewTop;
-    private final String SHARED_PREFS = "prefs";
     private Context context;
     private User user;
+    private String login, pwd, email;
+    private String lastPassword;
     private Attachment attachmentProfile;
-    private static final int GET_FROM_GALLERY = 3;
+    private SharedPreferences sharedPref;
+
+    //Image
+    private String encodedImage;
+    private Bitmap imageBitmap;
+    private ByteArrayOutputStream baos;
+    private Attachment attachmentMessage;
+    private byte[] b;
+    private String imagePath;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Window params
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         context = getApplicationContext();
         setContentView(R.layout.activity_profileconfig);
+
+        //Retrieve views from XML
         btnImage = (ActionProcessButton) findViewById(R.id.ButtonImage);
         btnImage.setVisibility(View.VISIBLE);
         btnSave =(ActionProcessButton) findViewById(R.id.ButtonSave);
         btnSave.setVisibility(View.VISIBLE);
         emailET = (EditText) findViewById(R.id.email);
         imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
+        imageView = (ImageView) findViewById(R.id.imageProfile);
+        pwdETConf = (EditText) findViewById(R.id.pwdConf);
+        pwdET = (EditText) findViewById(R.id.pwd);
+
+        //Button listeners
+        btnImage.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
+
+        //Toolbar
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
         emailET.addTextChangedListener(new TextValidator(emailET) {
             @Override
             public void validate(TextView textView, String text) {
@@ -88,7 +121,6 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-        pwdET = (EditText) findViewById(R.id.pwd);
         pwdET.addTextChangedListener(new TextValidator(pwdET) {
             @Override
             public void validate(TextView textView, String text) {
@@ -99,7 +131,6 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
             }
         });
-        pwdETConf = (EditText) findViewById(R.id.pwdConf);
         pwdETConf.addTextChangedListener(new TextValidator(pwdET) {
             @Override
             public void validate(TextView textView, String text) {
@@ -113,28 +144,20 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-        imageView = (ImageView) findViewById(R.id.imageProfile);
-        imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
-        btnImage.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        //User create
+        sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+        login = sharedPref.getString("login", "error");
+        pwd = sharedPref.getString("pwd", "error");
+        user = new User(String.valueOf(login), String.valueOf(pwd));
 
         //ASYNC TASK GET IMAGE FOR PROFILE
-        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
-        final String login = sharedPref.getString("login", "error");
-        final String pwd = sharedPref.getString("pwd", "error");
-        user = new User(String.valueOf(login), String.valueOf(pwd));
         GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
                     imageViewTop.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
-                    //iv.setImageBitmap(result);
                 }
             }
         };
@@ -166,15 +189,16 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ButtonSave: {
-                Log.i(TAG, "onClick: here we are");
-                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
-                final String login = sharedPref.getString("login", "error");
-                final String lastPassword = sharedPref.getString("pwd", "error");
-                final String pwd = pwdET.getText().toString();
-                final String email = emailET.getText().toString();
+
+                sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+                login = sharedPref.getString("login", "error");
+                lastPassword = sharedPref.getString("pwd", "error");
+                pwd = pwdET.getText().toString();
+                email = emailET.getText().toString();
                 user = new User(String.valueOf(login), String.valueOf(pwd), String.valueOf(email));
                 user.setPicture(attachmentProfile);
 
+                //ProfileSave Async
                 ProfileUploadBGAsync profileUploadBGAsync = new ProfileUploadBGAsync(context, user, lastPassword);
 
                 ProfileUploadBGAsync.profileUploadListener profileUploadListener = new ProfileUploadBGAsync.profileUploadListener() {
@@ -200,11 +224,14 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 }
                 profileUploadBGAsync.cancel(true);
                 break;
+
             }
             case R.id.ButtonImage: {
+
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(intent,GET_FROM_GALLERY);
+
             }
         }
     }
@@ -213,22 +240,21 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Log.i(TAG, "onActivityResult: "+requestCode);
             if (requestCode == GET_FROM_GALLERY) {
+
+                //Get imagepath
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
                 Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
+                imagePath = cursor.getString(columnIndex);
                 cursor.close();
-                Glide.with(this).load(picturePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageView);
-                //Encode for user
-                Bitmap bm = BitmapFactory.decodeFile(picturePath);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-                byte[] b = baos.toByteArray();
-                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+                Glide.with(this).load(imagePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageView);
+
+                //Decode for user
+                encodedImage = Util.pathToEncodedImage(imagePath);
                 attachmentProfile = new Attachment("attachments/png", encodedImage);
             }
 

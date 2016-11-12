@@ -30,6 +30,7 @@ import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.SendMessageBGAsync;
 import com.example.maxime.messengerapp.task.GetMessagesListBGAsync;
+import com.example.maxime.messengerapp.utils.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -76,45 +77,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private int visibleThreshold = 5;
     private int firstVisibleItem, totalItemCount;
 
-
-    @Override
-    protected void onStart() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-
-                if (getMessagesListBGAsync != null && getMessagesListBGAsync.getStatus().equals(AsyncTask.Status.RUNNING)) {
-                    getMessagesListBGAsync.cancel(true);
-                }
-                if (firstVisibleItem < visibleThreshold) {
-                    //Getmessages Async
-                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-                        @Override
-                        public void onGetMessagesList(boolean result) {
-                            adapter.notifyDataSetChanged();
-                            //recyclerView.smoothScrollToPosition(messages.size());
-                        }
-                    };
-                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
-                    try {
-                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
-                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
-                    } catch (Exception e) {
-                        Log.i(TAG, e.toString());
-                    }
-                    getMessagesListBGAsync.cancel(true);
-                }
-            }
-        });
-        Log.i(TAG, "messages.size(): " + messages.size());
-        //recyclerView.smoothScrollToPosition(messages.size());
-        super.onStart();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +154,45 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    protected void onStart() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (getMessagesListBGAsync != null && getMessagesListBGAsync.getStatus().equals(AsyncTask.Status.RUNNING)) {
+                    getMessagesListBGAsync.cancel(true);
+                }
+                if (firstVisibleItem < visibleThreshold) {
+                    //Getmessages Async
+                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                        @Override
+                        public void onGetMessagesList(boolean result) {
+                            adapter.notifyDataSetChanged();
+                            //recyclerView.smoothScrollToPosition(messages.size());
+                        }
+                    };
+                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
+                    try {
+                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
+                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
+                    }
+                    getMessagesListBGAsync.cancel(true);
+                }
+            }
+        });
+        Log.i(TAG, "messages.size(): " + messages.size());
+        //recyclerView.smoothScrollToPosition(messages.size());
+        super.onStart();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ButtonSend: {
@@ -256,21 +257,10 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
             //Get imagepath
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String imagepath = cursor.getString(columnIndex);
-            cursor.close();
-
+            String imagepath = Util.getimagePath(data.getData(),this.getContentResolver());
 
             //Encode for user
-            imageBitmap = BitmapFactory.decodeFile(imagepath);
-            baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            b = baos.toByteArray();
-            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            encodedImage = Util.pathToEncodedImage(imagepath);
             attachmentMessage = new Attachment("image/png", encodedImage);
             String textMessage = msgET.getText().toString() + " ";
             Message message = new Message(textMessage, user.getLogin(), attachmentMessage, encodedImage);
