@@ -1,6 +1,5 @@
 package com.example.maxime.messengerapp.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,23 +11,23 @@ import com.example.maxime.messengerapp.utils.services.RegisterService;
  */
 public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
 
-    private final String TAG = RegisterListener.class.getName();
-    private Context mContext;
-    private User user;
-    public RegisterListener registerListener;
-
-
-    public RegisterBGAsync(Context mContext, User user) {
-        this.mContext = mContext;
-        this.user = user;
+    //Interface RegisterListener
+    public interface RegisterListener{
+        void onRegister(boolean result);
     }
 
-    //private boolean result;
+    private final String TAG = RegisterListener.class.getName();
+    private User user;
+    protected RegisterListener registerListener;
+
+
+    public RegisterBGAsync( User user) {
+        this.user = user;
+    }
 
     public void setRegisterListener(RegisterListener registerListener) {
         this.registerListener = registerListener;
     }
-
 
     @Override
     protected void onPostExecute(Boolean result) {
@@ -37,10 +36,6 @@ public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        //Log.i(TAG, "doInBackground Register \n user :  " + user.getLogin()+ user.getPwd());
         return RegisterService.registerResponse(user);
-    }
-    public interface RegisterListener{
-        void onRegister(boolean result);
     }
 }

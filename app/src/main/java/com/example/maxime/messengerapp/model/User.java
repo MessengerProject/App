@@ -64,7 +64,7 @@ public class User {
         return picture;
     }
 
-    public void setPicture(Attachment picture) {
-        this.picture = picture;
+    public void setImage(Attachment image) {
+        this.picture = image;
     }
 }

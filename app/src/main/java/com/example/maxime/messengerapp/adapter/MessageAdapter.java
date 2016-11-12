@@ -4,14 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.Message;
@@ -68,14 +66,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from messages at this position
         // - replace the contents of the view with that element
-        /*RelativeLayout relative1 = holder.relative1;
-        relative1.setHorizontalGravity(RelativeLayout.ALIGN_PARENT_RIGHT);
-        relative1.setHorizontalGravity(RelativeLayout.ALIGN_PARENT_END);
-        relative1.requestLayout();*/
 
         holder.textViewTxt.setText(messages.get(position).getMessage());
         holder.textViewAuthor.setText(messages.get(position).getLogin());
-        //Log.i(TAG, "ADAPTER"+messages.get(position).toString());
         Bitmap bitmap = null;
         if (messages.get(position).getAttachments() != null) {
             Attachment attachmentMessage = messages.get(position).getAttachments()[0];

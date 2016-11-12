@@ -3,16 +3,11 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +29,6 @@ import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
 import com.example.maxime.messengerapp.utils.Util;
 
-import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -69,10 +63,6 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
     //Image
     private String encodedImage;
-    private Bitmap imageBitmap;
-    private ByteArrayOutputStream baos;
-    private Attachment attachmentMessage;
-    private byte[] b;
     private String imagePath;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +97,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
         emailET.addTextChangedListener(new TextValidator(emailET) {
             @Override
-            public void validate(TextView textView, String text) {
+            public void validate(TextView textView, String   text) {
                 if (!text.matches(String.valueOf(android.util.Patterns.EMAIL_ADDRESS))) {
                     emailET.setError(emailValidationString);
                     btnSave.setProgress(-1);
@@ -149,18 +139,20 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         login = sharedPref.getString("login", "error");
         pwd = sharedPref.getString("pwd", "error");
-        user = new User(String.valueOf(login), String.valueOf(pwd));
+        user = new User(login, pwd);
 
         //ASYNC TASK GET IMAGE FOR PROFILE
-        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
+        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(user);
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
-            public void onGetImageProfile(Bitmap result) {
-                if (result != null) {
-                    imageViewTop.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+            public void onGetImageProfile(Bitmap bitmap) {
+                if (bitmap != null) {
+                    imageViewTop.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 80, 80, false));
+                    //imagePath = result;
                 }
             }
         };
+        //Glide.with(this).load(imagePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageViewTop);
         getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
         getImageProfileAsync.execute();
         try {
@@ -196,10 +188,10 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 pwd = pwdET.getText().toString();
                 email = emailET.getText().toString();
                 user = new User(String.valueOf(login), String.valueOf(pwd), String.valueOf(email));
-                user.setPicture(attachmentProfile);
+                user.setImage(attachmentProfile);
 
                 //ProfileSave Async
-                ProfileUploadBGAsync profileUploadBGAsync = new ProfileUploadBGAsync(context, user, lastPassword);
+                ProfileUploadBGAsync profileUploadBGAsync = new ProfileUploadBGAsync( user, lastPassword);
 
                 ProfileUploadBGAsync.profileUploadListener profileUploadListener = new ProfileUploadBGAsync.profileUploadListener() {
                     @Override
@@ -227,11 +219,9 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
             }
             case R.id.ButtonImage: {
-
-                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
+                Intent intent = Util.openCameraIntent();
                 startActivityForResult(intent,GET_FROM_GALLERY);
-
+                break;
             }
         }
     }
@@ -243,19 +233,13 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
             if (requestCode == GET_FROM_GALLERY) {
 
                 //Get imagepath
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imagePath = cursor.getString(columnIndex);
-                cursor.close();
+                imagePath = Util.getimagePath(data.getData(),this.getContentResolver());
 
                 Glide.with(this).load(imagePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageView);
 
                 //Decode for user
                 encodedImage = Util.pathToEncodedImage(imagePath);
-                attachmentProfile = new Attachment("attachments/png", encodedImage);
+                attachmentProfile = new Attachment("image/png", encodedImage);
             }
 
         }

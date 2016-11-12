@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="MessengerApp"
+            android:text="@string/toolbarText"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/name_app" />
 
@@ -49,14 +49,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewMsg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:scrollbars="vertical"
-            android:layout_alignParentTop="true" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewMsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:scrollbars="vertical"
+                android:layout_alignParentTop="true" />
         </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>

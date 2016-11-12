@@ -1,4 +1,4 @@
-package com.example.maxime.messengerapp;
+package com.example.victor.messengerapp;
 
 import org.junit.Test;
 

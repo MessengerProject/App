@@ -30,18 +30,14 @@ import okhttp3.Response;
 
 public class SetProfilePictureService {
     private static final String TAG = SetProfilePictureService.class.getName();
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static String imageURL;
-    private static Bitmap imageBitmap;
-    private static String encodedImage;
-    private static ByteArrayOutputStream baos;
-    private static Attachment attachmentProfile;
     private static byte[] b;
 
-    public static Bitmap SetProfilPicture(User user, String lastPassword) {
+    public static Bitmap SetProfilPicture(User user) {
         try {
             //Get Profile informations
-            String url = "https://training.loicortola.com/chat-rest/2.0/profile/" + user.getLogin();//;+ param;
+            String url = "https://training.loicortola.com/chat-rest/2.0/profile/"+user.getLogin();
             String credential = Credentials.basic(user.getLogin(), user.getPassword());
             OkHttpClient client = new OkHttpClient();
 
@@ -51,6 +47,7 @@ public class SetProfilePictureService {
                     .build();
 
             Response response = client.newCall(request).execute();
+            Log.i(TAG, response.toString());
             String data = "";
             data = response.body().string();
             JSONObject jsonObj = new JSONObject(data);
@@ -84,14 +81,15 @@ public class SetProfilePictureService {
                         .build();
 
                 Response response = client.newCall(request).execute();
+                Log.i(TAG, response.toString());
                 InputStream inputStream = response.body().byteStream();
-                imageBitmap = BitmapFactory.decodeStream(inputStream);
-                baos = new ByteArrayOutputStream();
+                Bitmap imageBitmap = BitmapFactory.decodeStream(inputStream);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
                 b = baos.toByteArray();
-                encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                attachmentProfile = new Attachment("attachments/png", encodedImage);
-                user.setPicture(attachmentProfile);
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                Attachment attachmentProfile = new Attachment("image/png", encodedImage);
+                user.setImage(attachmentProfile);
                 response.close();
                 return imageBitmap;
 

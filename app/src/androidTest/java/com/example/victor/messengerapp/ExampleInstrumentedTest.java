@@ -1,4 +1,4 @@
-package com.example.maxime.messengerapp;
+package com.example.victor.messengerapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.maxime.messengerapp", appContext.getPackageName());
+        assertEquals("com.example.victor.messengerapp", appContext.getPackageName());
     }
 }
