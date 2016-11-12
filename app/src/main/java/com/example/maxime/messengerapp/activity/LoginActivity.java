@@ -32,27 +32,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             "A special character must occur at least once\n" +
             "No whitespace allowed in the entire string\n" +
             "At least 8 characters\n";
-    private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-    private final String loginValidationString= "Must be longer than 5";
-    ActionProcessButton btnLogin, btnRegister;
-    EditText loginET, pwdET;
-    User user;
-    LoginBGAsync login_bg_async;
-    LoginBGAsync.LoginListener loginListener;
-    final String SHARED_PREFS = "prefs";
-    public Context context;
+
+    private static final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+    private static final String loginValidationString= "Must be longer than 5";
+    private static final String SHARED_PREFS = "prefs";
+
+    private Context context;
+
+    private ActionProcessButton btnLogin, btnRegister;
+    private EditText loginET, pwdET;
+    private User user;
+
+    private LoginBGAsync login_bg_async;
+    private RegisterBGAsync register_bg_async;
+    private LoginBGAsync.LoginListener loginListener;
+    private RegisterBGAsync.RegisterListener registerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Window params
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        context = getApplicationContext();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         setContentView(R.layout.activity_login);
+        context = getApplicationContext();
+
+
+        //Retrieve views from XML
         btnLogin = (ActionProcessButton) findViewById(R.id.ButtonLogin);
         btnRegister = (ActionProcessButton)findViewById(R.id.ButtonRegister);
-        btnRegister.setVisibility(View.GONE);
         loginET = (EditText)findViewById(R.id.login);
+        pwdET = (EditText)findViewById(R.id.pwd);
+
+        //Button listeners
+        btnLogin.setOnClickListener(this);
+        btnRegister.setOnClickListener(this);
+        btnRegister.setVisibility(View.GONE);
+        setTextButtonsListeners();
+        btnLogin.setMode(ActionProcessButton.Mode.ENDLESS);
+    }
+
+    public void setTextButtonsListeners(){
         loginET.addTextChangedListener(new TextValidator(loginET) {
             @Override
             public void validate(TextView textView, String text) {
@@ -67,11 +89,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-        pwdET = (EditText)findViewById(R.id.pwd);
+
         pwdET.addTextChangedListener(new TextValidator(pwdET) {
             @Override
             public void validate(TextView textView, String text) {
-
                 if (!text.matches(patternPwd)) {
                     pwdET.setError(pwdValidationString);
                     btnRegister.setProgress(-1);
@@ -82,64 +103,75 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     btnRegister.setProgress(0);
 
                 }
-
             }
         });
-        btnLogin.setOnClickListener(this);
-        btnLogin.setMode(ActionProcessButton.Mode.ENDLESS);
-        btnRegister.setOnClickListener(this);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
-
     @Override
     protected void onStart() {
+
+        //Params Onstart
         btnLogin.setProgress(0);
         btnLogin.setVisibility(View.VISIBLE);
         btnRegister.setProgress(0);
         btnRegister.setVisibility(View.GONE);
+
         loginET.setEnabled(true);
         pwdET.setEnabled(true);
         btnLogin.setEnabled(true);
         loginET.setText("");
         pwdET.setText("");
+
         super.onStart();
     }
 
     @Override
+    protected void onPause() {
+        if (login_bg_async != null) {
+            login_bg_async.cancel(true);
+        }
+        if (register_bg_async != null) {
+            register_bg_async.cancel(true);
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        btnLogin.setProgress(0);
+        btnLogin.setEnabled(true);
+        loginET.setEnabled(true);
+        pwdET.setEnabled(true);
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.ButtonLogin:{
+        switch (v.getId()) {
+            case R.id.ButtonLogin: {
+                //Button params
                 btnLogin.setProgress(0);
                 btnLogin.setEnabled(false);
                 loginET.setEnabled(false);
                 pwdET.setEnabled(false);
+
                 user = new User(String.valueOf(loginET.getText()), String.valueOf(pwdET.getText()));
-                Log.i(TAG,user.getLogin() + " " + user.getPassword());
+
+                //Login Async
                 login_bg_async = new LoginBGAsync(context, user);
                 loginListener = new LoginBGAsync.LoginListener() {
                     @Override
                     public void onLogin(boolean result) {
-                        if (!result)
-                        {
+                        if (!result) {
+                            //Button params
                             btnLogin.setProgress(-1);
                             btnLogin.setEnabled(true);
                             loginET.setEnabled(true);
                             pwdET.setEnabled(true);
                             btnRegister.setVisibility(View.VISIBLE);
-                            Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            btnLogin.setProgress(100);
-                            Intent intent = new Intent(getApplication(),MessengerActivity.class);
-                            SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("login", user.getLogin());
-                            editor.putString("pwd", user.getPassword());
-                            editor.commit();
-                            startActivity(intent);
-                            //Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
 
+                            Toast.makeText(getApplication(), "Unknown User", Toast.LENGTH_LONG).show();
+                        } else {
+                            openMessengerActivity(btnLogin);
                         }
                     }
                 };
@@ -159,34 +191,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             }
 
-            case R.id.ButtonRegister:{
+            case R.id.ButtonRegister: {
                 user.setLogin(String.valueOf(loginET.getText()));
                 user.setPassword(String.valueOf(pwdET.getText()));
-                Log.i(TAG,user.getLogin() + "   " + user.getPassword());
 
 
-                RegisterBGAsync register_bg_async = new RegisterBGAsync(context, user);
-                RegisterBGAsync.RegisterListener registerListener = new RegisterBGAsync.RegisterListener(){
+                register_bg_async = new RegisterBGAsync(context, user);
+                registerListener = new RegisterBGAsync.RegisterListener() {
                     @Override
                     public void onRegister(boolean result) {
-                        if (!result)
-                        {
-                            Toast.makeText(getApplication(), "Can't register", Toast.LENGTH_SHORT).show();
+                        if (!result) {
                             btnLogin.setVisibility(View.VISIBLE);
                             btnRegister.setVisibility(View.GONE);
-                        }
-                        else
-                        {
-                            btnRegister.setProgress(100);
-                            Intent intent = new Intent(getApplication(),MessengerActivity.class);
-                            SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("login", user.getLogin());
-                            editor.putString("pwd", user.getPassword());
-                            editor.commit();
-                            startActivity(intent);
-                            Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
 
+                            Toast.makeText(getApplication(), "Can't register", Toast.LENGTH_SHORT).show();
+                        } else {
+                            openMessengerActivity(btnRegister);
                         }
                     }
                 };
@@ -194,17 +214,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 register_bg_async.execute();
                 try {
                     registerListener.onRegister(register_bg_async.get());
-                    //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
                 break;
-
             }
         }
-
     }
 
+    public void openMessengerActivity(ActionProcessButton button){
+        button.setProgress(100);
+
+        Intent intent = new Intent(getApplication(), MessengerActivity.class);
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("login", user.getLogin());
+        editor.putString("pwd", user.getPassword());
+        editor.commit();
+        startActivity(intent);
+        Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
+    }
 }

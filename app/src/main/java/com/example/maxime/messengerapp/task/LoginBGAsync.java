@@ -37,7 +37,6 @@ public class LoginBGAsync extends AsyncTask<Void, Void, Boolean> {
         btn.setProgress(1);
     }
 
-
     @Override
     protected Boolean doInBackground(Void... params) {
         //TODO : Check DB for User

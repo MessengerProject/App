@@ -10,16 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -46,20 +41,24 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class MessengerActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-    private final String TAG = MessengerActivity.class.getName();
-    private final String SHARED_PREFS = "prefs";
+    private static final String TAG = MessengerActivity.class.getName();
+    private static final String SHARED_PREFS = "prefs";
+    private static final int GET_FROM_GALLERY = 3;
+
+    private SharedPreferences sharedPref;
     private Context context;
+
     private Button btnSend, btnImage, btnProfile;
-    private ImageView iv;
+    private ImageView imageView;
     private RecyclerView recyclerView;
+    private EditText msgET;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
-    private SwipeRefreshLayout swipeRefreshLayout;
-    static final int GET_FROM_GALLERY = 3;
-    private Bitmap imageBitmap;    private EditText msgET;
+    private Bitmap imageBitmap;
     private User user;
-
     private String encodedImage;
     private ByteArrayOutputStream baos;
     private Attachment attachmentMessage;
@@ -69,32 +68,38 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Window params
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         context = getApplicationContext();
         setContentView(R.layout.activity_messenger);
-        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+
+        sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
         final String pwd = sharedPref.getString("pwd", "error");
+        user = new User(login, pwd);//comment mettre un user permanent sur la session
+
+        //Retrieve views from XML
         btnSend = (Button) findViewById(R.id.ButtonSend);
         btnImage = (Button) findViewById(R.id.ButtonCamera);
         btnProfile = (Button) findViewById(R.id.action_my_contacts);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
-        iv = (ImageView) findViewById(R.id.imageProfileTop);
+        imageView = (ImageView) findViewById(R.id.imageProfileTop);
         msgET = (EditText) findViewById(R.id.message);
-        context = getApplicationContext();
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+
+        //RecyclerView
         recyclerView.setHasFixedSize(true);
-        user = new User(login, pwd);//comment mettre un user permanent sur la session
-        // use a linear layout manager
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        // specify an adapter
         adapter = new MessageAdapter(messages);
         recyclerView.setAdapter(adapter);
+
+        //Button listeners
         btnSend.setOnClickListener(this);
         btnImage.setOnClickListener(this);
         btnProfile.setOnClickListener(this);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //Async image
         //ASYNC TASK GET IMAGE FOR PROFILE
@@ -104,7 +109,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
                     Log.i(TAG, "onGetImageProfile: result different than null");
-                    iv.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+                    imageView.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
                 }
             }
         };
