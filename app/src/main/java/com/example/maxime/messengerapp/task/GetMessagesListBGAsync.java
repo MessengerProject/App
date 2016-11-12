@@ -41,10 +41,13 @@ public class GetMessagesListBGAsync extends AsyncTask<Integer, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Integer... params) {
+
         int limit = params[0];
         int offset = params[1];
+        int TypeOfGet = params[2];
+        Log.i(TAG, "limit: "+ limit + "\noffset:  " + offset + "\nTypeOfGet: "+ TypeOfGet);
         String stringMessagesList = GetMessagesListService.GetMessageListResponse(user, limit, offset);
-        //Log.i(TAG, "MessagesList: " + stringMessagesList);
+        Log.i(TAG, "MessagesList: " + stringMessagesList);
         //Service
         Gson messagesList = new Gson();
         messagesList.toJson(stringMessagesList);
@@ -73,13 +76,46 @@ public class GetMessagesListBGAsync extends AsyncTask<Integer, Void, Boolean> {
                 Attachment[] attachments = new Attachment[1];
                 attachments[0] = attachmentMessage;
                 Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, encodedImage);
-                messages.add(0,message);
-                messagesTmp.get(i).getImages()[0] = encodedImage;
-                messagesTmp.get(i).setAttachments(attachments);
+                switch (TypeOfGet){
+                    case 0:
+                    {   messages.add(0,message);
+                        Log.i(TAG, "messages.size():  " + messages.size());
+                        messages.remove(messages.size() - 1);
+                        Log.i(TAG, "messages.size():  " + messages.size());
+
+                    }
+                    case 1:
+                    {
+                        messages.add(message);
+                        //messages.remove(0);
+
+                    }
+                    case 2:
+                    {
+                        messages.add(message);
+                    }
+                    messagesTmp.get(i).getImages()[0] = encodedImage;
+                    messagesTmp.get(i).setAttachments(attachments);
+                }
+
             } else {
                 Attachment attachmentMessage = new Attachment("image/png", "");
                 Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, "");
-                messages.add(0,message);
+                switch (TypeOfGet) {
+                    case 0: {
+                        messages.add(0, message);
+                        Log.i(TAG, "messages.size():  " + messages.size());
+                        messages.remove(messages.size()-1);
+                        Log.i(TAG, "messages.size():  " + messages.size());
+                    }
+                    case 1: {
+                        messages.add(message);
+                        //messages.remove(0);
+                    }
+                    case 2: {
+                        messages.add(message);
+                    }
+                }
             }
 
         }
