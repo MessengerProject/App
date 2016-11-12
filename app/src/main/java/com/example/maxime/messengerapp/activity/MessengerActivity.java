@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import static android.support.v7.recyclerview.R.styleable.RecyclerView;
+
 /**
  * Created by maxime on 18/10/16.
  */
@@ -57,6 +60,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     private GetMessagesListBGAsync getMessagesListBGAsync;
@@ -73,10 +77,56 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private Attachment attachmentMessage;
     private byte[] b;
 
-    private int nbMessageToUpload = 4;
-    private int visibleThreshold = 5;
+
+    private int nbMessageToUpload = 6;
+    private int visibleThreshold = 4;
     private int firstVisibleItem, totalItemCount;
 
+
+    @Override
+    protected void onStart() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (getMessagesListBGAsync != null && getMessagesListBGAsync.getStatus().equals(AsyncTask.Status.RUNNING)) {
+                    getMessagesListBGAsync.cancel(true);
+                }
+                if (firstVisibleItem < visibleThreshold) {
+                    //Getmessages Async
+                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                        @Override
+                        public void onGetMessagesList(boolean result) {
+                            adapter.notifyDataSetChanged();
+                            //recyclerView.smoothScrollToPosition(messages.size());
+                        }
+                    };
+                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
+                    try {
+                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
+                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
+                    }
+                    Log.i(TAG, "onRefresh: here we are");
+                    //swipeRefreshLayout.setRefreshing(false);
+                    recyclerView.scrollToPosition(10);
+                    getMessagesListBGAsync.cancel(true);
+                    swipeRefreshLayout.setEnabled(false);
+
+
+                }
+            }
+        });
+        Log.i(TAG, "messages.size(): " + messages.size());
+        //recyclerView.smoothScrollToPosition(messages.size());
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +149,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         imageView = (ImageView) findViewById(R.id.imageProfileTop);
         msgET = (EditText) findViewById(R.id.message);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        context = getApplicationContext();
 
         //RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -151,45 +203,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         }
         getImageProfileAsync.cancel(true);
 
-    }
-
-    @Override
-    protected void onStart() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-
-                if (getMessagesListBGAsync != null && getMessagesListBGAsync.getStatus().equals(AsyncTask.Status.RUNNING)) {
-                    getMessagesListBGAsync.cancel(true);
-                }
-                if (firstVisibleItem < visibleThreshold) {
-                    //Getmessages Async
-                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-                        @Override
-                        public void onGetMessagesList(boolean result) {
-                            adapter.notifyDataSetChanged();
-                            //recyclerView.smoothScrollToPosition(messages.size());
-                        }
-                    };
-                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
-                    try {
-                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
-                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
-                    } catch (Exception e) {
-                        Log.i(TAG, e.toString());
-                    }
-                    getMessagesListBGAsync.cancel(true);
-                }
-            }
-        });
-        Log.i(TAG, "messages.size(): " + messages.size());
-        //recyclerView.smoothScrollToPosition(messages.size());
-        super.onStart();
     }
 
     @Override
