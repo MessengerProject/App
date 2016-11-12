@@ -18,7 +18,6 @@ public class Message {
         this.message = msg;
         this.login = login;
         this.uuid = UUID.randomUUID().toString();
-        //this.images[0] = attachment;
         attachment.setData(images);
         this.attachments[0] = attachment;
         this.images[0] = images;
@@ -55,6 +54,17 @@ public class Message {
 
     public void setAttachments(Attachment[] attachments) {
         this.attachments = attachments;
+    }
+    public void addAttachment(Attachment attachment) {
+        this.attachments[0].setData(attachment.getData());
+    }
+
+    public String[] getImages() {
+        return images;
+    }
+
+    public void setImages(String[] images) {
+        this.images = images;
     }
 
     @Override

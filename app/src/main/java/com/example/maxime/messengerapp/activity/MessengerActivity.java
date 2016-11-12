@@ -49,7 +49,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
-    private Button btnSend, btnImage;
+    private Button btnSend, btnImage, btnProfile;
+    private ImageView iv;
     private RecyclerView recyclerView;
     private EditText msgET;
     private User user;
@@ -75,7 +76,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         final String pwd = sharedPref.getString("pwd", "error");
         btnSend = (Button) findViewById(R.id.ButtonSend);
         btnImage = (Button) findViewById(R.id.ButtonCamera);
+        btnProfile = (Button) findViewById(R.id.action_my_contacts);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
+        iv = (ImageView) findViewById(R.id.imageProfileTop);
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
         recyclerView.setHasFixedSize(true);
@@ -88,49 +91,20 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
         btnImage.setOnClickListener(this);
+        btnProfile.setOnClickListener(this);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        //End asynctask
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.actionbar, null);
-        actionBar.setCustomView(v);
-        getMenuInflater().inflate(R.menu.menutoolbar, menu);
-        MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
-        profileAccess.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplication(), ProfileConfigActivity.class);
-                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("login", user.getLogin());
-                editor.putString("pwd", user.getPassword());
-                editor.commit();
-                startActivity(intent);
-                Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
-        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
+        //Async image
         //ASYNC TASK GET IMAGE FOR PROFILE
         GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
-                    adapter.notifyDataSetChanged();
+                    Log.i(TAG, "onGetImageProfile: result different than null");
                     iv.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
-                    //iv.setImageBitmap(result);
                 }
             }
         };
@@ -142,7 +116,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             Log.i(TAG, e.toString());
         }
         getImageProfileAsync.cancel(true);
-        return true;
     }
 
     @Override
@@ -188,6 +161,19 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent,GET_FROM_GALLERY);
                 }
+                break;
+            }
+            case R.id.action_my_contacts: {
+                Log.i(TAG, "onClick: here we are");
+                Intent intent = new Intent(getApplication(), ProfileConfigActivity.class);
+                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("login", user.getLogin());
+                editor.putString("pwd", user.getPassword());
+                editor.commit();
+                startActivity(intent);
+                Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
+                break;
             }
         }
     }

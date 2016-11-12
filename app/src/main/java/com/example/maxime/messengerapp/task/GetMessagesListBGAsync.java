@@ -47,9 +47,9 @@ public class GetMessagesListBGAsync extends AsyncTask<Void, Void, Boolean> {
         //Service
         Gson messagesList = new Gson();
         messagesList.toJson(stringMessagesList);
-        Type listType = new TypeToken<List<MessageImage>>() {
+        Type listType = new TypeToken<List<Message>>() {
         }.getType();
-        List<MessageImage> messagesTmp = messagesList.fromJson(stringMessagesList, listType);
+        /*List<MessageImage> messagesTmp = messagesList.fromJson(stringMessagesList, listType);
         messages.clear();
         for (int i = 0; i < messagesTmp.size(); i++)
             if (messagesTmp.get(i).getAttachments()[0].length() > 20) {
@@ -70,10 +70,35 @@ public class GetMessagesListBGAsync extends AsyncTask<Void, Void, Boolean> {
             } else {
                 Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString());
                 messages.add(message);
-            }
+            }*/
         //messagesTmp.get(0).getAttachments().add(imageMessage);
         //this.messages.clear();
         //messages.addAll(messages);
+        List<Message> messagesTmp = messagesList.fromJson(stringMessagesList, listType);
+        messages.clear();
+        for (int i = 0; i < messagesTmp.size(); i++) {
+            Log.i(TAG, "doInBackground: " + messagesTmp.get(i).getImages()[0]);
+            Bitmap image = GetImageMessageService.getImageMessageService(user, messagesTmp.get(i).getImages()[0]);
+            if (image != null) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                Attachment attachmentMessage = new Attachment("image/png", encodedImage);
+                Attachment[] attachments = new Attachment[1];
+                attachments[0] = attachmentMessage;
+                Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, encodedImage);
+                messages.add(message);
+                messagesTmp.get(i).getImages()[0] = encodedImage;
+                messagesTmp.get(i).setAttachments(attachments);
+            } else {
+                Attachment attachmentMessage = new Attachment("image/png", "");
+                Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, "");
+                messages.add(message);
+            }
+
+        }
+        //messages.addAll(messagesTmp);
         Log.i(TAG, messages.toString());
         return true;
     }

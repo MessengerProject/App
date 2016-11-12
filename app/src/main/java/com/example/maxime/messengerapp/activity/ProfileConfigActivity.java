@@ -73,6 +73,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         btnSave =(ActionProcessButton) findViewById(R.id.ButtonSave);
         btnSave.setVisibility(View.VISIBLE);
         emailET = (EditText) findViewById(R.id.email);
+        imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
         emailET.addTextChangedListener(new TextValidator(emailET) {
             @Override
             public void validate(TextView textView, String text) {
@@ -114,19 +115,12 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         imageViewTop = (ImageView) findViewById(R.id.imageProfileTop);
         btnImage.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        //Attachment profile
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.actionbar, null);
-        actionBar.setCustomView(v);
-        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
         //ASYNC TASK GET IMAGE FOR PROFILE
         SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         final String login = sharedPref.getString("login", "error");
@@ -137,7 +131,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
-                    iv.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+                    imageViewTop.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
                     //iv.setImageBitmap(result);
                 }
             }
@@ -207,7 +201,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
             }
             case R.id.ButtonImage: {
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("attachments/*");
+                intent.setType("image/*");
                 startActivityForResult(intent,GET_FROM_GALLERY);
             }
         }

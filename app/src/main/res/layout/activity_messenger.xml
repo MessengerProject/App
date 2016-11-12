@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/simple_yellow"
-        android:minHeight="?attr/actionBarSize">
+        android:minHeight="20dp">
 
         <TextView
             android:id="@+id/text_id"
@@ -21,24 +21,45 @@
             android:text="MessengerApp"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/name_app" />
+
+        <ImageView
+            android:id="@+id/imageProfileTop"
+            android:layout_width="@dimen/name_app"
+            android:layout_height="@dimen/name_app"
+            android:layout_gravity="right"
+            android:src="@mipmap/android3" />
+
+        <Button
+            android:id="@+id/action_my_contacts"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="end"
+            android:background="@drawable/ic_profile" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/toolbar"
+        android:layout_centerVertical="true"
         android:paddingBottom="@dimen/paddingBotRecycler">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerLayout">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewMsg"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:scrollbars="vertical"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentTop="true" />
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -47,16 +68,16 @@
         android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/ButtonSend"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/arrow_right"/>
+            android:layout_alignParentRight="true"
+            android:background="@drawable/arrow_right" />
 
         <EditText
             android:id="@+id/message"
@@ -64,19 +85,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:inputType="textMultiLine"
             android:layout_marginRight="65dp"
-            android:textSize="20sp"/>
+            android:inputType="textMultiLine"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/ButtonCamera"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_alignParentTop="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ic_camera"
             android:layout_toLeftOf="@+id/ButtonSend"
-            android:gravity="center_horizontal"
-            android:layout_alignParentTop="true" />
+            android:background="@drawable/image"
+            android:gravity="center_horizontal" />
     </RelativeLayout>
 </RelativeLayout>
 
