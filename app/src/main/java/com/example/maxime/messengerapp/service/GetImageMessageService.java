@@ -26,16 +26,14 @@ public class GetImageMessageService {
     public static Bitmap getImageMessageService(User user, String imageURL) {
         try {
             //Get Profile informations
-            String url = imageURL;
             OkHttpClient client = new OkHttpClient();
             String credential = Credentials.basic(user.getLogin(), user.getPassword());
             Request request = new Request.Builder()
                     .header("Authorization", credential)
-                    .url(url)
+                    .url(imageURL)
                     .build();
 
             Response response = client.newCall(request).execute();
-            Log.i(TAG, response.toString());
             InputStream inputStream = response.body().byteStream();
             imageBitmap = BitmapFactory.decodeStream(inputStream);
             return imageBitmap;

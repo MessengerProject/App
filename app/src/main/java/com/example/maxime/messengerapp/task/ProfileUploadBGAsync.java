@@ -26,23 +26,23 @@ public class ProfileUploadBGAsync extends AsyncTask<Void, Void, Boolean>{
         this.lastPassword = lastPassword;
     }
 
-    public void setProfileUploadListener(ProfileUploadBGAsync.profileUploadListener profileUploadListener) {
-        this.profileUploadListener = profileUploadListener;
-    }
-
-    @Override
-
-    protected void onPostExecute(Boolean result) {
-        Log.i(TAG,result.toString());
-    }
-
     @Override
     protected Boolean doInBackground(Void... params) {
         //TODO : Check DB for User
         return ProfileUploadService.uploadProfile(user,lastPassword);
     }
 
+    @Override
+    protected void onPostExecute(Boolean result) {
+        Log.i(TAG,result.toString());
+    }
+
+    //Interface
     public interface profileUploadListener{
         void onSend(boolean result);
+    }
+
+    public void setProfileUploadListener(ProfileUploadBGAsync.profileUploadListener profileUploadListener) {
+        this.profileUploadListener = profileUploadListener;
     }
 }

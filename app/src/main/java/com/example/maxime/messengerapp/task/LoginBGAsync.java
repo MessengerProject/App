@@ -14,7 +14,7 @@ import static java.lang.Integer.getInteger;
  * Created by maxime on 12/10/16.
  */
 
-public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
+public class LoginBGAsync extends AsyncTask<Void, Void, Boolean> {
 
     private final String TAG = LoginBGAsync.class.getName();
     private Context mContext;
@@ -22,18 +22,14 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
     public LoginListener loginListener;
     public ActionProcessButton btn;
 
-    public void setBtn(ActionProcessButton btn) {
-        this.btn = btn;
-    }
 
-    public LoginBGAsync (Context context, User user){
+    public LoginBGAsync(Context context, User user) {
         this.mContext = context;
         this.user = user;
     }
-    //private boolean result;
 
-    public void setLoginListener(LoginListener loginListener) {
-        this.loginListener = loginListener;
+    public void setBtn(ActionProcessButton btn) {
+        this.btn = btn;
     }
 
     @Override
@@ -41,20 +37,26 @@ public class LoginBGAsync extends AsyncTask <Void, Void, Boolean>  {
         btn.setProgress(1);
     }
 
-    @Override
-    public void onPostExecute(Boolean result) {
-        if (result){
-            btn.setProgress(-1);
-        }
-        Log.i(TAG,result.toString());
-    }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         //TODO : Check DB for User
         return LoginService.loginResponse(user);
     }
-    public interface LoginListener{
+
+    @Override
+    public void onPostExecute(Boolean result) {
+        if (result) {
+            btn.setProgress(-1);
+        }
+    }
+
+    //Interface
+    public interface LoginListener {
         void onLogin(boolean result);
+    }
+
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
     }
 }

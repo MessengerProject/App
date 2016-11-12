@@ -52,14 +52,14 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private Button btnSend, btnImage, btnProfile;
     private ImageView iv;
     private RecyclerView recyclerView;
-    private EditText msgET;
-    private User user;
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
     static final int GET_FROM_GALLERY = 3;
-    private Bitmap imageBitmap;
+    private Bitmap imageBitmap;    private EditText msgET;
+    private User user;
+
     private String encodedImage;
     private ByteArrayOutputStream baos;
     private Attachment attachmentMessage;

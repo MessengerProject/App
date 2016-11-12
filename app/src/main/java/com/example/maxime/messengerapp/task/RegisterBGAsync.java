@@ -31,7 +31,6 @@ public class RegisterBGAsync extends AsyncTask<Void, Void, Boolean> {
     }
 
 
-
     @Override
     protected void onPostExecute(Boolean result) {
         Log.i(TAG,result.toString());

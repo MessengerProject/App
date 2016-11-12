@@ -19,12 +19,7 @@ public class SendMessageBGAsync extends AsyncTask<Void, Void, Boolean> {
     private User user;
     private Message message;
     public sendMessageListener sendMessageListener;
-    //private boolean result;
 
-
-    public void setSendMessageListener(SendMessageBGAsync.sendMessageListener sendMessageListener) {
-        this.sendMessageListener = sendMessageListener;
-    }
 
     public SendMessageBGAsync(Context mContext, User user, Message message) {
         this.mContext = mContext;
@@ -32,18 +27,24 @@ public class SendMessageBGAsync extends AsyncTask<Void, Void, Boolean> {
         this.message = message;
     }
 
-    @Override
-    protected void onPostExecute(Boolean result) {
-        Log.i(TAG, result.toString());
-        //loginListener.onLogin(result)
-    }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         return SendMessageService.SendMessage(user, message);
     }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+        Log.i(TAG, result.toString());
+    }
+
+
+    //Interface sendMessageListener
     public interface sendMessageListener{
         void onSend(boolean result);
+    }
+    public void setSendMessageListener(SendMessageBGAsync.sendMessageListener sendMessageListener) {
+        this.sendMessageListener = sendMessageListener;
     }
 }
 
