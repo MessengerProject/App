@@ -71,7 +71,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private byte[] b;
 
     private int nbMessageToUpload = 6;
-    private int nbMessageToUploadOnCreate = 24;
+    private int nbMessageToUploadOnCreate = 12;
     private int firstVisibleItem, totalItemCount, lastVisibleItem;
     private GetMessagesListBGAsync getMessagesListBGAsync;
     private GetImageProfileAsync getImageProfileAsync;
@@ -126,7 +126,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                                 }
                                 Log.i(TAG, "onRefresh: here we are");
                                 //swipeRefreshLayout.setRefreshing(false);
-                                //recyclerView.scrollToPosition(6);
+                                recyclerView.scrollToPosition(12);
 
                                 swipeRefreshLayout.setEnabled(false);
                             }

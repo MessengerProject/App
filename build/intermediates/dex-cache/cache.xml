@@ -12,15 +12,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_8a4d17011309742511e895f9fcbcf2cb972a9675/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.github.dmytrodanylyk.android-process-button/library/1.0.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -36,15 +27,6 @@
         revision="24.0.3"
         sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_dde482842ab641c59bc7ad1a9c614e257f5a5ded/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_dc6d6118f1bd6aa9065b2e5c0e5414c083c4fc9b/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -66,48 +48,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/Android/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_2abfba115cd0119145daeb4babaf88bec021b250/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_2e5c04a511f7ab16bc0e3d389323ca59db65465e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_a9d1f1e8c65d558d10ce09ba370c0c44d10f6930/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.github.orangegangsters/swipy/1.2.3/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="bb183283871cbff072b40a32e55e205ceac1dbe9">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.github.orangegangsters-swipy-1.2.3_7b4ef76b1f9c50957fc21838b59d536379cb2665/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.6.1_31425e4f1951f01a68c34808a5b06d7fa2080d7d/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -120,33 +66,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_76e8fb5703d2f6f5923e63ff77ebb7e99d5dd9ce/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.6.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="1ef72e72bc0d05602c366582afa9439f58bb31d6">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-9.6.1_1f0d8701841d5c199ace2ab17c50d19c4f7cc263/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.9.0_94803dbfc884b12c3a149651d29ad33c1353cc77/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -156,39 +75,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.6.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="cc39b4bcc9e7062891db90d5a752fa9e4986f447">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-9.6.1_3bee61551e79703d15af9251e163b71886dd6b52/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_e5f497841f256be6e1651fb79e2ff159947f9fe3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_ac79dd188e552e38e44abb5a9409958a7f20da61/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f5309aed1502c27ad605266ed532a4ee0222c4e5">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_492eebe7782b01d80c6e9b19e72ead892a47be4e/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -219,24 +111,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="2c35b98c8da9972c3974c4d2536b7e12d8741678">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f6e748e88ca46f948ce401bf208536ed3aef050b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
-        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.6.1_402f05445311a434bbc0d1ed91fd3f047849a440/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -252,6 +126,132 @@
         revision="24.0.3"
         sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
         <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.8.0_760bc9349844fafa8f494a8a103fc401fd8400f0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_8a4d17011309742511e895f9fcbcf2cb972a9675/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_dc6d6118f1bd6aa9065b2e5c0e5414c083c4fc9b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/Android/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_2abfba115cd0119145daeb4babaf88bec021b250/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_2e5c04a511f7ab16bc0e3d389323ca59db65465e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_a9d1f1e8c65d558d10ce09ba370c0c44d10f6930/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.6.1_31425e4f1951f01a68c34808a5b06d7fa2080d7d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_76e8fb5703d2f6f5923e63ff77ebb7e99d5dd9ce/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="1ef72e72bc0d05602c366582afa9439f58bb31d6">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-9.6.1_1f0d8701841d5c199ace2ab17c50d19c4f7cc263/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.9.0/f824591a0016efbaeddb8300bee54832a1398cfa/okio-1.9.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.9.0_94803dbfc884b12c3a149651d29ad33c1353cc77/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="cc39b4bcc9e7062891db90d5a752fa9e4986f447">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-9.6.1_3bee61551e79703d15af9251e163b71886dd6b52/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_ac79dd188e552e38e44abb5a9409958a7f20da61/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4cd3313ac53aff48ff1c93431ff88a188b6130ad">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_492eebe7782b01d80c6e9b19e72ead892a47be4e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d08d9643af3b8946732c2361bb51a283548e1dc9">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f6e748e88ca46f948ce401bf208536ed3aef050b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
+        <dex dex="/home/maxime/AndroidStudioProjects/MessengerApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-9.6.1_402f05445311a434bbc0d1ed91fd3f047849a440/classes.dex" />
     </item>
     <item
         is-multidex="true"
