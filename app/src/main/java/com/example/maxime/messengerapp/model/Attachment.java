@@ -25,7 +25,7 @@ public class Attachment {
 
     public Attachment() {
         this.mimeType = "image/png";
-        this.data = " d";
+        this.data = "";
     }
 
     @Override

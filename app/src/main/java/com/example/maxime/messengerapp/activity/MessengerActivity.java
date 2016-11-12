@@ -49,16 +49,17 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
-    private Button btnSend, btnImage;
+    private Button btnSend, btnImage, btnProfile;
+    private ImageView iv;
     private RecyclerView recyclerView;
-    private EditText msgET;
-    private User user;
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
     static final int GET_FROM_GALLERY = 3;
-    private Bitmap imageBitmap;
+    private Bitmap imageBitmap;    private EditText msgET;
+    private User user;
+
     private String encodedImage;
     private ByteArrayOutputStream baos;
     private Attachment attachmentMessage;
@@ -81,7 +82,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         final String pwd = sharedPref.getString("pwd", "error");
         btnSend = (Button) findViewById(R.id.ButtonSend);
         btnImage = (Button) findViewById(R.id.ButtonCamera);
+        btnProfile = (Button) findViewById(R.id.action_my_contacts);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
+        iv = (ImageView) findViewById(R.id.imageProfileTop);
         msgET = (EditText) findViewById(R.id.message);
         context = getApplicationContext();
         recyclerView.setHasFixedSize(true);
@@ -188,15 +191,18 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         });
 
         final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
+        btnProfile.setOnClickListener(this);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        //Async image
         //ASYNC TASK GET IMAGE FOR PROFILE
         GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
-                    adapter.notifyDataSetChanged();
+                    Log.i(TAG, "onGetImageProfile: result different than null");
                     iv.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
-                    //iv.setImageBitmap(result);
                 }
             }
         };
@@ -208,7 +214,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             Log.i(TAG, e.toString());
         }
         getImageProfileAsync.cancel(true);
-        return true;
     }
 
     @Override
@@ -255,6 +260,19 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent,GET_FROM_GALLERY);
                 }
+                break;
+            }
+            case R.id.action_my_contacts: {
+                Log.i(TAG, "onClick: here we are");
+                Intent intent = new Intent(getApplication(), ProfileConfigActivity.class);
+                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("login", user.getLogin());
+                editor.putString("pwd", user.getPassword());
+                editor.commit();
+                startActivity(intent);
+                Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
+                break;
             }
         }
     }

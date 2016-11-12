@@ -32,14 +32,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public TextView textViewAuthor;
         public TextView textViewTxt;
         public ImageView imageView;
-        public RelativeLayout relative;
+        public RelativeLayout relative, relative1;
+        public View RelativeLayoutMessage;
 
         public ViewHolder(View v) {
             super(v);
             textViewAuthor = (TextView) v.findViewById(R.id.author);
-            textViewTxt = (TextView) v.findViewById(R.id.text);
+            textViewTxt = (TextView) v.findViewById(R.id.textMessage);
             imageView = (ImageView) v.findViewById(R.id.imageMessage);
             relative = (RelativeLayout) v.findViewById(R.id.messageLayout);
+            RelativeLayoutMessage = v.findViewById(R.id.RelativeLayoutMessage);
+            relative1 = (RelativeLayout) v.findViewById(R.id.RelativeLayoutMessage);
         }
     }
 
@@ -65,6 +68,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from messages at this position
         // - replace the contents of the view with that element
+        /*RelativeLayout relative1 = holder.relative1;
+        relative1.setHorizontalGravity(RelativeLayout.ALIGN_PARENT_RIGHT);
+        relative1.setHorizontalGravity(RelativeLayout.ALIGN_PARENT_END);
+        relative1.requestLayout();*/
+
         holder.textViewTxt.setText(messages.get(position).getMessage());
         holder.textViewAuthor.setText(messages.get(position).getLogin());
         //Log.i(TAG, "ADAPTER"+messages.get(position).toString());
@@ -91,7 +99,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 holder.textViewTxt.measure(0, 0);
                 int width = holder.textViewTxt.getMeasuredWidth();
                 RelativeLayout layout = holder.relative;
-                layout.getLayoutParams().width = width + 10;
+                layout.getLayoutParams().width = width + 20;
                 layout.requestLayout();
             }
         }

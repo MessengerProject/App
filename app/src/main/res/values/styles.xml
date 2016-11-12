@@ -16,8 +16,5 @@
         <!-- Base application thème. -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="spinnerDropDownItemStyle">@style/mydropdown</item>
-    </style>
-    <style name="mydropdown" parent="AppTheme">
     </style>
 </resources>
