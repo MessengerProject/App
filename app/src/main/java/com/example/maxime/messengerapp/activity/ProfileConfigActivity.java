@@ -29,7 +29,6 @@ import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
 import com.example.maxime.messengerapp.utils.Util;
 
-import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -98,7 +97,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
         emailET.addTextChangedListener(new TextValidator(emailET) {
             @Override
-            public void validate(TextView textView, String text) {
+            public void validate(TextView textView, String   text) {
                 if (!text.matches(String.valueOf(android.util.Patterns.EMAIL_ADDRESS))) {
                     emailET.setError(emailValidationString);
                     btnSave.setProgress(-1);
@@ -140,18 +139,20 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
         sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         login = sharedPref.getString("login", "error");
         pwd = sharedPref.getString("pwd", "error");
-        user = new User(String.valueOf(login), String.valueOf(pwd));
+        user = new User(login, pwd);
 
         //ASYNC TASK GET IMAGE FOR PROFILE
-        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
+        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(user);
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
-            public void onGetImageProfile(Bitmap result) {
-                if (result != null) {
-                    imageViewTop.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+            public void onGetImageProfile(Bitmap bitmap) {
+                if (bitmap != null) {
+                    imageViewTop.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 80, 80, false));
+                    //imagePath = result;
                 }
             }
         };
+        //Glide.with(this).load(imagePath).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageViewTop);
         getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
         getImageProfileAsync.execute();
         try {
@@ -190,7 +191,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 user.setImage(attachmentProfile);
 
                 //ProfileSave Async
-                ProfileUploadBGAsync profileUploadBGAsync = new ProfileUploadBGAsync(context, user, lastPassword);
+                ProfileUploadBGAsync profileUploadBGAsync = new ProfileUploadBGAsync( user, lastPassword);
 
                 ProfileUploadBGAsync.profileUploadListener profileUploadListener = new ProfileUploadBGAsync.profileUploadListener() {
                     @Override
@@ -238,7 +239,7 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
                 //Decode for user
                 encodedImage = Util.pathToEncodedImage(imagePath);
-                attachmentProfile = new Attachment("attachments/png", encodedImage);
+                attachmentProfile = new Attachment("image/png", encodedImage);
             }
 
         }

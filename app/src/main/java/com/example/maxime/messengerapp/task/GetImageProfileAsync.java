@@ -1,6 +1,5 @@
 package com.example.maxime.messengerapp.task;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
@@ -14,15 +13,11 @@ import com.example.maxime.messengerapp.utils.services.SetProfilePictureService;
 
 public class GetImageProfileAsync extends AsyncTask<Void, Void, Bitmap> {
     private final String TAG = GetImageProfileAsync.class.getName();
-    private Context mContext = null;
     private User user;
-    private String lastPassword;
-    public GetImageProfileAsync.GetImageProfileListener getImageProfileListener;
+    private GetImageProfileAsync.GetImageProfileListener getImageProfileListener;
 
-    public GetImageProfileAsync(Context mContext, User user, String lastPassword) {
-        this.mContext = mContext;
+    public GetImageProfileAsync( User user) {
         this.user = user;
-        this.lastPassword = lastPassword;
     }
 
     public void setGetImageProfileListener(GetImageProfileAsync.GetImageProfileListener getImageProfileListener){
@@ -31,8 +26,7 @@ public class GetImageProfileAsync extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        Bitmap response = SetProfilePictureService.SetProfilPicture(user, lastPassword);
-        return response;
+        return SetProfilePictureService.SetProfilPicture(user);
     }
     public interface GetImageProfileListener{
         void onGetImageProfile(Bitmap result);

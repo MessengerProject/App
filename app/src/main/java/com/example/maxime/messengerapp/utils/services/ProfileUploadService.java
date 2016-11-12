@@ -20,7 +20,7 @@ import okhttp3.Response;
 
 public class ProfileUploadService {
     private static final String TAG = ProfileUploadService.class.getName();
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static boolean uploadProfile(User user, String lastPassword) {
 

@@ -3,6 +3,7 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,20 +19,25 @@ import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.task.RegisterBGAsync;
 import com.example.maxime.messengerapp.utils.TextValidator;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.concurrent.ExecutionException;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-    private final String TAG = LoginActivity.class.getName();
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = LoginActivity.class.getName();
     private final String pwdValidationString =
             "A digit must occur at least once\n" +
-            "A lower case letter must occur at least once\n" +
-            "An upper case letter must occur at least once\n" +
-            "A special character must occur at least once\n" +
-            "No whitespace allowed in the entire string\n" +
-            "At least 8 characters\n";
+                    "A lower case letter must occur at least once\n" +
+                    "An upper case letter must occur at least once\n" +
+                    "A special character must occur at least once\n" +
+                    "No whitespace allowed in the entire string\n" +
+                    "At least 8 characters\n";
 
     private static final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-    private static final String loginValidationString= "Must be longer than 5";
+    private static final String loginValidationString = "Must be longer than 5";
     private static final String SHARED_PREFS = "prefs";
 
     private Context context;
@@ -42,8 +48,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private LoginBGAsync login_bg_async;
     private RegisterBGAsync register_bg_async;
-    private LoginBGAsync.LoginListener loginListener;
-    private RegisterBGAsync.RegisterListener registerListener;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -57,12 +66,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         context = getApplicationContext();
 
-
         //Retrieve views from XML
         btnLogin = (ActionProcessButton) findViewById(R.id.ButtonLogin);
-        btnRegister = (ActionProcessButton)findViewById(R.id.ButtonRegister);
-        loginET = (EditText)findViewById(R.id.login);
-        pwdET = (EditText)findViewById(R.id.pwd);
+        btnRegister = (ActionProcessButton) findViewById(R.id.ButtonRegister);
+        loginET = (EditText) findViewById(R.id.login);
+        pwdET = (EditText) findViewById(R.id.pwd);
 
         //Button listeners
         btnLogin.setOnClickListener(this);
@@ -70,18 +78,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegister.setVisibility(View.GONE);
         setTextButtonsListeners();
         btnLogin.setMode(ActionProcessButton.Mode.ENDLESS);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void setTextButtonsListeners(){
+    public void setTextButtonsListeners() {
         loginET.addTextChangedListener(new TextValidator(loginET) {
             @Override
             public void validate(TextView textView, String text) {
-                if (text.length() < 5){
+                if (text.length() < 5) {
                     loginET.setError(loginValidationString);
                     btnLogin.setProgress(-1);
                     btnRegister.setProgress(-1);
-                }
-                else {
+                } else {
                     btnLogin.setProgress(0);
                     btnRegister.setProgress(0);
                 }
@@ -96,8 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     pwdET.setError(pwdValidationString);
                     btnRegister.setProgress(-1);
                     btnLogin.setProgress(-1);
-                }
-                else{
+                } else {
                     btnLogin.setProgress(0);
                     btnRegister.setProgress(0);
 
@@ -105,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+
     @Override
     protected void onStart() {
 
@@ -120,7 +130,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginET.setText("");
         pwdET.setText("");
 
-        super.onStart();
+        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
@@ -136,11 +151,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onStop() {
-        super.onStop();
+        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
         btnLogin.setProgress(0);
         btnLogin.setEnabled(true);
         loginET.setEnabled(true);
         pwdET.setEnabled(true);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.disconnect();
     }
 
     @Override
@@ -156,8 +176,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 user = new User(String.valueOf(loginET.getText()), String.valueOf(pwdET.getText()));
 
                 //Login Async
-                login_bg_async = new LoginBGAsync(context, user);
-                loginListener = new LoginBGAsync.LoginListener() {
+                login_bg_async = new LoginBGAsync( user);
+                LoginBGAsync.LoginListener loginListener = new LoginBGAsync.LoginListener() {
                     @Override
                     public void onLogin(boolean result) {
                         if (!result) {
@@ -181,9 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     loginListener.onLogin(login_bg_async.get());
                     //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
                 login_bg_async.cancel(true);
@@ -195,8 +213,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 user.setPassword(String.valueOf(pwdET.getText()));
 
 
-                register_bg_async = new RegisterBGAsync(context, user);
-                registerListener = new RegisterBGAsync.RegisterListener() {
+                register_bg_async = new RegisterBGAsync(user);
+                RegisterBGAsync.RegisterListener registerListener = new RegisterBGAsync.RegisterListener() {
                     @Override
                     public void onRegister(boolean result) {
                         if (!result) {
@@ -213,9 +231,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 register_bg_async.execute();
                 try {
                     registerListener.onRegister(register_bg_async.get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -223,7 +239,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void openMessengerActivity(ActionProcessButton button){
+    public void openMessengerActivity(ActionProcessButton button) {
         button.setProgress(100);
 
         Intent intent = new Intent(getApplication(), MessengerActivity.class);
@@ -231,8 +247,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("login", user.getLogin());
         editor.putString("pwd", user.getPassword());
-        editor.commit();
+        editor.apply();
         startActivity(intent);
         Toast.makeText(getApplication(), "Connected!!", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Login Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
 }

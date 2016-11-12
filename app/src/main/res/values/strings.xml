@@ -1,1 +1,17 @@
-<resources></resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Login</string>
+    <string name="toolbarText">MessengerApp</string>
+    <string name="pb_textComplete">Success</string>
+    <string name="pb_textError">Error</string>
+    <string name="pb_textProgress">Progress</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="upload_profile_picture">Upload Profile Picture</string>
+    <string name="submit">Submit</string>
+    <string name="desc">imageProfile of current user</string>
+    <string name="e_mail">e-mail</string>
+    <string name="descImage">Image inside message</string>
+</resources>
+

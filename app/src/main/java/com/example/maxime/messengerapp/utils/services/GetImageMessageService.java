@@ -21,7 +21,6 @@ import okhttp3.Response;
 public class GetImageMessageService {
 
     private static final String TAG = GetImageMessageService.class.getName();
-    private static Bitmap imageBitmap;
 
     public static Bitmap getImageMessageService(User user, String imageURL) {
         try {
@@ -35,8 +34,7 @@ public class GetImageMessageService {
 
             Response response = client.newCall(request).execute();
             InputStream inputStream = response.body().byteStream();
-            imageBitmap = BitmapFactory.decodeStream(inputStream);
-            return imageBitmap;
+            return BitmapFactory.decodeStream(inputStream);
 
 
         } catch (IOException e) {

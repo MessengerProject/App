@@ -1,6 +1,5 @@
 package com.example.maxime.messengerapp.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,19 +13,21 @@ import com.example.maxime.messengerapp.utils.services.SendMessageService;
 
 public class SendMessageBGAsync extends AsyncTask<Void, Void, Boolean> {
 
+    //Interface sendMessageListener
+    public interface sendMessageListener{
+        void onSend(boolean result);
+    }
+
     private final String TAG = com.example.maxime.messengerapp.task.RegisterBGAsync.RegisterListener.class.getName();
-    private Context mContext;
+
     private User user;
     private Message message;
-    public sendMessageListener sendMessageListener;
+    protected sendMessageListener sendMessageListener;
 
-
-    public SendMessageBGAsync(Context mContext, User user, Message message) {
-        this.mContext = mContext;
+    public SendMessageBGAsync( User user, Message message) {
         this.user = user;
         this.message = message;
     }
-
 
     @Override
     protected Boolean doInBackground(Void... params) {
@@ -38,11 +39,6 @@ public class SendMessageBGAsync extends AsyncTask<Void, Void, Boolean> {
         Log.i(TAG, result.toString());
     }
 
-
-    //Interface sendMessageListener
-    public interface sendMessageListener{
-        void onSend(boolean result);
-    }
     public void setSendMessageListener(SendMessageBGAsync.sendMessageListener sendMessageListener) {
         this.sendMessageListener = sendMessageListener;
     }

@@ -19,8 +19,6 @@ import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
-
 /**
  * Created by victor on 12/11/16.
  */
@@ -76,7 +74,7 @@ public class Util {
             }
             catch (Exception e)
             {
-                Log.i(null,  e.toString());
+                Log.i(null, e.toString());
             }
 
             if (image != null) {

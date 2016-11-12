@@ -3,18 +3,13 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.adapter.MessageAdapter;
 import com.example.maxime.messengerapp.model.Attachment;
@@ -37,8 +33,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import static android.support.v7.recyclerview.R.styleable.RecyclerView;
 
 /**
  * Created by maxime on 18/10/16.
@@ -71,6 +65,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private String pwd;
     private String msg;
     private Message message;
+    private String url;
 
     //Image
     private String encodedImage;
@@ -102,7 +97,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 }
                 if (firstVisibleItem < visibleThreshold) {
                     //Getmessages Async
-                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                    getMessagesListBGAsync = new GetMessagesListBGAsync( user, messages);
                     GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
                         @Override
                         public void onGetMessagesList(boolean result) {
@@ -136,10 +131,10 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         context = getApplicationContext();
         setContentView(R.layout.activity_messenger);
 
-        sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+        sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         login = sharedPref.getString("login", "error");
-        setPwd(sharedPref.getString("pwd", "error"));
-        user = new User(login, getPwd());//comment mettre un user permanent sur la session
+        pwd = (sharedPref.getString("pwd", "error"));
+        user = new User(login, pwd);//comment mettre un user permanent sur la session
 
         //Retrieve views from XML
         btnSend = (Button) findViewById(R.id.ButtonSend);
@@ -164,7 +159,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         btnProfile.setOnClickListener(this);
 
         //End asynctask
-        getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+        getMessagesListBGAsync = new GetMessagesListBGAsync( user, messages);
         getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
             public void onGetMessagesList(boolean result) {
@@ -183,16 +178,18 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
         //Async getImageProfile
         //ASYNC TASK GET IMAGE FOR PROFILE
-        getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
+        getImageProfileAsync = new GetImageProfileAsync( user);
         getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
                     Log.i(TAG, "onGetImageProfile: result different than null");
                     imageView.setImageBitmap(Bitmap.createScaledBitmap(result, 80, 80, false));
+                    //url = result;
                 }
             }
         };
+        //Glide.with(this).load(url).placeholder(R.mipmap.ic_launcher).fallback(R.mipmap.ic_launcher).into(imageView);
         getImageProfileAsync.setGetImageProfileListener(getImageProfileListener);
         getImageProfileAsync.execute();
         try {
@@ -215,7 +212,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
 
                 //SendMessage Async
-                sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
+                sendMessage_bg_async = new SendMessageBGAsync( user, message);
 
                 sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
                     @Override
@@ -277,7 +274,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
 
             //SendMessage Async
-            SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
+            SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync( user, message);
 
             SendMessageBGAsync.sendMessageListener sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
                 @Override
@@ -306,13 +303,13 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public String getPwd() {
+    /*public String getPwd() {
         return pwd;
     }
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
-    }
+    }*/
 }
 
 

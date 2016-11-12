@@ -1,6 +1,5 @@
 package com.example.maxime.messengerapp.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.dd.processbutton.iml.ActionProcessButton;
@@ -15,15 +14,18 @@ import static java.lang.Integer.getInteger;
 
 public class LoginBGAsync extends AsyncTask<Void, Void, Boolean> {
 
+    //Interface LoginListener
+    public interface LoginListener {
+        void onLogin(boolean result);
+    }
+
     private final String TAG = LoginBGAsync.class.getName();
-    private Context mContext;
+
     private User user;
-    public LoginListener loginListener;
-    public ActionProcessButton btn;
+    private ActionProcessButton btn;
 
 
-    public LoginBGAsync(Context context, User user) {
-        this.mContext = context;
+    public LoginBGAsync( User user) {
         this.user = user;
     }
 
@@ -49,12 +51,8 @@ public class LoginBGAsync extends AsyncTask<Void, Void, Boolean> {
         }
     }
 
-    //Interface
-    public interface LoginListener {
-        void onLogin(boolean result);
-    }
 
     public void setLoginListener(LoginListener loginListener) {
-        this.loginListener = loginListener;
+        LoginListener loginListener1 = loginListener;
     }
 }
