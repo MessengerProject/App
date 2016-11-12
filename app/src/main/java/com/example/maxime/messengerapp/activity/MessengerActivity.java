@@ -67,10 +67,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private Attachment attachmentMessage;
     private byte[] b;
 
-    private int nbMessageToUpload = 4;
-    private int previousTotal = 0;
-    private boolean loading = false;
-    private int visibleThreshold = 5;
+    private int nbMessageToUpload = 6;
+    private int visibleThreshold = 4;
     int firstVisibleItem,totalItemCount;
 
 
@@ -110,7 +108,11 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                     }
                     Log.i(TAG, "onRefresh: here we are");
                     //swipeRefreshLayout.setRefreshing(false);
+                    recyclerView.scrollToPosition(10);
                     getMessagesListBGAsync.cancel(true);
+                    swipeRefreshLayout.setEnabled(false);
+
+
                 }
             }
         });
@@ -133,6 +135,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         iv = (ImageView) findViewById(R.id.imageProfileTop);
         msgET = (EditText) findViewById(R.id.message);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
         context = getApplicationContext();
         recyclerView.setHasFixedSize(true);
         user = new User(login, pwd);//comment mettre un user permanent sur la session
