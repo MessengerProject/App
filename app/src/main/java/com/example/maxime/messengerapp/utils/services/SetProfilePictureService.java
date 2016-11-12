@@ -91,7 +91,7 @@ public class SetProfilePictureService {
                 b = baos.toByteArray();
                 encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
                 attachmentProfile = new Attachment("attachments/png", encodedImage);
-                user.setPicture(attachmentProfile);
+                user.setImage(attachmentProfile);
                 response.close();
                 return imageBitmap;
 

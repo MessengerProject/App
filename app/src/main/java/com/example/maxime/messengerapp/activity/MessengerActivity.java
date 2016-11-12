@@ -243,10 +243,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             }
 
             case R.id.ButtonCamera: {
-                Intent takePictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, GET_FROM_GALLERY);
-                }
+                Intent intent = Util.openCameraIntent();
+                startActivityForResult(intent,GET_FROM_GALLERY);
                 break;
             }
 

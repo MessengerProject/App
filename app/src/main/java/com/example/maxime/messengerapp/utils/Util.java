@@ -1,6 +1,7 @@
 package com.example.maxime.messengerapp.utils;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,8 +9,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
 
+import com.google.gson.Gson;
+
 import java.io.ByteArrayOutputStream;
-import java.net.URI;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by victor on 12/11/16.
@@ -35,5 +39,25 @@ public class Util {
         String imagepath = cursor.getString(columnIndex);
         cursor.close();
         return imagepath;
+    }
+
+    public static String BitmapToEncodedImage(Bitmap image){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    public static Intent openCameraIntent(){
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        return intent;
+    }
+
+    public static Gson StringToJson(String messagesList){
+        Gson messageList = new Gson();
+        messageList.toJson(messagesList);
+        return messageList;
     }
 }
