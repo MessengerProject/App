@@ -19,16 +19,17 @@ import okhttp3.Response;
 public class GetMessagesListService {
     private static final String TAG = GetMessagesListService.class.getName();
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static String url;
     private static OkHttpClient client;
     private static String credential;
     private static String data = "";
+    private static String url = "";
 
     public static String GetMessageListResponse(User user, int limit,int offset ){
         try {
 
             url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=" + limit + "&offset=" + offset;
             client= new OkHttpClient();
+
             credential = Credentials.basic(user.getLogin(), user.getPassword());
 
             Request request = new Request.Builder()
@@ -37,10 +38,12 @@ public class GetMessagesListService {
                     .build();
 
             Response response = client.newCall(request).execute();
+
             if (response.code() < 300){
                 data = response.body().string();
                 response.close();
             }
+
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
