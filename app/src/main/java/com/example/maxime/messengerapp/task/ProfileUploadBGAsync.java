@@ -5,8 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.LoginService;
-import com.example.maxime.messengerapp.service.ProfileUploadService;
+import com.example.maxime.messengerapp.utils.services.ProfileUploadService;
 
 /**
  * Created by victor on 29/10/16.

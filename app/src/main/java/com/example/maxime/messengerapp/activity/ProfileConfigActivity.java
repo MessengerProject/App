@@ -10,12 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +28,7 @@ import com.bumptech.glide.Glide;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.model.Attachment;
-import com.example.maxime.messengerapp.model.TextValidator;
+import com.example.maxime.messengerapp.utils.TextValidator;
 import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.GetImageProfileAsync;
 import com.example.maxime.messengerapp.task.ProfileUploadBGAsync;
@@ -108,6 +106,10 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 if (!text.matches(pwdET.getText().toString()))
                 {
                     pwdETConf.setError(PwdConfValidationString);
+                    btnSave.setEnabled(false);
+                }
+                else {
+                    btnSave.setEnabled(true);
                 }
             }
         });

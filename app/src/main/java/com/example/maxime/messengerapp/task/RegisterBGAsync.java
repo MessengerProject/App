@@ -1,12 +1,11 @@
 package com.example.maxime.messengerapp.task;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.RegisterService;
+import com.example.maxime.messengerapp.utils.services.RegisterService;
 
 /**
  * Created by maxime on 22/10/16.

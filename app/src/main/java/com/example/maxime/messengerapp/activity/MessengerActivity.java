@@ -7,9 +7,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
  * Created by maxime on 18/10/16.
  */
 
-public class MessengerActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MessengerActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MessengerActivity.class.getName();
     private static final String SHARED_PREFS = "prefs";
     private static final int GET_FROM_GALLERY = 3;
@@ -52,18 +52,69 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private ImageView imageView;
     private RecyclerView recyclerView;
     private EditText msgET;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter adapter;
     private List<Message> messages = new ArrayList<>();
-    private Bitmap imageBitmap;
+
+
+    private GetMessagesListBGAsync getMessagesListBGAsync;
     private User user;
+    private String login;
+    private String pwd;
+    private String msg;
+    private Message message;
+
+    //Image
     private String encodedImage;
+    private Bitmap imageBitmap;
     private ByteArrayOutputStream baos;
     private Attachment attachmentMessage;
     private byte[] b;
 
+    private int nbMessageToUpload = 4;
+    private int visibleThreshold = 5;
+    private int firstVisibleItem, totalItemCount;
+
+
+    @Override
+    protected void onStart() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (getMessagesListBGAsync != null && getMessagesListBGAsync.getStatus().equals(AsyncTask.Status.RUNNING)) {
+                    getMessagesListBGAsync.cancel(true);
+                }
+                if (firstVisibleItem < visibleThreshold) {
+                    //Getmessages Async
+                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                        @Override
+                        public void onGetMessagesList(boolean result) {
+                            adapter.notifyDataSetChanged();
+                            //recyclerView.smoothScrollToPosition(messages.size());
+                        }
+                    };
+                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
+                    try {
+                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
+                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
+                    }
+                    getMessagesListBGAsync.cancel(true);
+                }
+            }
+        });
+        Log.i(TAG, "messages.size(): " + messages.size());
+        //recyclerView.smoothScrollToPosition(messages.size());
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +126,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_messenger);
 
         sharedPref = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
-        final String login = sharedPref.getString("login", "error");
-        final String pwd = sharedPref.getString("pwd", "error");
-        user = new User(login, pwd);//comment mettre un user permanent sur la session
+        login = sharedPref.getString("login", "error");
+        setPwd(sharedPref.getString("pwd", "error"));
+        user = new User(login, getPwd());//comment mettre un user permanent sur la session
 
         //Retrieve views from XML
         btnSend = (Button) findViewById(R.id.ButtonSend);
@@ -86,7 +137,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMsg);
         imageView = (ImageView) findViewById(R.id.imageProfileTop);
         msgET = (EditText) findViewById(R.id.message);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         //RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -99,9 +149,26 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         btnSend.setOnClickListener(this);
         btnImage.setOnClickListener(this);
         btnProfile.setOnClickListener(this);
-        swipeRefreshLayout.setOnRefreshListener(this);
 
-        //Async image
+        //End asynctask
+        getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+        GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+            @Override
+            public void onGetMessagesList(boolean result) {
+                adapter.notifyDataSetChanged();
+            }
+
+        };
+        getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+        getMessagesListBGAsync.execute(5, 0);
+        try {
+            getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+        } catch (Exception e) {
+            Log.i(TAG, e.toString());
+        }
+        getMessagesListBGAsync.cancel(true);
+
+        //Async getImageProfile
         //ASYNC TASK GET IMAGE FOR PROFILE
         GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
         GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
@@ -121,19 +188,20 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             Log.i(TAG, e.toString());
         }
         getImageProfileAsync.cancel(true);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ButtonSend: {
-                String msg = String.valueOf(msgET.getText());
-
-                Message message = new Message(msg, user.getLogin());
-                Log.i(TAG, message.toString());
+                msg = String.valueOf(msgET.getText());
+                message = new Message(msg, user.getLogin());
                 messages.add(message);
                 adapter.notifyDataSetChanged();
 
+
+                //SendMessage Async
                 SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
 
                 SendMessageBGAsync.sendMessageListener sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
@@ -151,25 +219,24 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 sendMessage_bg_async.execute();
                 try {
                     sendMessageListener.onSend(sendMessage_bg_async.get());
-                    //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                recyclerView.smoothScrollToPosition(messages.size() - 1);
                 sendMessage_bg_async.cancel(true);
                 break;
             }
+
             case R.id.ButtonCamera: {
-                Intent takePictureIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent takePictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent,GET_FROM_GALLERY);
+                    startActivityForResult(takePictureIntent, GET_FROM_GALLERY);
                 }
                 break;
             }
+
             case R.id.action_my_contacts: {
-                Log.i(TAG, "onClick: here we are");
                 Intent intent = new Intent(getApplication(), ProfileConfigActivity.class);
                 SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
@@ -177,33 +244,39 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 editor.putString("pwd", user.getPassword());
                 editor.commit();
                 startActivity(intent);
+
                 Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
                 break;
             }
+
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
+            //Get imagepath
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
+            String imagepath = cursor.getString(columnIndex);
             cursor.close();
+
+
             //Encode for user
-            imageBitmap = BitmapFactory.decodeFile(picturePath);
+            imageBitmap = BitmapFactory.decodeFile(imagepath);
             baos = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
             b = baos.toByteArray();
             encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             attachmentMessage = new Attachment("image/png", encodedImage);
-            String textMessage = msgET.getText().toString()+" ";
+            String textMessage = msgET.getText().toString() + " ";
             Message message = new Message(textMessage, user.getLogin(), attachmentMessage, encodedImage);
-            Log.i(TAG, message.toString());
 
+
+            //SendMessage Async
             SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
 
             SendMessageBGAsync.sendMessageListener sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
@@ -221,39 +294,24 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             sendMessage_bg_async.execute();
             try {
                 sendMessageListener.onSend(sendMessage_bg_async.get());
-                //Toast.makeText(getApplication(), login_bg_async.get().toString(), Toast.LENGTH_LONG).show();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
             sendMessage_bg_async.cancel(true);
+
             messages.add(message);
             adapter.notifyDataSetChanged();
-            recyclerView.smoothScrollToPosition(messages.size() - 1);
         }
     }
 
-    @Override
-    public void onRefresh() {
-        GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-        GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-            @Override
-            public void onGetMessagesList(boolean result) {
-                adapter.notifyDataSetChanged();
-            }
-        };
-        getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-        getMessagesListBGAsync.execute();
-        try {
-            getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
-        } catch (Exception e) {
-            Log.i(TAG, e.toString());
-        }
-        Log.i(TAG, "onRefresh: here we are");
-        swipeRefreshLayout.setRefreshing(false);
-        recyclerView.smoothScrollToPosition(messages.size() - 2);
-        getMessagesListBGAsync.cancel(true);
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 }
 

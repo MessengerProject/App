@@ -3,11 +3,8 @@ package com.example.maxime.messengerapp.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,7 +17,7 @@ import com.example.maxime.messengerapp.model.User;
 import com.example.maxime.messengerapp.task.LoginBGAsync;
 import com.example.maxime.messengerapp.R;
 import com.example.maxime.messengerapp.task.RegisterBGAsync;
-import com.example.maxime.messengerapp.model.TextValidator;
+import com.example.maxime.messengerapp.utils.TextValidator;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
@@ -47,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private RegisterBGAsync register_bg_async;
     private LoginBGAsync.LoginListener loginListener;
     private RegisterBGAsync.RegisterListener registerListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     btnLogin.setProgress(0);
                     btnRegister.setProgress(0);
                 }
+
             }
         });
 

@@ -1,9 +1,1 @@
-<resources>
-    <string name="app_name">MessengerApp.io</string>
-    <string name="action_add_current_contact" />
-    <string name="action_my_contacts" />
-    <string name="actionabout" />
-    <string name="actionsettings" />
-    <string name="apptitle" />
-    <string name="imageprofile" />
-</resources>
+<resources></resources>
