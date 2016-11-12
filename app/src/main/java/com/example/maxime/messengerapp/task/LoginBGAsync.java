@@ -2,11 +2,10 @@ package com.example.maxime.messengerapp.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.LoginService;
+import com.example.maxime.messengerapp.utils.services.LoginService;
 
 import static java.lang.Integer.getInteger;
 
@@ -36,7 +35,6 @@ public class LoginBGAsync extends AsyncTask<Void, Void, Boolean> {
     protected void onPreExecute() {
         btn.setProgress(1);
     }
-
 
     @Override
     protected Boolean doInBackground(Void... params) {

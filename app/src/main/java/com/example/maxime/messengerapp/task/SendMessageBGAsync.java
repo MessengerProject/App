@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.maxime.messengerapp.model.Message;
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.SendMessageService;
+import com.example.maxime.messengerapp.utils.services.SendMessageService;
 
 /**
  * Created by victor on 23/10/16.

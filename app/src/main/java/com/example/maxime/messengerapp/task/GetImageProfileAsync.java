@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 import com.example.maxime.messengerapp.model.User;
 
-import com.example.maxime.messengerapp.service.SetProfilePictureService;
+import com.example.maxime.messengerapp.utils.services.SetProfilePictureService;
 
 /**
  * Created by victor on 05/11/16.

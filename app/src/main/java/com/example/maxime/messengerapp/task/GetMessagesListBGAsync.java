@@ -1,19 +1,16 @@
 package com.example.maxime.messengerapp.task;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.maxime.messengerapp.model.Attachment;
 import com.example.maxime.messengerapp.model.Message;
-import com.example.maxime.messengerapp.model.MessageImage;
 import com.example.maxime.messengerapp.model.User;
-import com.example.maxime.messengerapp.service.GetImageMessageService;
-import com.example.maxime.messengerapp.service.GetMessagesListService;
+import com.example.maxime.messengerapp.utils.services.GetImageMessageService;
+import com.example.maxime.messengerapp.utils.services.GetMessagesListService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
