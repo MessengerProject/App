@@ -67,7 +67,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         // - replace the contents of the view with that element
         holder.textViewTxt.setText(messages.get(position).getMessage());
         holder.textViewAuthor.setText(messages.get(position).getLogin());
-        Log.i(TAG, "ADAPTER"+messages.get(position).toString());
+        //Log.i(TAG, "ADAPTER"+messages.get(position).toString());
         Bitmap bitmap = null;
         if (messages.get(position).getAttachments() != null) {
             Attachment attachmentMessage = messages.get(position).getAttachments()[0];

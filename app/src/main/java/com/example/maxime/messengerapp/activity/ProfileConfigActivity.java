@@ -107,6 +107,10 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
                 if (!text.matches(pwdET.getText().toString()))
                 {
                     pwdETConf.setError(PwdConfValidationString);
+                    btnSave.setEnabled(false);
+                }
+                else {
+                    btnSave.setEnabled(true);
                 }
             }
         });

@@ -45,7 +45,7 @@ import java.util.concurrent.ExecutionException;
  * Created by maxime on 18/10/16.
  */
 
-public class MessengerActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MessengerActivity extends AppCompatActivity implements View.OnClickListener{//}, SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = MessengerActivity.class.getName();
     private final String SHARED_PREFS = "prefs";
     private Context context;
@@ -63,6 +63,12 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private ByteArrayOutputStream baos;
     private Attachment attachmentMessage;
     private byte[] b;
+
+    private int nbMessageToUpload = 4;
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 2;
+    int firstVisibleItem,totalItemCount;
 
 
     @Override
@@ -88,12 +94,72 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
         btnImage.setOnClickListener(this);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        //swipeRefreshLayout.setOnRefreshListener(this);
         //End asynctask
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+        GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+            @Override
+            public void onGetMessagesList(boolean result) {
+                adapter.notifyDataSetChanged();
+            }
+
+        };
+        getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+        getMessagesListBGAsync.execute(5, 0);
+        try {
+            getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+        } catch (Exception e) {
+            Log.i(TAG, e.toString());
+        }
+        Log.i(TAG, "onRefresh: here we are");
+        //swipeRefreshLayout.setRefreshing(false);
+        getMessagesListBGAsync.cancel(true);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                //Log.i(TAG,"visibleItemCount: " + visibleItemCount );
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                Log.i(TAG, "visibleThreshold: " +visibleThreshold);
+                Log.i(TAG, "firstVisibleItem: " + firstVisibleItem);
+                if (!loading && firstVisibleItem <visibleThreshold) {
+                    GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                        @Override
+                        public void onGetMessagesList(boolean result) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    };
+                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount-1);
+                    try {
+                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
+                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
+                    }
+                    Log.i(TAG, "onRefresh: here we are");
+                    //swipeRefreshLayout.setRefreshing(false);
+                    getMessagesListBGAsync.cancel(true);
+                    loading = true;
+                }
+            }
+        });
+        recyclerView.smoothScrollToPosition(messages.size());
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,8 +167,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
 
-        LayoutInflater inflator = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.actionbar, null);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.actionbar, null);
         actionBar.setCustomView(v);
         getMenuInflater().inflate(R.menu.menutoolbar, menu);
         MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
@@ -170,6 +236,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                     }
                 };
                 sendMessage_bg_async.setSendMessageListener(sendMessageListener);
+
                 sendMessage_bg_async.execute();
                 try {
                     sendMessageListener.onSend(sendMessage_bg_async.get());
@@ -211,7 +278,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             attachmentMessage = new Attachment("image/png", encodedImage);
             String textMessage = msgET.getText().toString()+" ";
             Message message = new Message(textMessage, user.getLogin(), attachmentMessage, encodedImage);
-            Log.i(TAG, message.toString());
+            //Log.i(TAG, message.toString());
 
             SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
 
@@ -243,8 +310,10 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    @Override
+    /*@Override
     public void onRefresh() {
+        Integer limit=2;
+        Integer offset=0;
         GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
@@ -253,7 +322,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             }
         };
         getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-        getMessagesListBGAsync.execute();
+        getMessagesListBGAsync.execute(limit, offset);
         try {
             getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
         } catch (Exception e) {
@@ -263,7 +332,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         swipeRefreshLayout.setRefreshing(false);
         recyclerView.smoothScrollToPosition(messages.size() - 2);
         getMessagesListBGAsync.cancel(true);
-    }
+    }*/
 }
 
 

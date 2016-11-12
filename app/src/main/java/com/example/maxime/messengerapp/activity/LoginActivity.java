@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             "No whitespace allowed in the entire string\n" +
             "At least 8 characters\n";
     private final String patternPwd = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+
     private final String loginValidationString= "Must be longer than 5";
     ActionProcessButton btnLogin, btnRegister;
     EditText loginET, pwdET;
@@ -62,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     btnLogin.setProgress(0);
                     btnRegister.setProgress(0);
                 }
+
             }
         });
         pwdET = (EditText)findViewById(R.id.pwd);

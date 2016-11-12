@@ -24,10 +24,10 @@ public class GetMessagesListService {
     private static String credential;
     private static String data = "";
 
-    public static String GetMessageListResponse(User user){
+    public static String GetMessageListResponse(User user, int limit,int offset ){
         try {
 
-            url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=4&offset=0";
+            url = "https://training.loicortola.com/chat-rest/2.0/messages?limit=" + limit + "&offset=" + offset;
             client= new OkHttpClient();
             credential = Credentials.basic(user.getLogin(), user.getPassword());
 
@@ -44,7 +44,7 @@ public class GetMessagesListService {
         } catch(IOException e) {
             Log.e("HTTP GET:", e.toString());
         }
-        Log.i(TAG, data);
+        //Log.i(TAG, data);
         return data;
     }
 }
