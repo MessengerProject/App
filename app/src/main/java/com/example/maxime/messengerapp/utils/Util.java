@@ -8,10 +8,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 
+import com.example.maxime.messengerapp.model.Attachment;
+import com.example.maxime.messengerapp.model.Message;
+import com.example.maxime.messengerapp.model.User;
+import com.example.maxime.messengerapp.utils.services.GetImageMessageService;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
@@ -59,5 +65,38 @@ public class Util {
         Gson messageList = new Gson();
         messageList.toJson(messagesList);
         return messageList;
+    }
+
+    public static List<Message> updateMessageList(List<Message> messagesTmp, List<Message> messages, User user){
+        for (int i = messagesTmp.size()-1 ; i > 0 ;  i--) {
+            Bitmap image = null;
+            try
+            {
+                image = GetImageMessageService.getImageMessageService(user, messagesTmp.get(i).getImages()[0]);
+            }
+            catch (Exception e)
+            {
+                Log.i(null,  e.toString());
+            }
+
+            if (image != null) {
+                String encodedImage = Util.BitmapToEncodedImage(image);
+
+                //Set image inside message
+                Attachment attachmentMessage = new Attachment("image/png", encodedImage);
+                Attachment[] attachments = new Attachment[1];
+                attachments[0] = attachmentMessage;
+                Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, encodedImage);
+                messages.add(0,message);
+                messagesTmp.get(i).getImages()[0] = encodedImage;
+                messagesTmp.get(i).setAttachments(attachments);
+            } else {
+                //Set default image inside message
+                Attachment attachmentMessage = new Attachment("image/png", "");
+                Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, "");
+                messages.add(0,message);
+            }
+        }
+        return messages;
     }
 }

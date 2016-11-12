@@ -64,10 +64,6 @@ public class ProfileConfigActivity extends AppCompatActivity implements View.OnC
 
     //Image
     private String encodedImage;
-    private Bitmap imageBitmap;
-    private ByteArrayOutputStream baos;
-    private Attachment attachmentMessage;
-    private byte[] b;
     private String imagePath;
 
     protected void onCreate(Bundle savedInstanceState) {

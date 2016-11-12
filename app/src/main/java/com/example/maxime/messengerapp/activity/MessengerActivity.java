@@ -49,6 +49,10 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private static final String SHARED_PREFS = "prefs";
     private static final int GET_FROM_GALLERY = 3;
 
+    private int nbMessageToUpload = 6;
+    private int visibleThreshold = 4;
+    private int firstVisibleItem, totalItemCount;
+
     private SharedPreferences sharedPref;
     private Context context;
 
@@ -62,8 +66,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private List<Message> messages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
 
-
-    private GetMessagesListBGAsync getMessagesListBGAsync;
     private User user;
     private String login;
     private String pwd;
@@ -77,10 +79,13 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private Attachment attachmentMessage;
     private byte[] b;
 
+    private GetMessagesListBGAsync getMessagesListBGAsync;
+    private GetImageProfileAsync getImageProfileAsync;
+    private SendMessageBGAsync sendMessage_bg_async;
+    private GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener;
+    private GetImageProfileAsync.GetImageProfileListener getImageProfileListener;
+    private SendMessageBGAsync.sendMessageListener sendMessageListener;
 
-    private int nbMessageToUpload = 6;
-    private int visibleThreshold = 4;
-    private int firstVisibleItem, totalItemCount;
 
 
     @Override
@@ -102,19 +107,15 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                         @Override
                         public void onGetMessagesList(boolean result) {
                             adapter.notifyDataSetChanged();
-                            //recyclerView.smoothScrollToPosition(messages.size());
                         }
                     };
                     getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
                     getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
                     try {
-                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
                         getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
                     } catch (Exception e) {
                         Log.i(TAG, e.toString());
                     }
-                    Log.i(TAG, "onRefresh: here we are");
-                    //swipeRefreshLayout.setRefreshing(false);
                     recyclerView.scrollToPosition(10);
                     getMessagesListBGAsync.cancel(true);
                     swipeRefreshLayout.setEnabled(false);
@@ -123,8 +124,6 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         });
-        Log.i(TAG, "messages.size(): " + messages.size());
-        //recyclerView.smoothScrollToPosition(messages.size());
         super.onStart();
     }
 
@@ -166,7 +165,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
         //End asynctask
         getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-        GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+        getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
             public void onGetMessagesList(boolean result) {
                 adapter.notifyDataSetChanged();
@@ -184,8 +183,8 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
         //Async getImageProfile
         //ASYNC TASK GET IMAGE FOR PROFILE
-        GetImageProfileAsync getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
-        GetImageProfileAsync.GetImageProfileListener getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
+        getImageProfileAsync = new GetImageProfileAsync(context, user, user.getPassword());
+        getImageProfileListener = new GetImageProfileAsync.GetImageProfileListener() {
             @Override
             public void onGetImageProfile(Bitmap result) {
                 if (result != null) {
@@ -216,9 +215,9 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
 
                 //SendMessage Async
-                SendMessageBGAsync sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
+                sendMessage_bg_async = new SendMessageBGAsync(context, user, message);
 
-                SendMessageBGAsync.sendMessageListener sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
+                sendMessageListener = new SendMessageBGAsync.sendMessageListener() {
                     @Override
                     public void onSend(boolean result) {
                         if (!result) {
