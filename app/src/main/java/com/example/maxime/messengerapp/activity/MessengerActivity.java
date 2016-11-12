@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -58,6 +59,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
     private SwipeRefreshLayout swipeRefreshLayout;
     static final int GET_FROM_GALLERY = 3;
     private Bitmap imageBitmap;    private EditText msgET;
+    private GetMessagesListBGAsync getMessagesListBGAsync;
     private User user;
 
     private String encodedImage;
@@ -67,10 +69,55 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
 
     private int nbMessageToUpload = 4;
     private int previousTotal = 0;
-    private boolean loading = true;
-    private int visibleThreshold = 2;
+    private boolean loading = false;
+    private int visibleThreshold = 5;
     int firstVisibleItem,totalItemCount;
 
+
+    @Override
+    protected void onStart() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(final RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                //Log.i(TAG,"visibleItemCount: " + visibleItemCount );
+
+
+                Log.i(TAG, "visibleThreshold: " + visibleThreshold);
+                Log.i(TAG, "firstVisibleItem: " + firstVisibleItem);
+                if (getMessagesListBGAsync != null && getMessagesListBGAsync.getStatus().equals(AsyncTask.Status.RUNNING)) {
+                    getMessagesListBGAsync.cancel(true);
+                }
+                if (firstVisibleItem<visibleThreshold) {
+                    getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
+                        @Override
+                        public void onGetMessagesList(boolean result) {
+                            adapter.notifyDataSetChanged();
+                            //recyclerView.smoothScrollToPosition(messages.size());
+                        }
+                    };
+                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
+                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount - 1);
+                    try {
+                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
+                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
+                    } catch (Exception e) {
+                        Log.i(TAG, e.toString());
+                    }
+                    Log.i(TAG, "onRefresh: here we are");
+                    //swipeRefreshLayout.setRefreshing(false);
+                    getMessagesListBGAsync.cancel(true);
+                }
+            }
+        });
+        Log.i(TAG, "messages.size(): " + messages.size());
+        //recyclerView.smoothScrollToPosition(messages.size());
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +144,14 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setAdapter(adapter);
         btnSend.setOnClickListener(this);
         btnImage.setOnClickListener(this);
+        btnProfile.setOnClickListener(this);
+        final ImageView iv = (ImageView) findViewById(R.id.imageProfileTop);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         //swipeRefreshLayout.setOnRefreshListener(this);
         //End asynctask
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
+        getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
         GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
             @Override
             public void onGetMessagesList(boolean result) {
@@ -122,77 +170,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
         //swipeRefreshLayout.setRefreshing(false);
         getMessagesListBGAsync.cancel(true);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                //visibleItemCount = recyclerView.getChildCount();
-                totalItemCount = linearLayoutManager.getItemCount();
-                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                //Log.i(TAG,"visibleItemCount: " + visibleItemCount );
-                if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }
-                Log.i(TAG, "visibleThreshold: " +visibleThreshold);
-                Log.i(TAG, "firstVisibleItem: " + firstVisibleItem);
-                if (!loading && firstVisibleItem <visibleThreshold) {
-                    GetMessagesListBGAsync getMessagesListBGAsync = new GetMessagesListBGAsync(context, user, messages);
-                    GetMessagesListBGAsync.GetMessagesListListener getMessagesListListener = new GetMessagesListBGAsync.GetMessagesListListener() {
-                        @Override
-                        public void onGetMessagesList(boolean result) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    };
-                    getMessagesListBGAsync.setGetMessagesListListener(getMessagesListListener);
-                    getMessagesListBGAsync.execute(nbMessageToUpload, totalItemCount-1);
-                    try {
-                        //recyclerView.smoothScrollToPosition(nbMessageToUpload);
-                        getMessagesListListener.onGetMessagesList(getMessagesListBGAsync.get());
-                    } catch (Exception e) {
-                        Log.i(TAG, e.toString());
-                    }
-                    Log.i(TAG, "onRefresh: here we are");
-                    //swipeRefreshLayout.setRefreshing(false);
-                    getMessagesListBGAsync.cancel(true);
-                    loading = true;
-                }
-            }
-        });
-        recyclerView.smoothScrollToPosition(messages.size());
 
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.actionbar, null);
-        actionBar.setCustomView(v);
-        getMenuInflater().inflate(R.menu.menutoolbar, menu);
-        MenuItem profileAccess = menu.findItem(R.id.action_my_contacts);
-        profileAccess.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(getApplication(), ProfileConfigActivity.class);
-                SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("login", user.getLogin());
-                editor.putString("pwd", user.getPassword());
-                editor.commit();
-                startActivity(intent);
-                Toast.makeText(getApplication(), "Profile config!!", Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
-        final ImageView iv = (ImageView) actionBar.getCustomView().findViewById(R.id.imageProfileTop);
-        btnProfile.setOnClickListener(this);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //Async image
         //ASYNC TASK GET IMAGE FOR PROFILE
@@ -214,6 +192,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             Log.i(TAG, e.toString());
         }
         getImageProfileAsync.cancel(true);
+
     }
 
     @Override
@@ -251,7 +230,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                recyclerView.smoothScrollToPosition(messages.size() - 1);
+                //recyclerView.smoothScrollToPosition(messages.size() - 1);
                 sendMessage_bg_async.cancel(true);
                 break;
             }
@@ -324,7 +303,7 @@ public class MessengerActivity extends AppCompatActivity implements View.OnClick
             sendMessage_bg_async.cancel(true);
             messages.add(message);
             adapter.notifyDataSetChanged();
-            recyclerView.smoothScrollToPosition(messages.size() - 1);
+            //recyclerView.smoothScrollToPosition(messages.size());
         }
     }
 

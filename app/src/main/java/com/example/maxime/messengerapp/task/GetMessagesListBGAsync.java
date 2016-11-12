@@ -55,10 +55,18 @@ public class GetMessagesListBGAsync extends AsyncTask<Integer, Void, Boolean> {
         }.getType();
 
         List<Message> messagesTmp = messagesList.fromJson(stringMessagesList, listType);
-        messages.clear();
-        for (int i = 0; i < messagesTmp.size(); i++) {
-            Log.i(TAG, "doInBackground: " + messagesTmp.get(i).getImages()[0]);
-            Bitmap image = GetImageMessageService.getImageMessageService(user, messagesTmp.get(i).getImages()[0]);
+        //messages.clear();
+        for (int i = messagesTmp.size()-1 ; i > 0 ;  i--) {
+            Bitmap image = null;
+            try
+            {
+                image = GetImageMessageService.getImageMessageService(user, messagesTmp.get(i).getImages()[0]);
+            }
+            catch (Exception e)
+            {
+                Log.i(TAG, e.toString());
+            }
+
             if (image != null) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
@@ -68,13 +76,13 @@ public class GetMessagesListBGAsync extends AsyncTask<Integer, Void, Boolean> {
                 Attachment[] attachments = new Attachment[1];
                 attachments[0] = attachmentMessage;
                 Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, encodedImage);
-                messages.add(message);
+                messages.add(0,message);
                 messagesTmp.get(i).getImages()[0] = encodedImage;
                 messagesTmp.get(i).setAttachments(attachments);
             } else {
                 Attachment attachmentMessage = new Attachment("image/png", "");
                 Message message = new Message(messagesTmp.get(i).getMessage().toString(), messagesTmp.get(i).getLogin().toString(), attachmentMessage, "");
-                messages.add(message);
+                messages.add(0,message);
             }
 
         }
